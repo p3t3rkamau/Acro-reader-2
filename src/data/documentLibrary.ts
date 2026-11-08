@@ -3,7 +3,6 @@ export type LibraryDocument = {
   title: string;
   revision: string;
   effectiveDate: string;
-  fileUrl: string;
   status: 'current' | 'superseded';
 };
 
