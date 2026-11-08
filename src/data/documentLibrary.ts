@@ -53,9 +53,9 @@ export function findLibraryFolder(path: string[], root: LibraryFolder = document
   return current;
 }
 
-export function getLibraryBreadcrumbs(path: string[]) {
+export function getLibraryBreadcrumbs(path: string[], root: LibraryFolder = documentLibrary) {
   const crumbs = [{ title: documentLibrary.title, href: '/' }];
-  let current = documentLibrary;
+  let current = root;
   const parts: string[] = [];
   for (const segment of path) {
     const next = current.folders?.find((folder) => folder.slug === segment);
