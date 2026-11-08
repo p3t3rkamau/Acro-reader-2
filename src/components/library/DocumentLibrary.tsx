@@ -33,8 +33,8 @@ function FolderCard({ folder, href, index }: { folder: LibraryFolder; href: stri
   );
 }
 
-export default function DocumentLibrary({ path = [] }: Props) {
-  const folder = findLibraryFolder(path);
+export default function DocumentLibrary({ path = [], library = documentLibrary }: Props & { library?: LibraryFolder }) {
+  const folder = findLibraryFolder(path, library);
   if (!folder) return <main className={styles.page}><div className={styles.empty}><h1>Folder not found</h1><Link href="/">Return to library</Link></div></main>;
   const breadcrumbs = getLibraryBreadcrumbs(path);
   const childFolders = folder.folders ?? [];
@@ -49,8 +49,8 @@ export default function DocumentLibrary({ path = [] }: Props) {
           <div className={styles.art}><div /><Plane size={104} strokeWidth={0.8} /><small>DOCUMENTS<br />AT YOUR FINGERTIPS</small></div>
         </section>
         {childFolders.length > 0 && <section className={styles.section} id="aircraft-library"><div className={styles.heading}><div><span>BROWSE THE LIBRARY</span><h2>{path.length ? 'Explore folders' : 'Aircraft families'}</h2><p>Choose a category to continue to the available manuals.</p></div><b>{String(childFolders.length).padStart(2, '0')} <small>ITEMS</small></b></div><div className={styles.grid}>{childFolders.map((child, i) => <FolderCard key={child.slug} folder={child} index={i} href={`/library/${[...path, child.slug].join('/')}`} />)}</div></section>}
-        {documents.length > 0 && <section className={styles.section}><div className={styles.heading}><div><span>AVAILABLE ONLINE</span><h2>Published documents</h2></div></div><div className={styles.documents}>{documents.map((doc) => <a className={styles.document} key={doc.id} href={`/reader?url=${encodeURIComponent(doc.fileUrl)}&title=${encodeURIComponent(doc.title)}`}><Glyph name="file" size={21} /><span><strong>{doc.title}</strong><small>Revision {doc.revision} · Effective {doc.effectiveDate}</small></span><b>{doc.status === 'current' ? 'Current' : 'Superseded'}</b><Glyph name="arrow" size={18} /></a>)}</div></section>}
-        {!childFolders.length && !documents.length && <div className={styles.empty}><Glyph name="folder" size={28} /><h2>No documents published here yet</h2><p>This folder is ready for published manuals. Documents will appear here when connected to the catalogue.</p><Link href="/">Back to aircraft library <Glyph name="arrow" size={16} /></Link></div>}
+        {documents.length > 0 && <section className={styles.section}><div className={styles.heading}><div><span>AVAILABLE ONLINE</span><h2>Published documents</h2></div></div><div className={styles.documents}>{documents.map((doc) => <article className={styles.document} key={doc.id}><Glyph name="file" size={21} /><span><strong>{doc.title}</strong><small>Revision {doc.revision} · Effective {doc.effectiveDate}</small></span><b>{doc.status === 'current' ? 'Current' : 'Superseded'}</b></article>)}</div></section>}
+        {!childFolders.length && !documents.length && <div className={styles.empty}><Glyph name="folder" size={28} /><h2>No documents published here yet</h2><p>No published documents were returned for this folder. Check the Payload catalogue and the PAYLOAD_API_URL configuration.</p><Link href="/">Back to aircraft library <Glyph name="arrow" size={16} /></Link></div>}
         <footer className={styles.footer}>© {new Date().getFullYear()} AcroReader <span>AVIATION DOCUMENTATION</span></footer>
       </div>
     </main>
