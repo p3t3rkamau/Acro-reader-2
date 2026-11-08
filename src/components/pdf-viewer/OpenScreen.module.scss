@@ -1,0 +1,55 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  overflow: auto;
+  &.dragging { outline: 3px dashed var(--accent); outline-offset: -12px; }
+}
+.card {
+  width: min(100%, 460px);
+  h1 { margin: 0 0 8px; font-size: 26px; line-height: 1.2; letter-spacing: -0.01em; }
+}
+.lead { margin: 0 0 24px; color: var(--text-dim); font-size: 16px; }
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  border-radius: v.$radius-m;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 16px;
+  font-weight: 650;
+  cursor: pointer;
+  @include m.focus-ring;
+  svg { width: 22px; height: 22px; }
+}
+.hint { margin: 10px 0 28px; color: var(--text-dim); font-size: 13px; }
+
+.urlForm {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; }
+}
+.urlRow { display: flex; gap: 8px; input { flex: 1; min-width: 0; height: v.$touch-target; padding: 0 12px; border: 1px solid var(--border); border-radius: v.$radius-m; background: var(--surface); font-size: 16px; &:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; } } }
+.secondary {
+  min-height: v.$touch-target;
+  padding: 0 18px;
+  border: 1px solid var(--border);
+  border-radius: v.$radius-m;
+  background: var(--surface);
+  font-weight: 600;
+  cursor: pointer;
+  @include m.focus-ring;
+  &:disabled { opacity: 0.45; cursor: default; }
+}
+.error { margin: 16px 0 0; padding: 10px 12px; border-radius: v.$radius-m; border: 1px solid var(--danger); color: var(--danger); font-size: 14px; }

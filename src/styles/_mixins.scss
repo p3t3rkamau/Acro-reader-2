@@ -1,0 +1,40 @@
+@use 'variables' as v;
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+/// Square icon button that meets the 44px touch target.
+@mixin icon-button {
+  display: inline-grid;
+  place-items: center;
+  min-width: v.$touch-target;
+  height: v.$touch-target;
+  padding: 0;
+  border: 0;
+  border-radius: v.$radius-m;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: background v.$dur-fast v.$ease;
+  -webkit-tap-highlight-color: transparent;
+  @include focus-ring;
+
+  &:hover:not(:disabled) { background: var(--hover); }
+  &:active:not(:disabled) { background: var(--active); }
+  &:disabled { opacity: 0.38; cursor: default; }
+  svg { width: 22px; height: 22px; }
+}
+
+@mixin surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) { @content; }
+}

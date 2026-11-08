@@ -1,0 +1,18 @@
+// Layout tokens (compile-time). Colours live in globals.scss as CSS custom properties
+// so light/dark themes can switch at runtime.
+$touch-target: 44px;
+$header-h: 52px;
+$panel-w: 320px;
+$radius-s: 6px;
+$radius-m: 10px;
+$radius-l: 16px;
+$ease: cubic-bezier(0.2, 0, 0, 1);
+$dur-fast: 120ms;
+$dur: 220ms;
+
+$z-stage: 1;
+$z-chrome: 20;
+$z-panel: 30;
+$z-popover: 40;
+$z-dialog: 50;
+$z-toast: 60;

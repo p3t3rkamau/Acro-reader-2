@@ -1,0 +1,61 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.nav { display: inline-flex; align-items: center; gap: 2px; }
+.step { @include m.icon-button; }
+
+.page {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  min-width: 76px;
+  height: v.$touch-target;
+  padding: 0 10px;
+  border: 0;
+  border-radius: v.$radius-m;
+  background: transparent;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  align-items: center;
+  @include m.focus-ring;
+  &:hover:not(:disabled) { background: var(--hover); }
+  &:disabled { cursor: default; }
+}
+.current { font-weight: 650; }
+.total { color: var(--text-dim); font-size: 14px; }
+
+.edit { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 0 6px; }
+.input {
+  width: 64px;
+  height: 36px;
+  padding: 0 6px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--surface-2);
+  font-size: 16px; // 16px stops iOS Safari zooming in on focus
+  text-align: center;
+  outline: none;
+  &[aria-invalid='true'] { border-color: var(--danger); }
+}
+.hint {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--danger);
+  color: var(--surface);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.pill {
+  height: 52px;
+  padding: 0 4px;
+  border-radius: 26px;
+  @include m.surface;
+  .step { min-width: 48px; height: 48px; border-radius: 24px; }
+  .page { height: 48px; border-radius: 24px; }
+}

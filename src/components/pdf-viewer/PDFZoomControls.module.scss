@@ -1,0 +1,65 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.zoom { position: relative; display: inline-flex; align-items: center; }
+.btn { @include m.icon-button; }
+
+.value {
+  min-width: 58px;
+  height: v.$touch-target;
+  padding: 0 8px;
+  border: 0;
+  border-radius: v.$radius-m;
+  background: transparent;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  @include m.focus-ring;
+  &:hover:not(:disabled) { background: var(--hover); }
+  &:disabled { opacity: 0.38; }
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: v.$z-popover;
+  min-width: 230px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  border-radius: 12px;
+  @include m.surface;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: v.$touch-target;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  @include m.focus-ring;
+  &:hover { background: var(--hover); }
+}
+.check { width: 20px; display: inline-grid; place-items: center; color: var(--accent); svg { width: 18px; height: 18px; } }
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.readout { font-weight: 650; font-variant-numeric: tabular-nums; }
+
+// Phone: one round button in the thumb zone; the menu opens upwards.
+.compact {
+  .value { height: 52px; min-width: 62px; border-radius: 26px; @include m.surface; }
+  .menu { top: auto; bottom: calc(100% + 10px); }
+}

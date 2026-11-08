@@ -1,0 +1,88 @@
+:root {
+  color-scheme: light dark;
+  --font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --bg: #e9ebee;           // reading backdrop behind the pages
+  --surface: #ffffff;      // toolbars, panels
+  --surface-2: #f4f5f7;
+  --border: #d9dce1;
+  --text: #1c1f24;
+  --text-dim: #5b6270;
+  --hover: rgba(20, 30, 50, 0.07);
+  --active: rgba(20, 30, 50, 0.14);
+  --accent: #0b5ed7;
+  --accent-text: #ffffff;
+  --danger: #b3261e;
+  --shadow: 0 2px 10px rgba(15, 20, 30, 0.14);
+  --page-shadow: 0 1px 3px rgba(15, 20, 30, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #2a2d33;
+    --surface: #1d2025;
+    --surface-2: #272b31;
+    --border: #353a42;
+    --text: #e8eaee;
+    --text-dim: #a2a9b6;
+    --hover: rgba(255, 255, 255, 0.08);
+    --active: rgba(255, 255, 255, 0.16);
+    --accent: #7db0ff;
+    --accent-text: #0a1b36;
+    --danger: #ffb4ab;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    --page-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.4;
+  // Stops the browser rubber-banding / pull-to-refresh away from the reader.
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+button, input, select { font: inherit; color: inherit; }
+
+// ---- PDF.js page tuning -------------------------------------------------------------
+// Pages are white sheets on the backdrop. We replace PDF.js's border image with a shadow.
+.pdfViewer {
+  --page-margin: 10px auto 0;
+  --page-border: 0 none;
+}
+.pdfViewer .page {
+  box-shadow: var(--page-shadow);
+  background-color: #fff;
+  background-clip: border-box;
+}
+.pdfViewer.removePageBorders .page { margin: 6px auto 0; }
+
+// Touch feedback + discoverability for InDesign buttons (they usually have no visible border).
+.annotationLayer .linkAnnotation > a,
+.annotationLayer .buttonWidgetAnnotation.pushButton > a {
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(11, 94, 215, 0.22);
+}
+.annotationLayer .linkAnnotation > a:active,
+.annotationLayer .buttonWidgetAnnotation.pushButton > a:active {
+  background: rgba(11, 94, 215, 0.2);
+}
+
+// A page that failed to render must say so (never leave a silent blank page).
+.pdfViewer .page[data-render-error='true']::after {
+  content: 'This page could not be displayed.';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #b3261e;
+  font: 600 14px var(--font);
+  text-align: center;
+}

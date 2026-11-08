@@ -1,0 +1,65 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: v.$z-dialog;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  @media (min-width: 640px) { align-items: center; padding: 24px; }
+}
+.sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 90dvh;
+  border-radius: v.$radius-l v.$radius-l 0 0;
+  @include m.surface;
+  @media (min-width: 640px) { max-width: 640px; border-radius: v.$radius-l; }
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px 6px 20px;
+  border-bottom: 1px solid var(--border);
+  h2 { margin: 0; font-size: 17px; }
+}
+.close { @include m.icon-button; }
+.scroll { overflow: auto; padding: 16px 20px calc(20px + env(safe-area-inset-bottom, 0px)); overscroll-behavior: contain; h3 { margin: 22px 0 6px; font-size: 15px; } }
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 16px;
+  margin: 0;
+  dt { color: var(--text-dim); }
+  dd { margin: 0; font-weight: 550; overflow-wrap: anywhere; }
+}
+.sum { margin: 4px 0 10px; color: var(--text-dim); font-size: 14px; }
+.scan { margin: 8px 0; color: var(--text-dim); }
+.track { height: 4px; margin-top: 8px; border-radius: 2px; background: var(--border); overflow: hidden; }
+.fill { height: 100%; background: var(--accent); }
+
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.row {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: v.$radius-m;
+  background: var(--surface-2);
+  p { margin: 6px 0 0; color: var(--text-dim); font-size: 13px; }
+}
+.rowTop { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.count { font-variant-numeric: tabular-nums; color: var(--text-dim); }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.badge { padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; border: 1px solid currentColor; }
+.supported { color: #1b7f3b; }
+.partial { color: #a15c00; }
+.unsupported { color: var(--danger); }
+.notexp { color: var(--text-dim); }
+.tested { color: var(--accent); }
+.untested { color: var(--text-dim); border-style: dashed; }
+@media (prefers-color-scheme: dark) { .supported { color: #7ddc9a; } .partial { color: #ffc46b; } }
