@@ -36,7 +36,7 @@ function FolderCard({ folder, href, index }: { folder: LibraryFolder; href: stri
 export default function DocumentLibrary({ path = [], library = documentLibrary }: Props & { library?: LibraryFolder }) {
   const folder = findLibraryFolder(path, library);
   if (!folder) return <main className={styles.page}><div className={styles.empty}><h1>Folder not found</h1><Link href="/">Return to library</Link></div></main>;
-  const breadcrumbs = getLibraryBreadcrumbs(path);
+  const breadcrumbs = getLibraryBreadcrumbs(path, library);
   const childFolders = folder.folders ?? [];
   const documents = folder.documents ?? [];
   return (
