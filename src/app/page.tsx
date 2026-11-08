@@ -1,5 +1,5 @@
-import PDFApp from '@/components/pdf-viewer/PDFApp';
+import DocumentLibrary from '@/components/library/DocumentLibrary';
 
-export default function Page() {
-  return <PDFApp />;
+export default function HomePage() {
+  return <DocumentLibrary />;
 }
