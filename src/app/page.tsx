@@ -1,5 +1,7 @@
-import PDFApp from '@/components/pdf-viewer/PDFApp';
+import DocumentLibrary from '@/components/library/DocumentLibrary';
+import { getDocumentLibrary } from '@/lib/server/getDocumentLibrary';
 
-export default function Page() {
-  return <PDFApp />;
+export default async function HomePage() {
+  const library = await getDocumentLibrary();
+  return <DocumentLibrary library={library} />;
 }

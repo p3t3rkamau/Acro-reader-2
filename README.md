@@ -39,3 +39,16 @@ Search, print, share, PDF JavaScript (scripting is deliberately off), `Go forwar
 No button for these is shown, so nothing looks functional that is not.
 
 See `TESTING.md` for exactly what was tested and what was not.
+
+
+## Payload CMS catalogue connection
+
+Set `PAYLOAD_API_URL` in the frontend deployment environment to the base URL of the Payload backend, for example:
+
+```env
+PAYLOAD_API_URL=https://your-payload-backend.example.com
+```
+
+The server-rendered catalogue requests `/api/acro-documents` from Payload and maps the returned aircraft series, category hierarchy, revision number, effective date and publication status into the library. The request is cached for 60 seconds. Do not prefix this variable with `NEXT_PUBLIC_`; it is only needed on the server.
+
+**PDF opening is intentionally not wired to the media URL yet.** The current Payload endpoint includes a media URL and the current backend media access marks published files public. That is not an entitlement-protected document delivery flow. Do not expose those URLs in the browser or treat hiding them in the UI as access control. Before enabling catalogue-to-reader opening for paid documents, implement and test an authenticated backend document endpoint that checks the user's organisation membership, aircraft-series entitlement, document/revision publication status, and streams/range-serves the PDF without revealing a reusable public Blob URL.

@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import './globals.scss';
 
 export const metadata: Metadata = {
-  title: 'Interactive PDF Reader',
-  description: 'Read interactive PDFs — buttons, links and bookmarks included — on any device.',
+  title: 'AcroReader | Aviation Document Portal',
+  description: 'Browse aviation manuals and read interactive PDF documents on desktop, tablet and mobile.',
 };
 
 // viewport-fit=cover lets us use the full screen on notched phones (we add safe-area padding).
