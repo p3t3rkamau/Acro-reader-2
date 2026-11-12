@@ -42,7 +42,14 @@ export function PDFToolbar(p: Props) {
           aria-label="Bookmarks" title="Bookmarks"><IconOutline /></button>
       )}
 
-      <h1 className={styles.title} title={p.title}>{p.title}</h1>
+      <div className={styles.brand} aria-label="AcroReader">
+        <img className={styles.logo} src="https://raw.githubusercontent.com/p3t3rkamau/Acro-Reader/main/src/images/Logo%20Final.jpeg" alt="AcroReader logo" />
+        <span className={styles.brandDivider} />
+      </div>
+      <div className={styles.document}>
+        <h1 className={styles.title} title={p.title}>{p.title}</h1>
+        <span className={styles.subtitle}>AVIATION DOCUMENT READER</span>
+      </div>
 
       {!phone && (
         <div className={styles.center}>
