@@ -29,7 +29,7 @@ Suggested locations:
 
 ## Milestones
 
-### M0 — Protect and inventory (current)
+### M0 — Protect and inventory (completed)
 - Work on a dedicated feature branch.
 - Inventory Payload references, dependencies, routes and environment variables.
 - Identify frontend data contracts and the PDF viewer's exact document-loading contract.
@@ -130,4 +130,4 @@ Known from the current feature branch:
 - Current Payload environment variable: `PAYLOAD_API_URL`.
 - Existing frontend uses Next.js 15, React 19, TypeScript and Sass.
 
-Before M1, inspect the full reader loading flow and all API/file dependencies, then record the exact files that are off-limits.
+See `backend/ARCHITECTURE.md` for the traced reader loading flow, exact URL/range contract, catalogue data contract, and protected file list.
