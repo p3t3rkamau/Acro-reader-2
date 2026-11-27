@@ -41,7 +41,11 @@ No button for these is shown, so nothing looks functional that is not.
 See `TESTING.md` for exactly what was tested and what was not.
 
 
-## Payload CMS catalogue connection
+## Backend rebuild
+
+The Payload catalogue integration is being replaced with an in-repository Prisma + Neon backend. Follow [`backend/ROADMAP.md`](backend/ROADMAP.md) for the staged plan and protected PDF-reader boundaries.
+
+## Previous Payload CMS catalogue connection
 
 Set `PAYLOAD_API_URL` in the frontend deployment environment to the base URL of the Payload backend, for example:
 
