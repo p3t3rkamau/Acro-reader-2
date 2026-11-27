@@ -1,0 +1,234 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum OrganizationRole {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum MembershipStatus {
+  ACTIVE
+  SUSPENDED
+  REVOKED
+}
+
+enum EntitlementStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+
+enum RevisionStatus {
+  DRAFT
+  PUBLISHED
+  SUPERSEDED
+  WITHDRAWN
+}
+
+enum AircraftSeries {
+  DASH_100
+  DASH_200
+  DASH_300
+  DASH_400
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String?
+  email         String     @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  status        UserStatus @default(ACTIVE)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  memberships OrganizationMember[]
+  accounts    Account[]
+  sessions    Session[]
+  uploadedRevisions DocumentRevision[] @relation("RevisionUploader")
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  memberships OrganizationMember[]
+  entitlements OrganizationEntitlement[]
+
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String           @id @default(cuid())
+  organizationId String
+  userId         String
+  role           OrganizationRole @default(VIEWER)
+  status         MembershipStatus @default(ACTIVE)
+  joinedAt       DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+  @@index([userId, status])
+  @@index([organizationId, status])
+  @@map("organization_members")
+}
+
+model OrganizationEntitlement {
+  id             String            @id @default(cuid())
+  organizationId String
+  aircraftSeries AircraftSeries
+  status         EntitlementStatus @default(ACTIVE)
+  startsAt       DateTime?
+  endsAt         DateTime?
+  createdAt      DateTime          @default(now())
+  revokedAt      DateTime?
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  documentGrants DocumentEntitlement[]
+
+  @@index([organizationId, aircraftSeries, status])
+  @@index([endsAt])
+  @@map("organization_entitlements")
+}
+
+model DocumentCategory {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String?  @db.Text
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  documents Document[]
+
+  @@index([sortOrder])
+  @@map("document_categories")
+}
+
+model Document {
+  id            String         @id @default(cuid())
+  aircraftSeries AircraftSeries
+  categoryId    String
+  slug          String
+  title         String
+  description   String?        @db.Text
+  isRestricted  Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  category  DocumentCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  revisions DocumentRevision[]
+  grants    DocumentEntitlement[]
+
+  @@unique([aircraftSeries, slug])
+  @@index([aircraftSeries, categoryId])
+  @@map("documents")
+}
+
+model DocumentRevision {
+  id             String         @id @default(cuid())
+  documentId     String
+  revision       String
+  effectiveDate  DateTime
+  status         RevisionStatus @default(DRAFT)
+  changeSummary  String?        @db.Text
+  storagePath    String?        @unique
+  originalFileName String?
+  mimeType       String         @default("application/pdf")
+  sizeBytes      BigInt?
+  checksum       String?
+  uploadedById   String?
+  supersedesId   String?        @unique
+  publishedAt    DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  uploadedBy User?    @relation("RevisionUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+  supersedes DocumentRevision? @relation("RevisionSupersession", fields: [supersedesId], references: [id], onDelete: SetNull)
+  supersededBy DocumentRevision? @relation("RevisionSupersession")
+
+  @@unique([documentId, revision])
+  @@index([documentId, status, effectiveDate])
+  @@index([uploadedById])
+  @@map("document_revisions")
+}
+
+model DocumentEntitlement {
+  id             String   @id @default(cuid())
+  entitlementId  String
+  documentId     String
+  createdAt      DateTime @default(now())
+
+  entitlement OrganizationEntitlement @relation(fields: [entitlementId], references: [id], onDelete: Cascade)
+  document    Document                @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([entitlementId, documentId])
+  @@index([documentId])
+  @@map("document_entitlements")
+}
