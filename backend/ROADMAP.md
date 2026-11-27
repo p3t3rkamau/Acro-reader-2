@@ -38,7 +38,7 @@ Suggested locations:
 
 Acceptance: inventory is documented; the reader files to protect are identified.
 
-### M1 — Remove Payload and establish Prisma + Neon
+### M1 — Remove Payload and establish Prisma + Neon (in progress)
 - Add Prisma using the same Neon adapter approach as the vCard project, after checking its current package versions and schema conventions.
 - Define an initial AcroReader schema.
 - Add a health/database connectivity check that does not expose secrets.
