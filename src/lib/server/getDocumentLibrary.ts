@@ -19,13 +19,28 @@ function cloneFolder(folder: LibraryFolder): LibraryFolder {
   return { ...folder, folders: folder.folders?.map(cloneFolder), documents: [] };
 }
 
-function findOrCreateFolder(root: LibraryFolder, aircraftSeries: string, nodes: PayloadFolderNode[]) {
-  let current = root.folders?.find((folder) => folder.slug === aircraftSeries);
+function findOrCreateFolder(
+  root: LibraryFolder,
+  aircraftSeries: string,
+  nodes: PayloadFolderNode[],
+): LibraryFolder | null {
+  let current: LibraryFolder | undefined = root.folders?.find(
+    (folder) => folder.slug === aircraftSeries,
+  );
+
   if (!current) return null;
 
   for (const node of nodes) {
+    // Re-check after each traversal step so TypeScript can guarantee that
+    // the parent folder exists before accessing or mutating its children.
+    if (!current) return null;
+
     current.folders ??= [];
-    let next = current.folders.find((folder) => folder.slug === node.slug);
+    const children = current.folders;
+    let next: LibraryFolder | undefined = children.find(
+      (folder) => folder.slug === node.slug,
+    );
+
     if (!next) {
       next = {
         slug: node.slug,
@@ -34,12 +49,14 @@ function findOrCreateFolder(root: LibraryFolder, aircraftSeries: string, nodes: 
         folders: [],
         documents: [],
       };
-      current.folders.push(next);
-      current.folders.sort((a, b) => a.title.localeCompare(b.title));
+      children.push(next);
+      children.sort((a, b) => a.title.localeCompare(b.title));
     }
+
     current = next;
   }
-  return current;
+
+  return current ?? null;
 }
 
 export async function getDocumentLibrary(): Promise<LibraryFolder> {
