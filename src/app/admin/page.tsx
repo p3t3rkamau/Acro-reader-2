@@ -18,7 +18,8 @@ export default async function AdminDashboardPage() {
         <p>Signed in as {session.user.email}. Manage the aviation library from here.</p>
         <div className={styles.card}>
           <h2>Document uploads</h2>
-          <p>The upload manager is the next MVP implementation step. It will save PDF files and their revision details to the AcroReader catalogue.</p>
+          <p>Upload a PDF, assign its aircraft family and category, and publish its revision.</p>
+          <p><Link href="/admin/upload">Open document uploader</Link></p>
         </div>
       </section>
     </main>
