@@ -1,4 +1,3 @@
-
 import 'server-only';
 
 import { head } from '@vercel/blob';
@@ -21,20 +20,15 @@ function createDocumentSlug(title: string): string {
     .replace(/^-|-$/g, '')
     .slice(0, 100);
 
-  if (!slug) {
-    throw new Error('The document title cannot be converted into a valid slug.');
-  }
-
+  if (!slug) throw new Error('The document title cannot be converted into a valid slug.');
   return slug;
 }
 
 async function verifyPdfHeader(url: string, token: string): Promise<void> {
   const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Range: 'bytes=0-1023',
-    },
+    headers: { Authorization: `Bearer ${token}`, Range: 'bytes=0-1023' },
     cache: 'no-store',
+    signal: AbortSignal.timeout(20_000),
   });
 
   if ((response.status !== 200 && response.status !== 206) || !response.body) {
@@ -45,9 +39,7 @@ async function verifyPdfHeader(url: string, token: string): Promise<void> {
   try {
     const { value } = await reader.read();
     const header = new TextDecoder().decode(value?.slice(0, 1024) ?? new Uint8Array());
-    if (!header.includes('%PDF-')) {
-      throw new Error('The uploaded file does not contain a valid PDF header.');
-    }
+    if (!header.includes('%PDF-')) throw new Error('The uploaded file does not contain a valid PDF header.');
   } finally {
     await reader.cancel().catch(() => undefined);
   }
@@ -55,30 +47,21 @@ async function verifyPdfHeader(url: string, token: string): Promise<void> {
 
 export async function registerPublicDocument(input: unknown) {
   const parsed = uploadSchema.safeParse(input);
-
   if (!parsed.success) {
     console.error('[AcroReader] Invalid document metadata:', parsed.error.flatten());
     throw new Error('The document details are invalid.');
   }
 
   const data = parsed.data;
+  const effectiveDate = new Date(data.effectiveDate + 'T00:00:00.000Z');
+  if (
+    Number.isNaN(effectiveDate.getTime()) ||
+    effectiveDate.toISOString().slice(0, 10) !== data.effectiveDate
+  ) {
+    throw new Error('Enter a valid effective date.');
+  }
 
-  // Validate the effective date.
- 
-
-  // Validate the effective date.
-const effectiveDate = new Date(
-  data.effectiveDate + 'T00:00:00.000Z',
-);
-
-if (
-  Number.isNaN(effectiveDate.getTime()) ||
-  effectiveDate.toISOString().slice(0, 10) !== data.effectiveDate
-) {
-  throw new Error('Enter a valid effective date.');
-}
   const blobToken = process.env.ACROR_READ_WRITE_TOKEN;
-
   if (!blobToken) {
     console.error('[AcroReader] ACROR_READ_WRITE_TOKEN is not configured.');
     throw new Error('Private Blob storage is not configured.');
@@ -89,7 +72,7 @@ if (
     blob = await head(data.pathname, { token: blobToken });
   } catch (error) {
     console.error('[AcroReader] Private Blob verification failed:', error);
-    throw new Error('The PDF was uploaded, but private Blob verification failed.');
+    throw new Error('The PDF was uploaded, but private Blob verification failed. The file remains in storage.');
   }
 
   let blobHost = '';
@@ -118,43 +101,30 @@ if (
       where: {
         id: { in: data.variantIds },
         isActive: true,
-        model: {
-          isActive: true,
-          manufacturer: { isActive: true },
-        },
+        model: { isActive: true, manufacturer: { isActive: true } },
       },
       select: { id: true },
     }),
   ]);
 
-  if (!category) {
-    throw new Error('The selected document folder is not available.');
-  }
-
+  if (!category) throw new Error('The selected document folder is not available.');
   if (variants.length !== new Set(data.variantIds).size) {
     throw new Error('One or more selected aircraft variants are unavailable.');
   }
 
   const slug = createDocumentSlug(data.title);
 
-  // Register the verified PDF and its revision in Neon.
   return prisma.$transaction(async (tx) => {
+    // Idempotency: if the browser retries after a timeout, never create a duplicate revision.
     const existingRevision = await tx.documentRevision.findUnique({
-      where: {
-        storagePath: data.pathname,
-      },
+      where: { storagePath: data.pathname },
     });
-
     if (existingRevision) return existingRevision;
 
     const variantIds = variants.map((variant) => variant.id);
-
     let document = data.referenceNumber
       ? await tx.document.findFirst({
-          where: {
-            referenceNumber: data.referenceNumber,
-            categoryId: category.id,
-          },
+          where: { referenceNumber: data.referenceNumber, categoryId: category.id },
         })
       : await tx.document.findFirst({
           where: {
@@ -184,38 +154,32 @@ if (
     }
 
     await tx.documentAircraftVariant.createMany({
-      data: variantIds.map((variantId) => ({
-        documentId: document!.id,
-        variantId,
-      })),
+      data: variantIds.map((variantId) => ({ documentId: document!.id, variantId })),
       skipDuplicates: true,
     });
 
-    // Mark the previously published revision as superseded.
-    await tx.documentRevision.updateMany({
-      where: {
-        documentId: document.id,
-        status: 'PUBLISHED',
-      },
-      data: {
-        status: 'SUPERSEDED',
-      },
-    });
+    // Draft uploads never alter the live publication. Publishing supersedes only the
+    // previous live revision, preserving it as historical content.
+    if (data.publicationStatus === 'PUBLISHED') {
+      await tx.documentRevision.updateMany({
+        where: { documentId: document.id, status: 'PUBLISHED' },
+        data: { status: 'SUPERSEDED' },
+      });
+    }
 
-    // Create the new published revision.
     return tx.documentRevision.create({
       data: {
         documentId: document.id,
         revision: data.revision,
         effectiveDate,
-        status: 'PUBLISHED',
+        status: data.publicationStatus,
         storagePath: blob.pathname,
         fileUrl: blob.url,
         storageVisibility: 'PRIVATE',
         sizeBytes: BigInt(blob.size),
         originalFileName: data.originalFileName,
         mimeType: 'application/pdf',
-        publishedAt: new Date(),
+        publishedAt: data.publicationStatus === 'PUBLISHED' ? new Date() : null,
       },
     });
   });
