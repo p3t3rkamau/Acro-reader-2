@@ -208,6 +208,7 @@ export const DocumentRevisionScalarFieldEnum = {
   status: 'status',
   changeSummary: 'changeSummary',
   storagePath: 'storagePath',
+  fileUrl: 'fileUrl',
   originalFileName: 'originalFileName',
   mimeType: 'mimeType',
   sizeBytes: 'sizeBytes',

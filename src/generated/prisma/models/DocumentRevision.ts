@@ -42,6 +42,7 @@ export type DocumentRevisionMinAggregateOutputType = {
   status: $Enums.RevisionStatus | null
   changeSummary: string | null
   storagePath: string | null
+  fileUrl: string | null
   originalFileName: string | null
   mimeType: string | null
   sizeBytes: bigint | null
@@ -61,6 +62,7 @@ export type DocumentRevisionMaxAggregateOutputType = {
   status: $Enums.RevisionStatus | null
   changeSummary: string | null
   storagePath: string | null
+  fileUrl: string | null
   originalFileName: string | null
   mimeType: string | null
   sizeBytes: bigint | null
@@ -80,6 +82,7 @@ export type DocumentRevisionCountAggregateOutputType = {
   status: number
   changeSummary: number
   storagePath: number
+  fileUrl: number
   originalFileName: number
   mimeType: number
   sizeBytes: number
@@ -109,6 +112,7 @@ export type DocumentRevisionMinAggregateInputType = {
   status?: true
   changeSummary?: true
   storagePath?: true
+  fileUrl?: true
   originalFileName?: true
   mimeType?: true
   sizeBytes?: true
@@ -128,6 +132,7 @@ export type DocumentRevisionMaxAggregateInputType = {
   status?: true
   changeSummary?: true
   storagePath?: true
+  fileUrl?: true
   originalFileName?: true
   mimeType?: true
   sizeBytes?: true
@@ -147,6 +152,7 @@ export type DocumentRevisionCountAggregateInputType = {
   status?: true
   changeSummary?: true
   storagePath?: true
+  fileUrl?: true
   originalFileName?: true
   mimeType?: true
   sizeBytes?: true
@@ -253,6 +259,7 @@ export type DocumentRevisionGroupByOutputType = {
   status: $Enums.RevisionStatus
   changeSummary: string | null
   storagePath: string | null
+  fileUrl: string | null
   originalFileName: string | null
   mimeType: string
   sizeBytes: bigint | null
@@ -295,6 +302,7 @@ export type DocumentRevisionWhereInput = {
   status?: Prisma.EnumRevisionStatusFilter<"DocumentRevision"> | $Enums.RevisionStatus
   changeSummary?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   storagePath?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   originalFileName?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   mimeType?: Prisma.StringFilter<"DocumentRevision"> | string
   sizeBytes?: Prisma.BigIntNullableFilter<"DocumentRevision"> | bigint | number | null
@@ -318,6 +326,7 @@ export type DocumentRevisionOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   changeSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   storagePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   originalFileName?: Prisma.SortOrderInput | Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -346,6 +355,7 @@ export type DocumentRevisionWhereUniqueInput = Prisma.AtLeast<{
   effectiveDate?: Prisma.DateTimeFilter<"DocumentRevision"> | Date | string
   status?: Prisma.EnumRevisionStatusFilter<"DocumentRevision"> | $Enums.RevisionStatus
   changeSummary?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   originalFileName?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   mimeType?: Prisma.StringFilter<"DocumentRevision"> | string
   sizeBytes?: Prisma.BigIntNullableFilter<"DocumentRevision"> | bigint | number | null
@@ -368,6 +378,7 @@ export type DocumentRevisionOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   changeSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   storagePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   originalFileName?: Prisma.SortOrderInput | Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -395,6 +406,7 @@ export type DocumentRevisionScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumRevisionStatusWithAggregatesFilter<"DocumentRevision"> | $Enums.RevisionStatus
   changeSummary?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
   storagePath?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
+  fileUrl?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
   originalFileName?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
   mimeType?: Prisma.StringWithAggregatesFilter<"DocumentRevision"> | string
   sizeBytes?: Prisma.BigIntNullableWithAggregatesFilter<"DocumentRevision"> | bigint | number | null
@@ -413,6 +425,7 @@ export type DocumentRevisionCreateInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -434,6 +447,7 @@ export type DocumentRevisionUncheckedCreateInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -453,6 +467,7 @@ export type DocumentRevisionUpdateInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -474,6 +489,7 @@ export type DocumentRevisionUncheckedUpdateInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -494,6 +510,7 @@ export type DocumentRevisionCreateManyInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -512,6 +529,7 @@ export type DocumentRevisionUpdateManyMutationInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -529,6 +547,7 @@ export type DocumentRevisionUncheckedUpdateManyInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -568,6 +587,7 @@ export type DocumentRevisionCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   changeSummary?: Prisma.SortOrder
   storagePath?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
   originalFileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
@@ -591,6 +611,7 @@ export type DocumentRevisionMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   changeSummary?: Prisma.SortOrder
   storagePath?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
   originalFileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
@@ -610,6 +631,7 @@ export type DocumentRevisionMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   changeSummary?: Prisma.SortOrder
   storagePath?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
   originalFileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
@@ -776,6 +798,7 @@ export type DocumentRevisionCreateWithoutUploadedByInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -796,6 +819,7 @@ export type DocumentRevisionUncheckedCreateWithoutUploadedByInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -844,6 +868,7 @@ export type DocumentRevisionScalarWhereInput = {
   status?: Prisma.EnumRevisionStatusFilter<"DocumentRevision"> | $Enums.RevisionStatus
   changeSummary?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   storagePath?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   originalFileName?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   mimeType?: Prisma.StringFilter<"DocumentRevision"> | string
   sizeBytes?: Prisma.BigIntNullableFilter<"DocumentRevision"> | bigint | number | null
@@ -862,6 +887,7 @@ export type DocumentRevisionCreateWithoutDocumentInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -881,6 +907,7 @@ export type DocumentRevisionUncheckedCreateWithoutDocumentInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -926,6 +953,7 @@ export type DocumentRevisionCreateWithoutSupersededByInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -946,6 +974,7 @@ export type DocumentRevisionUncheckedCreateWithoutSupersededByInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -969,6 +998,7 @@ export type DocumentRevisionCreateWithoutSupersedesInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -989,6 +1019,7 @@ export type DocumentRevisionUncheckedCreateWithoutSupersedesInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -1023,6 +1054,7 @@ export type DocumentRevisionUpdateWithoutSupersededByInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1043,6 +1075,7 @@ export type DocumentRevisionUncheckedUpdateWithoutSupersededByInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1072,6 +1105,7 @@ export type DocumentRevisionUpdateWithoutSupersedesInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1092,6 +1126,7 @@ export type DocumentRevisionUncheckedUpdateWithoutSupersedesInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1111,6 +1146,7 @@ export type DocumentRevisionCreateManyUploadedByInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -1128,6 +1164,7 @@ export type DocumentRevisionUpdateWithoutUploadedByInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1148,6 +1185,7 @@ export type DocumentRevisionUncheckedUpdateWithoutUploadedByInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1167,6 +1205,7 @@ export type DocumentRevisionUncheckedUpdateManyWithoutUploadedByInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1184,6 +1223,7 @@ export type DocumentRevisionCreateManyDocumentInput = {
   status?: $Enums.RevisionStatus
   changeSummary?: string | null
   storagePath?: string | null
+  fileUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -1202,6 +1242,7 @@ export type DocumentRevisionUpdateWithoutDocumentInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1221,6 +1262,7 @@ export type DocumentRevisionUncheckedUpdateWithoutDocumentInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1240,6 +1282,7 @@ export type DocumentRevisionUncheckedUpdateManyWithoutDocumentInput = {
   status?: Prisma.EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1261,6 +1304,7 @@ export type DocumentRevisionSelect<ExtArgs extends runtime.Types.Extensions.Inte
   status?: boolean
   changeSummary?: boolean
   storagePath?: boolean
+  fileUrl?: boolean
   originalFileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
@@ -1284,6 +1328,7 @@ export type DocumentRevisionSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   status?: boolean
   changeSummary?: boolean
   storagePath?: boolean
+  fileUrl?: boolean
   originalFileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
@@ -1306,6 +1351,7 @@ export type DocumentRevisionSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   status?: boolean
   changeSummary?: boolean
   storagePath?: boolean
+  fileUrl?: boolean
   originalFileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
@@ -1328,6 +1374,7 @@ export type DocumentRevisionSelectScalar = {
   status?: boolean
   changeSummary?: boolean
   storagePath?: boolean
+  fileUrl?: boolean
   originalFileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
@@ -1339,7 +1386,7 @@ export type DocumentRevisionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type DocumentRevisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentId" | "revision" | "effectiveDate" | "status" | "changeSummary" | "storagePath" | "originalFileName" | "mimeType" | "sizeBytes" | "checksum" | "uploadedById" | "supersedesId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["documentRevision"]>
+export type DocumentRevisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentId" | "revision" | "effectiveDate" | "status" | "changeSummary" | "storagePath" | "fileUrl" | "originalFileName" | "mimeType" | "sizeBytes" | "checksum" | "uploadedById" | "supersedesId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["documentRevision"]>
 export type DocumentRevisionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.DocumentRevision$uploadedByArgs<ExtArgs>
@@ -1373,6 +1420,7 @@ export type $DocumentRevisionPayload<ExtArgs extends runtime.Types.Extensions.In
     status: $Enums.RevisionStatus
     changeSummary: string | null
     storagePath: string | null
+    fileUrl: string | null
     originalFileName: string | null
     mimeType: string
     sizeBytes: bigint | null
@@ -1816,6 +1864,7 @@ export interface DocumentRevisionFieldRefs {
   readonly status: Prisma.FieldRef<"DocumentRevision", 'RevisionStatus'>
   readonly changeSummary: Prisma.FieldRef<"DocumentRevision", 'String'>
   readonly storagePath: Prisma.FieldRef<"DocumentRevision", 'String'>
+  readonly fileUrl: Prisma.FieldRef<"DocumentRevision", 'String'>
   readonly originalFileName: Prisma.FieldRef<"DocumentRevision", 'String'>
   readonly mimeType: Prisma.FieldRef<"DocumentRevision", 'String'>
   readonly sizeBytes: Prisma.FieldRef<"DocumentRevision", 'BigInt'>
