@@ -44,10 +44,9 @@ function createCategoryTree(categories: CategoryRecord[]): {
       if (parent) {
         parent.folders ??= [];
         parent.folders.push(folder);
-      } else {
-        // An inactive or missing parent should not hide an otherwise active category.
-        roots.push(folder);
       }
+      // If a parent is inactive or missing, keep this node hidden rather than
+      // promoting a nested folder to a top-level department.
     } else {
       roots.push(folder);
     }
