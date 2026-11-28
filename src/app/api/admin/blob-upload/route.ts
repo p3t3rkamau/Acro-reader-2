@@ -39,9 +39,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'The upload details are invalid.', details: parsed.error.flatten() }, { status: 400 });
   }
 
-  const privateToken = process.env.ACROR_PRIVATE_READ_WRITE_TOKEN;
+  const privateToken = process.env.ACROR_READ_WRITE_TOKEN;
   if (!privateToken) {
-    console.error('[AcroReader] ACROR_PRIVATE_READ_WRITE_TOKEN is not configured.');
+    console.error('[AcroReader] ACROR_READ_WRITE_TOKEN is not configured.');
     return NextResponse.json({ error: 'Private Blob storage is not configured.' }, { status: 503 });
   }
 
