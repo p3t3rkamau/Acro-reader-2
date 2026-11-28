@@ -14,4 +14,4 @@ const hash = await argon2.hash(password, {
   parallelism: 1,
 });
 
-console.log('\nADMIN_PASSWORD_HASH=' + hash);
+console.log('\nADMIN_PASSWORD_HASH_B64=' + Buffer.from(hash).toString('base64'));
