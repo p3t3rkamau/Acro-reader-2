@@ -71,6 +71,7 @@ export default function ViewerManager() {
   }
 
   async function setStatus(user: Viewer, status: 'ACTIVE' | 'SUSPENDED') {
+    if (status === 'SUSPENDED' && !window.confirm(`Suspend access for ${user.email}? They will no longer be able to open protected PDFs.`)) return;
     setBusy(true);
     setError('');
     setMessage('');
@@ -96,7 +97,7 @@ export default function ViewerManager() {
   return (
     <div className={styles.uploadForm}>
       <div className={styles.card}>
-        <h2>Create authorised viewer</h2>
+        <h2>Step 1 · Create an authorised viewer</h2>
         <p>These accounts are created and verified by the administrator. There is no public registration.</p>
         <form className={styles.formGrid} onSubmit={create}>
           <label>Name<input name="name" maxLength={120} /></label>
@@ -113,7 +114,7 @@ export default function ViewerManager() {
       {error && <p className={styles.error} role="alert">{error}</p>}
 
       <div className={styles.card}>
-        <h2>Viewer accounts</h2>
+        <h2>Step 2 · Manage existing accounts</h2>
         {!users.length && <p>No viewer accounts have been created.</p>}
         {users.map((user) => (
           <div key={user.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, padding: '14px 0', borderBottom: '1px solid #e8edf1' }}>
@@ -122,7 +123,7 @@ export default function ViewerManager() {
               <p style={{ margin: '4px 0', fontSize: 13 }}>{user.email}</p>
               <small>{user.status === 'ACTIVE' ? 'Active' : 'Suspended'} · Created {new Date(user.createdAt).toLocaleDateString()}</small>
             </div>
-            <button type="button" disabled={busy} onClick={() => setStatus(user, user.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE')}>
+            <button type="button" className={user.status === 'ACTIVE' ? 'dangerButton' : 'secondary'} disabled={busy} onClick={() => setStatus(user, user.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE')}>
               {user.status === 'ACTIVE' ? 'Suspend' : 'Reactivate'}
             </button>
           </div>
