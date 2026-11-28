@@ -120,3 +120,27 @@ Before production, configure a transactional email provider and a durable rate l
 - `src/app/api/auth/register/route.ts`, `verify/route.ts`, `resend-verification/route.ts` and invitation routes — application workflows.
 
 Do not modify the protected PDF reader files for M2.
+
+
+### Resend transactional email implementation
+
+Use the official `resend` Node SDK from a server-only module. Application workflows call a provider-neutral `sendEmail` interface; only that module imports and instantiates the Resend client.
+
+Environment variables (server-only):
+- `RESEND_API_KEY` — Resend API key.
+- `RESEND_FROM_EMAIL` — sender identity, e.g. `AcroReader <onboarding@resend.dev>` for initial testing, then a sender on a verified domain.
+- `APP_URL` — canonical application origin used to construct verification and invitation links; local development may use `http://localhost:3000`.
+- `AUTH_SECRET` — Auth.js signing/encryption secret.
+
+Never expose these values to client components, API responses or logs. Never place them in `NEXT_PUBLIC_*` variables. The email service must fail clearly when required configuration is absent and must handle Resend's returned errors; a successful database registration must not silently be reported as email-delivered when sending fails. Design token creation and email dispatch so failed delivery can be retried safely without issuing multiple valid tokens unnecessarily.
+
+Initial email templates:
+- Verify your AcroReader email address.
+- Your AcroReader organisation invitation.
+- Your email verification link has been reissued (resend flow).
+
+Production readiness:
+- Verify the sending domain in Resend and configure the DNS records Resend provides.
+- Use a verified sender identity in production; the default Resend testing sender is for development/testing.
+- Configure `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `APP_URL` and `AUTH_SECRET` separately in local development and Vercel environments.
+- Keep provider-specific code inside `src/lib/email/send-email.ts` so a future provider change does not affect auth services.
