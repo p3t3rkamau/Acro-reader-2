@@ -27,6 +27,37 @@ Suggested locations:
 - `src/lib/services/**`: business logic.
 - `backend/README.md`, `backend/ARCHITECTURE.md`, `backend/API.md`: backend documentation.
 
+## Deadline MVP — demonstration build (priority before M2–M8)
+
+The immediate delivery target is a working, presentable MVP before expanding the full platform. This is a temporary priority shift, not a replacement for the roadmap below.
+
+### MVP access model (confirmed)
+- One administrator account signs in to manage the catalogue and upload documents.
+- Public visitors can browse the aircraft catalogue and open documents that have been published.
+- No public registration, organisation invitations, memberships or entitlement enforcement in this MVP.
+- The public-document decision means published PDF URLs are publicly readable. Do not upload confidential or restricted manuals to this MVP store. Private delivery and per-organisation access remain in M5/M3.
+
+### MVP delivery sequence
+1. [ ] Admin-only login using Auth.js Credentials and a server-side configured admin account; no public registration.
+2. [ ] Admin dashboard and PDF upload workflow.
+3. [ ] Persist document metadata and Blob file references in Neon.
+4. [ ] Display uploaded documents in the existing DASH 100/200/300/400 catalogue.
+5. [ ] Open a selected published PDF through the existing PDF.js reader without changing protected reader files.
+6. [ ] Test large-file upload, PDF byte-range loading, desktop/mobile layout and deployment.
+
+### MVP technical guardrails
+- Use a public Vercel Blob store only for documents explicitly approved for public reading; anyone with a blob URL can read those files.
+- Use Vercel Blob client uploads for aviation PDFs larger than the Vercel Functions 4.5 MB server-request limit.
+- Keep the admin credential hash and Auth.js secret server-only.
+- Do not expose upload-token generation to unauthenticated callers.
+- Do not implement email verification, Resend, invitations, organisation roles or entitlements as part of this deadline MVP.
+- Keep all existing reader/PDF.js files protected.
+- Use additive Prisma migrations; review and obtain approval before applying them to Neon.
+
+Acceptance: administrator can sign in, upload a PDF and enter its aircraft/category/revision metadata; the document appears in the existing public catalogue and opens in the current PDF.js reader.
+
+---
+
 ## Milestones
 
 ### M0 — Protect and inventory (completed)
@@ -52,9 +83,9 @@ Acceptance: inventory is documented; the reader files to protect are identified.
 
 Acceptance: no live Payload imports/dependencies/configuration remain; app builds; Prisma connects to the intended Neon database; catalogue uses the new data layer and renders its seeded category structure.
 
-### M2 — Authentication and users (architecture agreed; implementation next)
-- [ ] Add Auth.js Credentials integration using JWT sessions; keep credentials user persistence in the Prisma service.
-- [ ] Add Argon2id password hashing and Zod validation.
+### M2 — Authentication and users (deferred until after MVP; architecture agreed)
+- [ ] Expand MVP admin authentication into the full Auth.js user model and account lifecycle.
+- [ ] Standardise Argon2id password hashing and Zod validation across registered users.
 - [ ] Implement hybrid registration: public signup plus organisation invitations.
 - [ ] Create new accounts with `UserStatus.ACTIVE`; require verified email before sign-in.
 - [ ] Add single-use, expiring email-verification tokens; store token digests only.
