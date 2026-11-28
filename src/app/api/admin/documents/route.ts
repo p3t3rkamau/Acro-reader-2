@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { del, head } from '@vercel/blob';
 import { z } from 'zod';
 import { auth } from '../../../../../auth';
 import { prisma } from '@/lib/db/prisma';
@@ -78,6 +79,16 @@ const publishSchema = z.object({
   revisionId: z.string().min(1),
 });
 
+const documentActionSchema = z.object({
+  action: z.enum(['unpublish-document', 'archive-document', 'restore-document']),
+  documentId: z.string().min(1),
+});
+
+const deleteSchema = z.object({
+  documentId: z.string().min(1),
+  confirmTitle: z.string().min(1).max(180),
+});
+
 export async function PATCH(request: Request) {
   if (!await isAdmin()) return NextResponse.json({ error: 'Administrator access required.' }, { status: 401 });
 
@@ -96,8 +107,6 @@ export async function PATCH(request: Request) {
       }
 
       await prisma.$transaction(async (tx) => {
-        // Keep one live revision per document. The previous live file remains
-        // stored as a draft so an administrator can review or republish it.
         await tx.documentRevision.updateMany({
           where: { documentId: target.documentId, status: 'PUBLISHED' },
           data: { status: 'DRAFT' },
@@ -112,6 +121,42 @@ export async function PATCH(request: Request) {
     } catch (error) {
       console.error('[AcroReader] Publishing draft revision failed:', error);
       return NextResponse.json({ error: 'Could not publish this revision.' }, { status: 500 });
+    }
+  }
+
+  const documentAction = documentActionSchema.safeParse(input);
+  if (documentAction.success) {
+    try {
+      const { action, documentId } = documentAction.data;
+      const document = await prisma.document.findUnique({
+        where: { id: documentId },
+        select: { id: true, archivedAt: true },
+      });
+      if (!document) return NextResponse.json({ error: 'The document could not be found.' }, { status: 404 });
+
+      if (action === 'unpublish-document') {
+        const result = await prisma.documentRevision.updateMany({
+          where: { documentId, status: 'PUBLISHED' },
+          data: { status: 'DRAFT' },
+        });
+        if (result.count === 0) {
+          return NextResponse.json({ error: 'This document has no published revision to move to draft.' }, { status: 409 });
+        }
+        return NextResponse.json({ success: true, changed: result.count });
+      }
+
+      if (action === 'archive-document') {
+        if (document.archivedAt) return NextResponse.json({ success: true, alreadyArchived: true });
+        await prisma.document.update({ where: { id: documentId }, data: { archivedAt: new Date() } });
+        return NextResponse.json({ success: true });
+      }
+
+      if (!document.archivedAt) return NextResponse.json({ success: true, alreadyActive: true });
+      await prisma.document.update({ where: { id: documentId }, data: { archivedAt: null } });
+      return NextResponse.json({ success: true });
+    } catch (error) {
+      console.error('[AcroReader] Document state change failed:', error);
+      return NextResponse.json({ error: 'Could not change this document.' }, { status: 500 });
     }
   }
 
@@ -166,5 +211,68 @@ export async function PATCH(request: Request) {
       { error: code === 'P2025' ? 'The document no longer exists.' : 'Could not update document details.' },
       { status: code === 'P2025' ? 404 : 500 },
     );
+  }
+}
+
+export async function DELETE(request: Request) {
+  if (!await isAdmin()) return NextResponse.json({ error: 'Administrator access required.' }, { status: 401 });
+
+  const parsed = deleteSchema.safeParse(await request.json());
+  if (!parsed.success) return NextResponse.json({ error: 'Confirm the document title to continue.' }, { status: 400 });
+
+  const { documentId, confirmTitle } = parsed.data;
+  const token = process.env.ACROR_READ_WRITE_TOKEN;
+  if (!token) return NextResponse.json({ error: 'Private Blob storage is not configured.' }, { status: 503 });
+
+  try {
+    const document = await prisma.document.findUnique({
+      where: { id: documentId },
+      select: {
+        id: true,
+        title: true,
+        revisions: { select: { id: true, storagePath: true, storageVisibility: true } },
+      },
+    });
+
+    if (!document) return NextResponse.json({ error: 'The document could not be found.' }, { status: 404 });
+    if (confirmTitle !== document.title) {
+      return NextResponse.json({ error: 'The confirmation title does not match this document.' }, { status: 400 });
+    }
+
+    // Never silently delete a record that still points to a public or unknown
+    // storage location. All revisions must be confirmed private first.
+    const nonPrivate = document.revisions.filter((revision) => revision.storageVisibility !== 'PRIVATE');
+    if (nonPrivate.length) {
+      return NextResponse.json({
+        error: 'This document still has revision(s) marked as public storage. Migrate and verify them before permanent deletion.',
+      }, { status: 409 });
+    }
+
+    const paths = [...new Set(document.revisions.map((revision) => revision.storagePath).filter((path): path is string => Boolean(path)))];
+
+    // Verify every private object before deleting any of them.
+    for (const pathname of paths) {
+      const blob = await head(pathname, { token });
+      const hostname = new URL(blob.url).hostname;
+      if (
+        blob.pathname !== pathname ||
+        !hostname.endsWith('.private.blob.vercel-storage.com') ||
+        blob.contentType !== 'application/pdf'
+      ) {
+        return NextResponse.json({ error: 'A private PDF could not be verified. Nothing was deleted.' }, { status: 409 });
+      }
+    }
+
+    if (paths.length) await del(paths, { token });
+
+    // DocumentRevision and join records are configured to cascade with Document.
+    await prisma.document.delete({ where: { id: documentId } });
+
+    return NextResponse.json({ success: true, deletedFiles: paths.length });
+  } catch (error) {
+    console.error('[AcroReader] Permanent document deletion failed:', error);
+    return NextResponse.json({
+      error: error instanceof Error ? error.message : 'Could not permanently delete this document.',
+    }, { status: 500 });
   }
 }
