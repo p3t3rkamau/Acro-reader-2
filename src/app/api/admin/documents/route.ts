@@ -96,9 +96,11 @@ export async function PATCH(request: Request) {
       }
 
       await prisma.$transaction(async (tx) => {
+        // Keep one live revision per document. The previous live file remains
+        // stored as a draft so an administrator can review or republish it.
         await tx.documentRevision.updateMany({
           where: { documentId: target.documentId, status: 'PUBLISHED' },
-          data: { status: 'SUPERSEDED' },
+          data: { status: 'DRAFT' },
         });
         await tx.documentRevision.update({
           where: { id: target.id },
