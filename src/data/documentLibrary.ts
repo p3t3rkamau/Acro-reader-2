@@ -4,6 +4,7 @@ export type LibraryDocument = {
   revision: string;
   effectiveDate: string;
   status: 'current' | 'superseded';
+  fileUrl?: string;
 };
 
 export type LibraryFolder = {
