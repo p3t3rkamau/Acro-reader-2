@@ -157,6 +157,7 @@ export async function getDocumentLibrary(): Promise<LibraryFolder> {
       }),
       prisma.document.findMany({
         where: {
+          archivedAt: null,
           variants: {
             some: {
               variant: {
