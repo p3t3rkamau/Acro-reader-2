@@ -9,7 +9,6 @@ import {
 
 const uploadSchema = adminUploadMetadataSchema.extend({
   pathname: uploadedBlobSchema.shape.pathname,
-  url: uploadedBlobSchema.shape.url,
 });
 
 function createDocumentSlug(title: string): string {
@@ -26,6 +25,31 @@ function createDocumentSlug(title: string): string {
   }
 
   return slug;
+}
+
+async function verifyPdfHeader(url: string, token: string): Promise<void> {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Range: 'bytes=0-1023',
+    },
+    cache: 'no-store',
+  });
+
+  if ((response.status !== 200 && response.status !== 206) || !response.body) {
+    throw new Error('The uploaded file could not be read for PDF verification.');
+  }
+
+  const reader = response.body.getReader();
+  try {
+    const { value } = await reader.read();
+    const header = new TextDecoder().decode(value?.slice(0, 1024) ?? new Uint8Array());
+    if (!header.includes('%PDF-')) {
+      throw new Error('The uploaded file does not contain a valid PDF header.');
+    }
+  } finally {
+    await reader.cancel().catch(() => undefined);
+  }
 }
 
 export async function registerPublicDocument(input: unknown) {
@@ -54,26 +78,29 @@ export async function registerPublicDocument(input: unknown) {
   }
 
   let blob;
-
   try {
     blob = await head(data.pathname, { token: blobToken });
   } catch (error) {
-    console.error('[AcroReader] Blob verification failed:', error);
-    throw new Error(
-      'The PDF was uploaded, but Blob verification failed. Check the Blob token and storage configuration.',
-    );
+    console.error('[AcroReader] Private Blob verification failed:', error);
+    throw new Error('The PDF was uploaded, but private Blob verification failed.');
   }
 
-  const blobHost = new URL(blob.url).hostname;
+  let blobHost = '';
+  try {
+    blobHost = new URL(blob.url).hostname;
+  } catch {
+    throw new Error('The private Blob URL is invalid.');
+  }
 
   if (
     blob.pathname !== data.pathname ||
-    blob.url !== data.url ||
     !blobHost.endsWith('.private.blob.vercel-storage.com') ||
     blob.contentType !== 'application/pdf'
   ) {
-    throw new Error('The uploaded file could not be verified as a PDF.');
+    throw new Error('The uploaded file could not be verified in private PDF storage.');
   }
+
+  await verifyPdfHeader(blob.url, blobToken);
 
   const [category, variants] = await Promise.all([
     prisma.documentCategory.findFirst({
@@ -112,8 +139,6 @@ export async function registerPublicDocument(input: unknown) {
 
     const variantIds = variants.map((variant) => variant.id);
 
-    // A publication/reference number is the most reliable way to identify
-    // an existing publication when adding a new revision.
     let document = data.referenceNumber
       ? await tx.document.findFirst({
           where: {
@@ -167,9 +192,10 @@ export async function registerPublicDocument(input: unknown) {
         revision: data.revision,
         effectiveDate,
         status: 'PUBLISHED',
-        storagePath: data.pathname,
-        fileUrl: data.url,
+        storagePath: blob.pathname,
+        fileUrl: blob.url,
         storageVisibility: 'PRIVATE',
+        sizeBytes: BigInt(blob.size),
         originalFileName: data.originalFileName,
         mimeType: 'application/pdf',
         publishedAt: new Date(),
