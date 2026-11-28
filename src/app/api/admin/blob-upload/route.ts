@@ -25,10 +25,18 @@ export async function POST(request: Request) {
     }
   }
 
+  const blobToken = process.env.ACRO_READ_WRITE_TOKEN;
+
+  if (!blobToken) {
+    console.error('[AcroReader] ACRO_READ_WRITE_TOKEN is not configured.');
+    return NextResponse.json({ error: 'Blob storage is not configured.' }, { status: 500 });
+  }
+
   try {
     const response = await handleUpload({
       body,
       request,
+      token: blobToken,
       onBeforeGenerateToken: async (_pathname, clientPayload) => {
         let metadata: unknown;
 
