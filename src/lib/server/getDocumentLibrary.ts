@@ -169,6 +169,7 @@ export async function getDocumentLibrary(): Promise<LibraryFolder> {
         select: {
           id: true,
           title: true,
+          referenceNumber: true,
           categoryId: true,
           variants: { select: { variantId: true } },
           revisions: {
@@ -230,6 +231,7 @@ export async function getDocumentLibrary(): Promise<LibraryFolder> {
           const libraryDocument: LibraryDocument = {
             id: revision.id,
             title: record.title,
+            referenceNumber: record.referenceNumber ?? undefined,
             revision: revision.revision,
             effectiveDate: revision.effectiveDate.toISOString().slice(0, 10),
             status: revision.status === 'PUBLISHED' ? 'current' : 'superseded',
