@@ -14,5 +14,4 @@ export type AdminUploadMetadata = z.infer<typeof adminUploadMetadataSchema>;
 
 export const uploadedBlobSchema = z.object({
   pathname: z.string().min(1).max(500).startsWith('acroreader/'),
-  url: z.string().url(),
 });
