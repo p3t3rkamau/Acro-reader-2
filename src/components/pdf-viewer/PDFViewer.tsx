@@ -114,16 +114,6 @@ export default function PDFViewer({ source, onClose }: Props) {
     return () => window.removeEventListener('keydown', onKey);
   }, [outlineOpen, reportOpen]);
 
-  const download = useCallback(async () => {
-    const file = await engine?.getOriginalBlob();
-    if (!file) return;
-    const url = URL.createObjectURL(file.blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = file.name;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 30_000);
-  }, [engine]);
-
   const selectBookmark = useCallback((node: OutlineNode) => {
     engine?.goToBookmark(node);
     if (layoutRef.current !== 'desktop') setOutlineOpen(false);
@@ -142,7 +132,7 @@ export default function PDFViewer({ source, onClose }: Props) {
     <ErrorBoundary onReset={onClose}>
       <div className={styles.shell} data-layout={layout}>
         <PDFToolbar layout={layout} title={title} state={state} outlineOpen={outlineOpen} visible={!phone || headerVisible}
-          onToggleOutline={() => setOutlineOpen((o) => !o)} onClose={onClose} onDownload={download}
+          onToggleOutline={() => setOutlineOpen((o) => !o)} onClose={onClose}
           onReport={() => setReportOpen(true)} {...common} />
 
         <div className={styles.body}>
