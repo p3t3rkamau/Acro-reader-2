@@ -23,7 +23,7 @@ function FolderIcon({ title }: { title: string }) {
 }
 
 function FolderCard({ folder, href, index }: { folder: LibraryFolder; href: string; index: number }) {
-  const count = folder.folders?.length ?? folder.documents?.length ?? 0;
+  const count = (folder.folders?.length ?? 0) + (folder.documents?.length ?? 0);
   return (
     <Link className={styles.folderCard} href={href}>
       <span className={styles.folderTop}><span className={styles.folderIcon}><FolderIcon title={folder.title} /></span><span className={styles.index}>{String(index + 1).padStart(2, '0')}</span></span>
