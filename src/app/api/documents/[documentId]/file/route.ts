@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db/prisma';
-import { requireViewer } from '@/lib/auth/requireViewer';
+import { getViewerSession } from '@/lib/auth/requireViewer';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -10,7 +10,10 @@ type RouteContext = {
 };
 
 async function deliverFile(request: Request, context: RouteContext, method: 'GET' | 'HEAD') {
-  await requireViewer();
+  const session = await getViewerSession();
+  if (!session) {
+    return NextResponse.json({ error: 'An authorised viewer session is required.' }, { status: 401 });
+  }
 
   const { documentId } = await context.params;
   const revisionId = new URL(request.url).searchParams.get('revision');
@@ -112,7 +115,8 @@ async function deliverFile(request: Request, context: RouteContext, method: 'GET
   responseHeaders.set('Referrer-Policy', 'same-origin');
 
   if (upstream.status === 200 || upstream.status === 206) {
-    responseHeaders.set('Accept-Ranges', upstream.headers.get('accept-ranges') || 'bytes');
+    const acceptRanges = upstream.headers.get('accept-ranges');
+    if (acceptRanges) responseHeaders.set('Accept-Ranges', acceptRanges);
   }
 
   return new Response(method === 'HEAD' ? null : upstream.body, {
