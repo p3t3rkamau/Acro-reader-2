@@ -123,7 +123,7 @@ export default function ViewerManager() {
               <p style={{ margin: '4px 0', fontSize: 13 }}>{user.email}</p>
               <small>{user.status === 'ACTIVE' ? 'Active' : 'Suspended'} · Created {new Date(user.createdAt).toLocaleDateString()}</small>
             </div>
-            <button type="button" className={user.status === 'ACTIVE' ? 'dangerButton' : 'secondary'} disabled={busy} onClick={() => setStatus(user, user.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE')}>
+            <button type="button" className={user.status === 'ACTIVE' ? styles.dangerButton : styles.secondaryButton} disabled={busy} onClick={() => setStatus(user, user.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE')}>
               {user.status === 'ACTIVE' ? 'Suspend' : 'Reactivate'}
             </button>
           </div>
