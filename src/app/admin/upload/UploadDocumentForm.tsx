@@ -81,6 +81,7 @@ async function readJson(response: Response) {
 export default function UploadDocumentForm() {
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const [options, setOptions] = useState<CatalogueOptions | null>(null);
   const [optionsLoading, setOptionsLoading] = useState(true);
   const [optionsError, setOptionsError] = useState('');
@@ -160,6 +161,10 @@ export default function UploadDocumentForm() {
       const result = await readJson(response);
       if (!response.ok) throw new Error(result.error ?? 'The PDF uploaded, but its catalogue record could not be saved.');
       setPendingRegistration(null);
+      formRef.current?.reset();
+      if (fileRef.current) fileRef.current.value = '';
+      setVariantIds([]);
+      setFolderId('');
       setMessage(
         pending.metadata.publicationStatus === 'DRAFT'
           ? 'PDF saved as a draft. It is stored privately and is not visible in the public catalogue.'
@@ -255,7 +260,7 @@ export default function UploadDocumentForm() {
   };
 
   return (
-    <form className={styles.uploadForm} onSubmit={handleSubmit}>
+    <form ref={formRef} className={styles.uploadForm} onSubmit={handleSubmit}>
       {optionsLoading && <p className={styles.status}>Loading aircraft and document folders…</p>}
       {optionsError && <p className={styles.error} role="alert">{optionsError}</p>}
 
