@@ -7,6 +7,7 @@ import styles from '../admin.module.scss';
 export default async function AdminLoginPage() {
   const session = await auth();
   if (session?.user?.role === 'ADMIN') redirect('/admin');
+  if (session?.user?.role === 'VIEWER') redirect('/');
 
   return (
     <main className={styles.shell}>
