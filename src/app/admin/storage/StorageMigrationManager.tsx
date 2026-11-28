@@ -103,7 +103,7 @@ export default function StorageMigrationManager() {
   return (
     <div className={styles.uploadForm}>
       <div className={styles.card}>
-        <h2>Public PDFs awaiting migration</h2>
+        <h2>Step 1 · Copy public PDFs into private storage</h2>
         <p>{data.count} revision(s) are still marked as public storage. Each PDF is streamed into the private store and verified before its database record is changed.</p>
         {data.revisions.map((revision) => (
           <p key={revision.id}>{revision.title} · Revision {revision.revision} · {revision.originalFileName}</p>
@@ -117,8 +117,8 @@ export default function StorageMigrationManager() {
       </div>
 
       <div className={styles.card}>
-        <h2>Old public copies</h2>
-        <p>After a private copy is verified, the old public object remains in the public store until you explicitly delete it below.</p>
+        <h2>Step 2 · Remove old public copies</h2>
+        <p>Only use the red delete button after migration. The system checks the private copy again before removing the public original. This action cannot be undone.</p>
         {data.legacyCopies.map((revision) => (
           <div key={revision.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, padding: '14px 0', borderBottom: '1px solid #e8edf1' }}>
             <div>
@@ -126,7 +126,7 @@ export default function StorageMigrationManager() {
               <p style={{ margin: '4px 0', fontSize: 13 }}>Revision {revision.revision}</p>
               <small>{revision.legacyPublicStoragePath}</small>
             </div>
-            <button type="button" disabled={busy} onClick={() => deleteLegacyCopy(revision)}>
+            <button type="button" className="dangerButton" disabled={busy} onClick={() => deleteLegacyCopy(revision)}>
               Delete public copy
             </button>
           </div>
