@@ -55,6 +55,7 @@ export default function UploadDocumentForm() {
     try {
       const blob = await upload('acroreader/' + file.name, file, {
         access: 'public',
+        contentType: 'application/pdf',
         handleUploadUrl: '/api/admin/blob-upload',
         clientPayload: JSON.stringify(metadata),
         multipart: file.size > 100 * 1024 * 1024,
