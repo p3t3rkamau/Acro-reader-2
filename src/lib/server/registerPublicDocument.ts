@@ -72,15 +72,30 @@ export async function registerPublicDocument(input: unknown) {
     throw new Error('The uploaded file could not be verified as a PDF.');
   }
 
-  const category = await prisma.documentCategory.findUnique({
-    where: { slug: data.categorySlug },
-    select: { id: true },
-  });
+  const [category, variants] = await Promise.all([
+    prisma.documentCategory.findFirst({
+      where: { id: data.categoryId, isActive: true },
+      select: { id: true },
+    }),
+    prisma.aircraftVariant.findMany({
+      where: {
+        id: { in: data.variantIds },
+        isActive: true,
+        model: {
+          isActive: true,
+          manufacturer: { isActive: true },
+        },
+      },
+      select: { id: true },
+    }),
+  ]);
 
   if (!category) {
-    throw new Error(
-      'The selected document category is not available. Run the category seed first.',
-    );
+    throw new Error('The selected document folder is not available.');
+  }
+
+  if (variants.length !== new Set(data.variantIds).size) {
+    throw new Error('One or more selected aircraft variants are unavailable.');
   }
 
   const slug = createDocumentSlug(data.title);
@@ -92,23 +107,50 @@ export async function registerPublicDocument(input: unknown) {
 
     if (existingRevision) return existingRevision;
 
-    const document = await tx.document.upsert({
-      where: {
-        aircraftSeries_slug: {
-          aircraftSeries: data.aircraftSeries,
+    const variantIds = variants.map((variant) => variant.id);
+
+    // A publication/reference number is the most reliable way to identify
+    // an existing publication when adding a new revision.
+    let document = data.referenceNumber
+      ? await tx.document.findFirst({
+          where: {
+            referenceNumber: data.referenceNumber,
+            categoryId: category.id,
+          },
+        })
+      : await tx.document.findFirst({
+          where: {
+            title: data.title,
+            categoryId: category.id,
+            variants: { some: { variantId: { in: variantIds } } },
+          },
+        });
+
+    if (!document) {
+      document = await tx.document.create({
+        data: {
+          categoryId: category.id,
           slug,
+          title: data.title,
+          referenceNumber: data.referenceNumber,
         },
-      },
-      create: {
-        aircraftSeries: data.aircraftSeries,
-        categoryId: category.id,
-        slug,
-        title: data.title,
-      },
-      update: {
-        categoryId: category.id,
-        title: data.title,
-      },
+      });
+    } else {
+      document = await tx.document.update({
+        where: { id: document.id },
+        data: {
+          title: data.title,
+          referenceNumber: data.referenceNumber ?? document.referenceNumber,
+        },
+      });
+    }
+
+    await tx.documentAircraftVariant.createMany({
+      data: variantIds.map((variantId) => ({
+        documentId: document!.id,
+        variantId,
+      })),
+      skipDuplicates: true,
     });
 
     await tx.documentRevision.updateMany({
