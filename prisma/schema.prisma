@@ -50,6 +50,7 @@ model User {
   name          String?
   email         String     @unique
   emailVerified DateTime?
+  image         String?
   passwordHash  String?
   status        UserStatus @default(ACTIVE)
   createdAt     DateTime   @default(now())
@@ -161,12 +162,15 @@ model DocumentCategory {
   title       String
   description String?  @db.Text
   sortOrder   Int      @default(0)
+  parentId    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  parent    DocumentCategory?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: Restrict)
+  children  DocumentCategory[] @relation("CategoryTree")
   documents Document[]
 
-  @@index([sortOrder])
+  @@index([parentId, sortOrder])
   @@map("document_categories")
 }
 
