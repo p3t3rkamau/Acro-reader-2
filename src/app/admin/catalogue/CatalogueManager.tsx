@@ -46,7 +46,7 @@ function EditorRow({
         <button type="submit">Save changes</button>
         <button
           type="button"
-          className={item.isActive ? 'dangerButton' : 'secondary'}
+          className={item.isActive ? styles.dangerButton : styles.secondaryButton}
           onClick={() => {
             if (!item.isActive || window.confirm(`Deactivate this ${type}? It will be hidden from new selections, but existing documents and history will be preserved.`)) {
               void onToggle(type, item.id, !item.isActive);
