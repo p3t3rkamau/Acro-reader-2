@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { head, put } from '@vercel/blob';
+import { del, head, put } from '@vercel/blob';
 import { z } from 'zod';
 import { auth } from '../../../../../../auth';
 import { prisma } from '@/lib/db/prisma';
@@ -21,21 +21,36 @@ export async function GET() {
     return NextResponse.json({ error: 'Administrator access required.' }, { status: 401 });
   }
 
-  const revisions = await prisma.documentRevision.findMany({
-    where: {
-      storageVisibility: 'PUBLIC',
-      storagePath: { not: null },
-      fileUrl: { not: null },
-    },
-    orderBy: { createdAt: 'asc' },
-    select: {
-      id: true,
-      revision: true,
-      originalFileName: true,
-      fileUrl: true,
-      document: { select: { title: true } },
-    },
-  });
+  const [revisions, legacyCopies] = await Promise.all([
+    prisma.documentRevision.findMany({
+      where: {
+        storageVisibility: 'PUBLIC',
+        storagePath: { not: null },
+        fileUrl: { not: null },
+      },
+      orderBy: { createdAt: 'asc' },
+      select: {
+        id: true,
+        revision: true,
+        originalFileName: true,
+        document: { select: { title: true } },
+      },
+    }),
+    prisma.documentRevision.findMany({
+      where: {
+        storageVisibility: 'PRIVATE',
+        legacyPublicStoragePath: { not: null },
+      },
+      orderBy: { updatedAt: 'asc' },
+      select: {
+        id: true,
+        revision: true,
+        originalFileName: true,
+        legacyPublicStoragePath: true,
+        document: { select: { title: true } },
+      },
+    }),
+  ]);
 
   return NextResponse.json({
     count: revisions.length,
@@ -44,6 +59,13 @@ export async function GET() {
       title: revision.document.title,
       revision: revision.revision,
       originalFileName: revision.originalFileName,
+    })),
+    legacyCopies: legacyCopies.map((revision) => ({
+      id: revision.id,
+      title: revision.document.title,
+      revision: revision.revision,
+      originalFileName: revision.originalFileName,
+      legacyPublicStoragePath: revision.legacyPublicStoragePath,
     })),
   });
 }
@@ -163,5 +185,66 @@ export async function POST(request: Request) {
       { error: error instanceof Error ? error.message : 'Could not migrate this PDF.' },
       { status: 500 },
     );
+  }
+}
+
+
+export async function DELETE(request: Request) {
+  if (!await isAdmin()) {
+    return NextResponse.json({ error: 'Administrator access required.' }, { status: 401 });
+  }
+
+  const parsed = migrateSchema.safeParse(await request.json());
+  if (!parsed.success) {
+    return NextResponse.json({ error: 'Select a valid document revision.' }, { status: 400 });
+  }
+
+  const publicToken = process.env.ACRO_READ_WRITE_TOKEN;
+  const privateToken = process.env.ACRO_PRIVATE_READ_WRITE_TOKEN;
+  if (!publicToken || !privateToken) {
+    return NextResponse.json({ error: 'Both public and private Blob tokens must be configured.' }, { status: 503 });
+  }
+
+  const revision = await prisma.documentRevision.findUnique({
+    where: { id: parsed.data.revisionId },
+    select: {
+      id: true,
+      storagePath: true,
+      storageVisibility: true,
+      legacyPublicStoragePath: true,
+    },
+  });
+
+  if (
+    !revision ||
+    revision.storageVisibility !== 'PRIVATE' ||
+    !revision.storagePath ||
+    !revision.legacyPublicStoragePath
+  ) {
+    return NextResponse.json({ error: 'No verified legacy public copy is pending deletion.' }, { status: 409 });
+  }
+
+  try {
+    const privateCopy = await head(revision.storagePath, { token: privateToken });
+    if (
+      privateCopy.contentType !== 'application/pdf' ||
+      !new URL(privateCopy.url).hostname.endsWith('.private.blob.vercel-storage.com')
+    ) {
+      return NextResponse.json({ error: 'The private copy could not be verified. The public original was not deleted.' }, { status: 409 });
+    }
+
+    await del(revision.legacyPublicStoragePath, { token: publicToken });
+    await prisma.documentRevision.update({
+      where: { id: revision.id },
+      data: {
+        legacyPublicStoragePath: null,
+        legacyPublicUrl: null,
+      },
+    });
+
+    return NextResponse.json({ success: true, legacyPublicDeleted: true });
+  } catch (error) {
+    console.error('[AcroReader] Legacy public Blob deletion failed:', error);
+    return NextResponse.json({ error: 'Could not delete the legacy public copy.' }, { status: 500 });
   }
 }
