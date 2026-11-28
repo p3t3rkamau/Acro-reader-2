@@ -45,7 +45,9 @@ This document supersedes the earlier MVP access assumptions in `ROADMAP.md` wher
 - [x] Create dynamic nested department/folder management UI.
 - [x] Support rename, sort order and soft deactivation/reactivation.
 - [x] Preserve historical records by deactivating rather than deleting referenced catalogue items.
-- [ ] Test CRUD, duplicate names, nested folders, inactive parents and mobile admin layout.
+- [x] Add a premium desktop admin workspace with persistent navigation, clear task cards and consistent page layouts.
+- [x] Use red styling and explicit confirmation for destructive actions such as deactivation, viewer suspension and legacy public-copy deletion.
+- [ ] Test CRUD, duplicate names, nested folders and inactive parents against the live Neon database.
 
 ### 5. Redesign the upload form
 - [x] Load manufacturers, models, variants and categories from Neon.
@@ -65,7 +67,7 @@ This document supersedes the earlier MVP access assumptions in `ROADMAP.md` wher
 - [x] Make new uploads target a private Blob store.
 - [x] Add an admin migration flow that streams existing public PDFs to private storage and verifies size, content type and private URL before changing Neon.
 - [x] Preserve the old public pathname/URL until the private copy has been verified.
-- [ ] Create a separate private Vercel Blob store and configure `ACRO_PRIVATE_READ_WRITE_TOKEN` locally and in Vercel.
+- [ ] Confirm the separate private Vercel Blob store is configured locally and in Vercel using `ACROR_PRIVATE_READ_WRITE_TOKEN`.
 - [ ] Verify new uploads are private and direct unauthenticated Blob reads fail.
 - [ ] Migrate all existing public revisions.
 - [ ] Review each verified private copy, then explicitly delete its legacy public object.
@@ -95,7 +97,7 @@ All migrations are designed to preserve existing records. Do not run `migrate re
 
 ```env
 # Existing public store: read and delete old objects during migration only.
-ACROR_READ_WRITE_TOKEN=...
+ACRO_READ_WRITE_TOKEN=...
 
 # New private store: upload, verify and stream protected PDFs.
 ACROR_PRIVATE_READ_WRITE_TOKEN=...
