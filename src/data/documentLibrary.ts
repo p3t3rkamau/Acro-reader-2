@@ -16,33 +16,14 @@ export type LibraryFolder = {
   documents?: LibraryDocument[];
 };
 
-const flightOperations: LibraryFolder[] = [
-  { slug: 'afm', title: 'AFM', description: 'Aircraft Flight Manual', documents: [] },
-  { slug: 'qrh', title: 'QRH', description: 'Quick Reference Handbook', documents: [] },
-  { slug: 'aom', title: 'AOM', description: 'Aircraft Operating Manual', documents: [] },
-  { slug: 'checklists', title: 'Checklists', description: 'Operational checklists and guidance', documents: [] },
-];
-
-function aircraft(slug: string, title: string): LibraryFolder {
-  return {
-    slug, title, description: `Technical and operational documentation for ${title} aircraft.`,
-    folders: [
-      { slug: 'flight-operations', title: 'Flight Operations', description: 'Operational manuals and flight crew references.', folders: flightOperations },
-      { slug: 'maintenance', title: 'Maintenance', description: 'Maintenance documentation and technical references.', folders: [] },
-    ],
-  };
-}
-
+// Empty structural fallback only. Actual manufacturers, models, variants and
+// category folders are loaded from Neon by getDocumentLibrary().
 export const documentLibrary: LibraryFolder = {
   slug: 'library',
   title: 'Aircraft Documentation',
   description: 'Browse published aircraft manuals and operational documents.',
-  folders: [
-    aircraft('dash-100', 'DASH 100'),
-    aircraft('dash-200', 'DASH 200'),
-    aircraft('dash-300', 'DASH 300'),
-    aircraft('dash-400', 'DASH 400'),
-  ],
+  folders: [],
+  documents: [],
 };
 
 export function findLibraryFolder(path: string[], root: LibraryFolder = documentLibrary): LibraryFolder | null {
@@ -56,7 +37,7 @@ export function findLibraryFolder(path: string[], root: LibraryFolder = document
 }
 
 export function getLibraryBreadcrumbs(path: string[], root: LibraryFolder = documentLibrary) {
-  const crumbs = [{ title: documentLibrary.title, href: '/' }];
+  const crumbs = [{ title: root.title, href: '/' }];
   let current = root;
   const parts: string[] = [];
   for (const segment of path) {
