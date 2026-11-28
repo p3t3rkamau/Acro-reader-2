@@ -295,7 +295,7 @@ export default function UploadDocumentForm() {
 
         <label className={styles.fullWidth}>PDF document
           <input ref={fileRef} name="file" type="file" accept="application/pdf,.pdf" required />
-          <small>Large PDFs upload directly to Vercel Blob. Only PDF files are accepted.</small>
+          <small>PDFs upload directly to private Vercel Blob storage. Maximum file size: 5 GB.</small>
         </label>
       </div>
 
