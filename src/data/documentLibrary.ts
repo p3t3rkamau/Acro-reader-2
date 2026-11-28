@@ -1,6 +1,7 @@
 export type LibraryDocument = {
   id: string;
   title: string;
+  referenceNumber?: string;
   revision: string;
   effectiveDate: string;
   status: 'current' | 'superseded';
