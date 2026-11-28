@@ -168,7 +168,7 @@ export type OrganizationEntitlementGroupByArgs<ExtArgs extends runtime.Types.Ext
 export type OrganizationEntitlementGroupByOutputType = {
   id: string
   organizationId: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries: $Enums.AircraftSeries | null
   status: $Enums.EntitlementStatus
   startsAt: Date | null
   endsAt: Date | null
@@ -200,7 +200,7 @@ export type OrganizationEntitlementWhereInput = {
   NOT?: Prisma.OrganizationEntitlementWhereInput | Prisma.OrganizationEntitlementWhereInput[]
   id?: Prisma.StringFilter<"OrganizationEntitlement"> | string
   organizationId?: Prisma.StringFilter<"OrganizationEntitlement"> | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFilter<"OrganizationEntitlement"> | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.EnumAircraftSeriesNullableFilter<"OrganizationEntitlement"> | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFilter<"OrganizationEntitlement"> | $Enums.EntitlementStatus
   startsAt?: Prisma.DateTimeNullableFilter<"OrganizationEntitlement"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableFilter<"OrganizationEntitlement"> | Date | string | null
@@ -208,12 +208,13 @@ export type OrganizationEntitlementWhereInput = {
   revokedAt?: Prisma.DateTimeNullableFilter<"OrganizationEntitlement"> | Date | string | null
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   documentGrants?: Prisma.DocumentEntitlementListRelationFilter
+  variants?: Prisma.OrganizationEntitlementVariantListRelationFilter
 }
 
 export type OrganizationEntitlementOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
-  aircraftSeries?: Prisma.SortOrder
+  aircraftSeries?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   endsAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -221,6 +222,7 @@ export type OrganizationEntitlementOrderByWithRelationInput = {
   revokedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   documentGrants?: Prisma.DocumentEntitlementOrderByRelationAggregateInput
+  variants?: Prisma.OrganizationEntitlementVariantOrderByRelationAggregateInput
 }
 
 export type OrganizationEntitlementWhereUniqueInput = Prisma.AtLeast<{
@@ -229,7 +231,7 @@ export type OrganizationEntitlementWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.OrganizationEntitlementWhereInput[]
   NOT?: Prisma.OrganizationEntitlementWhereInput | Prisma.OrganizationEntitlementWhereInput[]
   organizationId?: Prisma.StringFilter<"OrganizationEntitlement"> | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFilter<"OrganizationEntitlement"> | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.EnumAircraftSeriesNullableFilter<"OrganizationEntitlement"> | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFilter<"OrganizationEntitlement"> | $Enums.EntitlementStatus
   startsAt?: Prisma.DateTimeNullableFilter<"OrganizationEntitlement"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableFilter<"OrganizationEntitlement"> | Date | string | null
@@ -237,12 +239,13 @@ export type OrganizationEntitlementWhereUniqueInput = Prisma.AtLeast<{
   revokedAt?: Prisma.DateTimeNullableFilter<"OrganizationEntitlement"> | Date | string | null
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   documentGrants?: Prisma.DocumentEntitlementListRelationFilter
+  variants?: Prisma.OrganizationEntitlementVariantListRelationFilter
 }, "id">
 
 export type OrganizationEntitlementOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
-  aircraftSeries?: Prisma.SortOrder
+  aircraftSeries?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   endsAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -259,7 +262,7 @@ export type OrganizationEntitlementScalarWhereWithAggregatesInput = {
   NOT?: Prisma.OrganizationEntitlementScalarWhereWithAggregatesInput | Prisma.OrganizationEntitlementScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"OrganizationEntitlement"> | string
   organizationId?: Prisma.StringWithAggregatesFilter<"OrganizationEntitlement"> | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesWithAggregatesFilter<"OrganizationEntitlement"> | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.EnumAircraftSeriesNullableWithAggregatesFilter<"OrganizationEntitlement"> | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusWithAggregatesFilter<"OrganizationEntitlement"> | $Enums.EntitlementStatus
   startsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"OrganizationEntitlement"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"OrganizationEntitlement"> | Date | string | null
@@ -269,7 +272,7 @@ export type OrganizationEntitlementScalarWhereWithAggregatesInput = {
 
 export type OrganizationEntitlementCreateInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   status?: $Enums.EntitlementStatus
   startsAt?: Date | string | null
   endsAt?: Date | string | null
@@ -277,23 +280,25 @@ export type OrganizationEntitlementCreateInput = {
   revokedAt?: Date | string | null
   organization: Prisma.OrganizationCreateNestedOneWithoutEntitlementsInput
   documentGrants?: Prisma.DocumentEntitlementCreateNestedManyWithoutEntitlementInput
+  variants?: Prisma.OrganizationEntitlementVariantCreateNestedManyWithoutEntitlementInput
 }
 
 export type OrganizationEntitlementUncheckedCreateInput = {
   id?: string
   organizationId: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   status?: $Enums.EntitlementStatus
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
   revokedAt?: Date | string | null
   documentGrants?: Prisma.DocumentEntitlementUncheckedCreateNestedManyWithoutEntitlementInput
+  variants?: Prisma.OrganizationEntitlementVariantUncheckedCreateNestedManyWithoutEntitlementInput
 }
 
 export type OrganizationEntitlementUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -301,24 +306,26 @@ export type OrganizationEntitlementUpdateInput = {
   revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutEntitlementsNestedInput
   documentGrants?: Prisma.DocumentEntitlementUpdateManyWithoutEntitlementNestedInput
+  variants?: Prisma.OrganizationEntitlementVariantUpdateManyWithoutEntitlementNestedInput
 }
 
 export type OrganizationEntitlementUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documentGrants?: Prisma.DocumentEntitlementUncheckedUpdateManyWithoutEntitlementNestedInput
+  variants?: Prisma.OrganizationEntitlementVariantUncheckedUpdateManyWithoutEntitlementNestedInput
 }
 
 export type OrganizationEntitlementCreateManyInput = {
   id?: string
   organizationId: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   status?: $Enums.EntitlementStatus
   startsAt?: Date | string | null
   endsAt?: Date | string | null
@@ -328,7 +335,7 @@ export type OrganizationEntitlementCreateManyInput = {
 
 export type OrganizationEntitlementUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -339,7 +346,7 @@ export type OrganizationEntitlementUpdateManyMutationInput = {
 export type OrganizationEntitlementUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -437,12 +444,26 @@ export type OrganizationEntitlementUncheckedUpdateManyWithoutOrganizationNestedI
   deleteMany?: Prisma.OrganizationEntitlementScalarWhereInput | Prisma.OrganizationEntitlementScalarWhereInput[]
 }
 
-export type EnumAircraftSeriesFieldUpdateOperationsInput = {
-  set?: $Enums.AircraftSeries
+export type NullableEnumAircraftSeriesFieldUpdateOperationsInput = {
+  set?: $Enums.AircraftSeries | null
 }
 
 export type EnumEntitlementStatusFieldUpdateOperationsInput = {
   set?: $Enums.EntitlementStatus
+}
+
+export type OrganizationEntitlementCreateNestedOneWithoutVariantsInput = {
+  create?: Prisma.XOR<Prisma.OrganizationEntitlementCreateWithoutVariantsInput, Prisma.OrganizationEntitlementUncheckedCreateWithoutVariantsInput>
+  connectOrCreate?: Prisma.OrganizationEntitlementCreateOrConnectWithoutVariantsInput
+  connect?: Prisma.OrganizationEntitlementWhereUniqueInput
+}
+
+export type OrganizationEntitlementUpdateOneRequiredWithoutVariantsNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationEntitlementCreateWithoutVariantsInput, Prisma.OrganizationEntitlementUncheckedCreateWithoutVariantsInput>
+  connectOrCreate?: Prisma.OrganizationEntitlementCreateOrConnectWithoutVariantsInput
+  upsert?: Prisma.OrganizationEntitlementUpsertWithoutVariantsInput
+  connect?: Prisma.OrganizationEntitlementWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationEntitlementUpdateToOneWithWhereWithoutVariantsInput, Prisma.OrganizationEntitlementUpdateWithoutVariantsInput>, Prisma.OrganizationEntitlementUncheckedUpdateWithoutVariantsInput>
 }
 
 export type OrganizationEntitlementCreateNestedOneWithoutDocumentGrantsInput = {
@@ -461,24 +482,26 @@ export type OrganizationEntitlementUpdateOneRequiredWithoutDocumentGrantsNestedI
 
 export type OrganizationEntitlementCreateWithoutOrganizationInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   status?: $Enums.EntitlementStatus
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
   revokedAt?: Date | string | null
   documentGrants?: Prisma.DocumentEntitlementCreateNestedManyWithoutEntitlementInput
+  variants?: Prisma.OrganizationEntitlementVariantCreateNestedManyWithoutEntitlementInput
 }
 
 export type OrganizationEntitlementUncheckedCreateWithoutOrganizationInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   status?: $Enums.EntitlementStatus
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
   revokedAt?: Date | string | null
   documentGrants?: Prisma.DocumentEntitlementUncheckedCreateNestedManyWithoutEntitlementInput
+  variants?: Prisma.OrganizationEntitlementVariantUncheckedCreateNestedManyWithoutEntitlementInput
 }
 
 export type OrganizationEntitlementCreateOrConnectWithoutOrganizationInput = {
@@ -513,7 +536,7 @@ export type OrganizationEntitlementScalarWhereInput = {
   NOT?: Prisma.OrganizationEntitlementScalarWhereInput | Prisma.OrganizationEntitlementScalarWhereInput[]
   id?: Prisma.StringFilter<"OrganizationEntitlement"> | string
   organizationId?: Prisma.StringFilter<"OrganizationEntitlement"> | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFilter<"OrganizationEntitlement"> | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.EnumAircraftSeriesNullableFilter<"OrganizationEntitlement"> | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFilter<"OrganizationEntitlement"> | $Enums.EntitlementStatus
   startsAt?: Prisma.DateTimeNullableFilter<"OrganizationEntitlement"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableFilter<"OrganizationEntitlement"> | Date | string | null
@@ -521,26 +544,92 @@ export type OrganizationEntitlementScalarWhereInput = {
   revokedAt?: Prisma.DateTimeNullableFilter<"OrganizationEntitlement"> | Date | string | null
 }
 
-export type OrganizationEntitlementCreateWithoutDocumentGrantsInput = {
+export type OrganizationEntitlementCreateWithoutVariantsInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   status?: $Enums.EntitlementStatus
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
   revokedAt?: Date | string | null
   organization: Prisma.OrganizationCreateNestedOneWithoutEntitlementsInput
+  documentGrants?: Prisma.DocumentEntitlementCreateNestedManyWithoutEntitlementInput
 }
 
-export type OrganizationEntitlementUncheckedCreateWithoutDocumentGrantsInput = {
+export type OrganizationEntitlementUncheckedCreateWithoutVariantsInput = {
   id?: string
   organizationId: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   status?: $Enums.EntitlementStatus
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
   revokedAt?: Date | string | null
+  documentGrants?: Prisma.DocumentEntitlementUncheckedCreateNestedManyWithoutEntitlementInput
+}
+
+export type OrganizationEntitlementCreateOrConnectWithoutVariantsInput = {
+  where: Prisma.OrganizationEntitlementWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationEntitlementCreateWithoutVariantsInput, Prisma.OrganizationEntitlementUncheckedCreateWithoutVariantsInput>
+}
+
+export type OrganizationEntitlementUpsertWithoutVariantsInput = {
+  update: Prisma.XOR<Prisma.OrganizationEntitlementUpdateWithoutVariantsInput, Prisma.OrganizationEntitlementUncheckedUpdateWithoutVariantsInput>
+  create: Prisma.XOR<Prisma.OrganizationEntitlementCreateWithoutVariantsInput, Prisma.OrganizationEntitlementUncheckedCreateWithoutVariantsInput>
+  where?: Prisma.OrganizationEntitlementWhereInput
+}
+
+export type OrganizationEntitlementUpdateToOneWithWhereWithoutVariantsInput = {
+  where?: Prisma.OrganizationEntitlementWhereInput
+  data: Prisma.XOR<Prisma.OrganizationEntitlementUpdateWithoutVariantsInput, Prisma.OrganizationEntitlementUncheckedUpdateWithoutVariantsInput>
+}
+
+export type OrganizationEntitlementUpdateWithoutVariantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
+  status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
+  startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutEntitlementsNestedInput
+  documentGrants?: Prisma.DocumentEntitlementUpdateManyWithoutEntitlementNestedInput
+}
+
+export type OrganizationEntitlementUncheckedUpdateWithoutVariantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
+  status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
+  startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  documentGrants?: Prisma.DocumentEntitlementUncheckedUpdateManyWithoutEntitlementNestedInput
+}
+
+export type OrganizationEntitlementCreateWithoutDocumentGrantsInput = {
+  id?: string
+  aircraftSeries?: $Enums.AircraftSeries | null
+  status?: $Enums.EntitlementStatus
+  startsAt?: Date | string | null
+  endsAt?: Date | string | null
+  createdAt?: Date | string
+  revokedAt?: Date | string | null
+  organization: Prisma.OrganizationCreateNestedOneWithoutEntitlementsInput
+  variants?: Prisma.OrganizationEntitlementVariantCreateNestedManyWithoutEntitlementInput
+}
+
+export type OrganizationEntitlementUncheckedCreateWithoutDocumentGrantsInput = {
+  id?: string
+  organizationId: string
+  aircraftSeries?: $Enums.AircraftSeries | null
+  status?: $Enums.EntitlementStatus
+  startsAt?: Date | string | null
+  endsAt?: Date | string | null
+  createdAt?: Date | string
+  revokedAt?: Date | string | null
+  variants?: Prisma.OrganizationEntitlementVariantUncheckedCreateNestedManyWithoutEntitlementInput
 }
 
 export type OrganizationEntitlementCreateOrConnectWithoutDocumentGrantsInput = {
@@ -561,29 +650,31 @@ export type OrganizationEntitlementUpdateToOneWithWhereWithoutDocumentGrantsInpu
 
 export type OrganizationEntitlementUpdateWithoutDocumentGrantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutEntitlementsNestedInput
+  variants?: Prisma.OrganizationEntitlementVariantUpdateManyWithoutEntitlementNestedInput
 }
 
 export type OrganizationEntitlementUncheckedUpdateWithoutDocumentGrantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  variants?: Prisma.OrganizationEntitlementVariantUncheckedUpdateManyWithoutEntitlementNestedInput
 }
 
 export type OrganizationEntitlementCreateManyOrganizationInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   status?: $Enums.EntitlementStatus
   startsAt?: Date | string | null
   endsAt?: Date | string | null
@@ -593,29 +684,31 @@ export type OrganizationEntitlementCreateManyOrganizationInput = {
 
 export type OrganizationEntitlementUpdateWithoutOrganizationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documentGrants?: Prisma.DocumentEntitlementUpdateManyWithoutEntitlementNestedInput
+  variants?: Prisma.OrganizationEntitlementVariantUpdateManyWithoutEntitlementNestedInput
 }
 
 export type OrganizationEntitlementUncheckedUpdateWithoutOrganizationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documentGrants?: Prisma.DocumentEntitlementUncheckedUpdateManyWithoutEntitlementNestedInput
+  variants?: Prisma.OrganizationEntitlementVariantUncheckedUpdateManyWithoutEntitlementNestedInput
 }
 
 export type OrganizationEntitlementUncheckedUpdateManyWithoutOrganizationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   status?: Prisma.EnumEntitlementStatusFieldUpdateOperationsInput | $Enums.EntitlementStatus
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -630,10 +723,12 @@ export type OrganizationEntitlementUncheckedUpdateManyWithoutOrganizationInput =
 
 export type OrganizationEntitlementCountOutputType = {
   documentGrants: number
+  variants: number
 }
 
 export type OrganizationEntitlementCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   documentGrants?: boolean | OrganizationEntitlementCountOutputTypeCountDocumentGrantsArgs
+  variants?: boolean | OrganizationEntitlementCountOutputTypeCountVariantsArgs
 }
 
 /**
@@ -653,6 +748,13 @@ export type OrganizationEntitlementCountOutputTypeCountDocumentGrantsArgs<ExtArg
   where?: Prisma.DocumentEntitlementWhereInput
 }
 
+/**
+ * OrganizationEntitlementCountOutputType without action
+ */
+export type OrganizationEntitlementCountOutputTypeCountVariantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrganizationEntitlementVariantWhereInput
+}
+
 
 export type OrganizationEntitlementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -665,6 +767,7 @@ export type OrganizationEntitlementSelect<ExtArgs extends runtime.Types.Extensio
   revokedAt?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   documentGrants?: boolean | Prisma.OrganizationEntitlement$documentGrantsArgs<ExtArgs>
+  variants?: boolean | Prisma.OrganizationEntitlement$variantsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationEntitlementCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organizationEntitlement"]>
 
@@ -707,6 +810,7 @@ export type OrganizationEntitlementOmit<ExtArgs extends runtime.Types.Extensions
 export type OrganizationEntitlementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   documentGrants?: boolean | Prisma.OrganizationEntitlement$documentGrantsArgs<ExtArgs>
+  variants?: boolean | Prisma.OrganizationEntitlement$variantsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationEntitlementCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrganizationEntitlementIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -721,11 +825,12 @@ export type $OrganizationEntitlementPayload<ExtArgs extends runtime.Types.Extens
   objects: {
     organization: Prisma.$OrganizationPayload<ExtArgs>
     documentGrants: Prisma.$DocumentEntitlementPayload<ExtArgs>[]
+    variants: Prisma.$OrganizationEntitlementVariantPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     organizationId: string
-    aircraftSeries: $Enums.AircraftSeries
+    aircraftSeries: $Enums.AircraftSeries | null
     status: $Enums.EntitlementStatus
     startsAt: Date | null
     endsAt: Date | null
@@ -1127,6 +1232,7 @@ export interface Prisma__OrganizationEntitlementClient<T, Null = never, ExtArgs 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   documentGrants<T extends Prisma.OrganizationEntitlement$documentGrantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationEntitlement$documentGrantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentEntitlementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  variants<T extends Prisma.OrganizationEntitlement$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationEntitlement$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrganizationEntitlementVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1586,6 +1692,30 @@ export type OrganizationEntitlement$documentGrantsArgs<ExtArgs extends runtime.T
   take?: number
   skip?: number
   distinct?: Prisma.DocumentEntitlementScalarFieldEnum | Prisma.DocumentEntitlementScalarFieldEnum[]
+}
+
+/**
+ * OrganizationEntitlement.variants
+ */
+export type OrganizationEntitlement$variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrganizationEntitlementVariant
+   */
+  select?: Prisma.OrganizationEntitlementVariantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrganizationEntitlementVariant
+   */
+  omit?: Prisma.OrganizationEntitlementVariantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrganizationEntitlementVariantInclude<ExtArgs> | null
+  where?: Prisma.OrganizationEntitlementVariantWhereInput
+  orderBy?: Prisma.OrganizationEntitlementVariantOrderByWithRelationInput | Prisma.OrganizationEntitlementVariantOrderByWithRelationInput[]
+  cursor?: Prisma.OrganizationEntitlementVariantWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrganizationEntitlementVariantScalarFieldEnum | Prisma.OrganizationEntitlementVariantScalarFieldEnum[]
 }
 
 /**

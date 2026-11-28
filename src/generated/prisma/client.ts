@@ -77,6 +77,31 @@ export type OrganizationMember = Prisma.OrganizationMemberModel
  */
 export type OrganizationEntitlement = Prisma.OrganizationEntitlementModel
 /**
+ * Model AircraftManufacturer
+ * 
+ */
+export type AircraftManufacturer = Prisma.AircraftManufacturerModel
+/**
+ * Model AircraftModel
+ * 
+ */
+export type AircraftModel = Prisma.AircraftModelModel
+/**
+ * Model AircraftVariant
+ * 
+ */
+export type AircraftVariant = Prisma.AircraftVariantModel
+/**
+ * Model DocumentAircraftVariant
+ * 
+ */
+export type DocumentAircraftVariant = Prisma.DocumentAircraftVariantModel
+/**
+ * Model OrganizationEntitlementVariant
+ * 
+ */
+export type OrganizationEntitlementVariant = Prisma.OrganizationEntitlementVariantModel
+/**
  * Model DocumentCategory
  * 
  */

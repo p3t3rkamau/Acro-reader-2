@@ -15,8 +15,8 @@ The public catalogue remains accessible without signing in. Opening a PDF requir
 Example variable names (never commit token values):
 
 ```env
-ACRO_READ_WRITE_TOKEN=your_existing_public_store_token
-ACRO_PRIVATE_READ_WRITE_TOKEN=your_new_private_store_token
+ACROR_READ_WRITE_TOKEN=your_existing_public_store_token
+ACROR_PRIVATE_READ_WRITE_TOKEN=your_new_private_store_token
 ```
 
 Configure both variables for the required Vercel environments (Development, Preview and Production as appropriate). Restart the local Next.js server after changing `.env`.

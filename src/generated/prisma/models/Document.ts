@@ -30,6 +30,7 @@ export type DocumentMinAggregateOutputType = {
   categoryId: string | null
   slug: string | null
   title: string | null
+  referenceNumber: string | null
   description: string | null
   isRestricted: boolean | null
   createdAt: Date | null
@@ -42,6 +43,7 @@ export type DocumentMaxAggregateOutputType = {
   categoryId: string | null
   slug: string | null
   title: string | null
+  referenceNumber: string | null
   description: string | null
   isRestricted: boolean | null
   createdAt: Date | null
@@ -54,6 +56,7 @@ export type DocumentCountAggregateOutputType = {
   categoryId: number
   slug: number
   title: number
+  referenceNumber: number
   description: number
   isRestricted: number
   createdAt: number
@@ -68,6 +71,7 @@ export type DocumentMinAggregateInputType = {
   categoryId?: true
   slug?: true
   title?: true
+  referenceNumber?: true
   description?: true
   isRestricted?: true
   createdAt?: true
@@ -80,6 +84,7 @@ export type DocumentMaxAggregateInputType = {
   categoryId?: true
   slug?: true
   title?: true
+  referenceNumber?: true
   description?: true
   isRestricted?: true
   createdAt?: true
@@ -92,6 +97,7 @@ export type DocumentCountAggregateInputType = {
   categoryId?: true
   slug?: true
   title?: true
+  referenceNumber?: true
   description?: true
   isRestricted?: true
   createdAt?: true
@@ -173,10 +179,11 @@ export type DocumentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type DocumentGroupByOutputType = {
   id: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries: $Enums.AircraftSeries | null
   categoryId: string
   slug: string
   title: string
+  referenceNumber: string | null
   description: string | null
   isRestricted: boolean
   createdAt: Date
@@ -206,10 +213,11 @@ export type DocumentWhereInput = {
   OR?: Prisma.DocumentWhereInput[]
   NOT?: Prisma.DocumentWhereInput | Prisma.DocumentWhereInput[]
   id?: Prisma.StringFilter<"Document"> | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFilter<"Document"> | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.EnumAircraftSeriesNullableFilter<"Document"> | $Enums.AircraftSeries | null
   categoryId?: Prisma.StringFilter<"Document"> | string
   slug?: Prisma.StringFilter<"Document"> | string
   title?: Prisma.StringFilter<"Document"> | string
+  referenceNumber?: Prisma.StringNullableFilter<"Document"> | string | null
   description?: Prisma.StringNullableFilter<"Document"> | string | null
   isRestricted?: Prisma.BoolFilter<"Document"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
@@ -217,14 +225,16 @@ export type DocumentWhereInput = {
   category?: Prisma.XOR<Prisma.DocumentCategoryScalarRelationFilter, Prisma.DocumentCategoryWhereInput>
   revisions?: Prisma.DocumentRevisionListRelationFilter
   grants?: Prisma.DocumentEntitlementListRelationFilter
+  variants?: Prisma.DocumentAircraftVariantListRelationFilter
 }
 
 export type DocumentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  aircraftSeries?: Prisma.SortOrder
+  aircraftSeries?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  referenceNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -232,6 +242,7 @@ export type DocumentOrderByWithRelationInput = {
   category?: Prisma.DocumentCategoryOrderByWithRelationInput
   revisions?: Prisma.DocumentRevisionOrderByRelationAggregateInput
   grants?: Prisma.DocumentEntitlementOrderByRelationAggregateInput
+  variants?: Prisma.DocumentAircraftVariantOrderByRelationAggregateInput
 }
 
 export type DocumentWhereUniqueInput = Prisma.AtLeast<{
@@ -240,10 +251,11 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DocumentWhereInput | Prisma.DocumentWhereInput[]
   OR?: Prisma.DocumentWhereInput[]
   NOT?: Prisma.DocumentWhereInput | Prisma.DocumentWhereInput[]
-  aircraftSeries?: Prisma.EnumAircraftSeriesFilter<"Document"> | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.EnumAircraftSeriesNullableFilter<"Document"> | $Enums.AircraftSeries | null
   categoryId?: Prisma.StringFilter<"Document"> | string
   slug?: Prisma.StringFilter<"Document"> | string
   title?: Prisma.StringFilter<"Document"> | string
+  referenceNumber?: Prisma.StringNullableFilter<"Document"> | string | null
   description?: Prisma.StringNullableFilter<"Document"> | string | null
   isRestricted?: Prisma.BoolFilter<"Document"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
@@ -251,14 +263,16 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.XOR<Prisma.DocumentCategoryScalarRelationFilter, Prisma.DocumentCategoryWhereInput>
   revisions?: Prisma.DocumentRevisionListRelationFilter
   grants?: Prisma.DocumentEntitlementListRelationFilter
+  variants?: Prisma.DocumentAircraftVariantListRelationFilter
 }, "id" | "aircraftSeries_slug">
 
 export type DocumentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  aircraftSeries?: Prisma.SortOrder
+  aircraftSeries?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  referenceNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -273,10 +287,11 @@ export type DocumentScalarWhereWithAggregatesInput = {
   OR?: Prisma.DocumentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DocumentScalarWhereWithAggregatesInput | Prisma.DocumentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Document"> | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesWithAggregatesFilter<"Document"> | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.EnumAircraftSeriesNullableWithAggregatesFilter<"Document"> | $Enums.AircraftSeries | null
   categoryId?: Prisma.StringWithAggregatesFilter<"Document"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Document"> | string
   title?: Prisma.StringWithAggregatesFilter<"Document"> | string
+  referenceNumber?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   isRestricted?: Prisma.BoolWithAggregatesFilter<"Document"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
@@ -285,9 +300,10 @@ export type DocumentScalarWhereWithAggregatesInput = {
 
 export type DocumentCreateInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
@@ -295,27 +311,31 @@ export type DocumentCreateInput = {
   category: Prisma.DocumentCategoryCreateNestedOneWithoutDocumentsInput
   revisions?: Prisma.DocumentRevisionCreateNestedManyWithoutDocumentInput
   grants?: Prisma.DocumentEntitlementCreateNestedManyWithoutDocumentInput
+  variants?: Prisma.DocumentAircraftVariantCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   categoryId: string
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   revisions?: Prisma.DocumentRevisionUncheckedCreateNestedManyWithoutDocumentInput
   grants?: Prisma.DocumentEntitlementUncheckedCreateNestedManyWithoutDocumentInput
+  variants?: Prisma.DocumentAircraftVariantUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -323,28 +343,32 @@ export type DocumentUpdateInput = {
   category?: Prisma.DocumentCategoryUpdateOneRequiredWithoutDocumentsNestedInput
   revisions?: Prisma.DocumentRevisionUpdateManyWithoutDocumentNestedInput
   grants?: Prisma.DocumentEntitlementUpdateManyWithoutDocumentNestedInput
+  variants?: Prisma.DocumentAircraftVariantUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revisions?: Prisma.DocumentRevisionUncheckedUpdateManyWithoutDocumentNestedInput
   grants?: Prisma.DocumentEntitlementUncheckedUpdateManyWithoutDocumentNestedInput
+  variants?: Prisma.DocumentAircraftVariantUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   categoryId: string
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
@@ -353,9 +377,10 @@ export type DocumentCreateManyInput = {
 
 export type DocumentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -364,14 +389,20 @@ export type DocumentUpdateManyMutationInput = {
 
 export type DocumentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DocumentScalarRelationFilter = {
+  is?: Prisma.DocumentWhereInput
+  isNot?: Prisma.DocumentWhereInput
 }
 
 export type DocumentListRelationFilter = {
@@ -395,6 +426,7 @@ export type DocumentCountOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  referenceNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -407,6 +439,7 @@ export type DocumentMaxOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  referenceNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -419,15 +452,25 @@ export type DocumentMinOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  referenceNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type DocumentScalarRelationFilter = {
-  is?: Prisma.DocumentWhereInput
-  isNot?: Prisma.DocumentWhereInput
+export type DocumentCreateNestedOneWithoutVariantsInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutVariantsInput, Prisma.DocumentUncheckedCreateWithoutVariantsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutVariantsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+}
+
+export type DocumentUpdateOneRequiredWithoutVariantsNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutVariantsInput, Prisma.DocumentUncheckedCreateWithoutVariantsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutVariantsInput
+  upsert?: Prisma.DocumentUpsertWithoutVariantsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutVariantsInput, Prisma.DocumentUpdateWithoutVariantsInput>, Prisma.DocumentUncheckedUpdateWithoutVariantsInput>
 }
 
 export type DocumentCreateNestedManyWithoutCategoryInput = {
@@ -472,10 +515,6 @@ export type DocumentUncheckedUpdateManyWithoutCategoryNestedInput = {
   deleteMany?: Prisma.DocumentScalarWhereInput | Prisma.DocumentScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type DocumentCreateNestedOneWithoutRevisionsInput = {
   create?: Prisma.XOR<Prisma.DocumentCreateWithoutRevisionsInput, Prisma.DocumentUncheckedCreateWithoutRevisionsInput>
   connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutRevisionsInput
@@ -504,30 +543,110 @@ export type DocumentUpdateOneRequiredWithoutGrantsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutGrantsInput, Prisma.DocumentUpdateWithoutGrantsInput>, Prisma.DocumentUncheckedUpdateWithoutGrantsInput>
 }
 
-export type DocumentCreateWithoutCategoryInput = {
+export type DocumentCreateWithoutVariantsInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  category: Prisma.DocumentCategoryCreateNestedOneWithoutDocumentsInput
   revisions?: Prisma.DocumentRevisionCreateNestedManyWithoutDocumentInput
   grants?: Prisma.DocumentEntitlementCreateNestedManyWithoutDocumentInput
 }
 
-export type DocumentUncheckedCreateWithoutCategoryInput = {
+export type DocumentUncheckedCreateWithoutVariantsInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
+  categoryId: string
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   revisions?: Prisma.DocumentRevisionUncheckedCreateNestedManyWithoutDocumentInput
   grants?: Prisma.DocumentEntitlementUncheckedCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentCreateOrConnectWithoutVariantsInput = {
+  where: Prisma.DocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutVariantsInput, Prisma.DocumentUncheckedCreateWithoutVariantsInput>
+}
+
+export type DocumentUpsertWithoutVariantsInput = {
+  update: Prisma.XOR<Prisma.DocumentUpdateWithoutVariantsInput, Prisma.DocumentUncheckedUpdateWithoutVariantsInput>
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutVariantsInput, Prisma.DocumentUncheckedCreateWithoutVariantsInput>
+  where?: Prisma.DocumentWhereInput
+}
+
+export type DocumentUpdateToOneWithWhereWithoutVariantsInput = {
+  where?: Prisma.DocumentWhereInput
+  data: Prisma.XOR<Prisma.DocumentUpdateWithoutVariantsInput, Prisma.DocumentUncheckedUpdateWithoutVariantsInput>
+}
+
+export type DocumentUpdateWithoutVariantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.DocumentCategoryUpdateOneRequiredWithoutDocumentsNestedInput
+  revisions?: Prisma.DocumentRevisionUpdateManyWithoutDocumentNestedInput
+  grants?: Prisma.DocumentEntitlementUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentUncheckedUpdateWithoutVariantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revisions?: Prisma.DocumentRevisionUncheckedUpdateManyWithoutDocumentNestedInput
+  grants?: Prisma.DocumentEntitlementUncheckedUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentCreateWithoutCategoryInput = {
+  id?: string
+  aircraftSeries?: $Enums.AircraftSeries | null
+  slug: string
+  title: string
+  referenceNumber?: string | null
+  description?: string | null
+  isRestricted?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  revisions?: Prisma.DocumentRevisionCreateNestedManyWithoutDocumentInput
+  grants?: Prisma.DocumentEntitlementCreateNestedManyWithoutDocumentInput
+  variants?: Prisma.DocumentAircraftVariantCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentUncheckedCreateWithoutCategoryInput = {
+  id?: string
+  aircraftSeries?: $Enums.AircraftSeries | null
+  slug: string
+  title: string
+  referenceNumber?: string | null
+  description?: string | null
+  isRestricted?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  revisions?: Prisma.DocumentRevisionUncheckedCreateNestedManyWithoutDocumentInput
+  grants?: Prisma.DocumentEntitlementUncheckedCreateNestedManyWithoutDocumentInput
+  variants?: Prisma.DocumentAircraftVariantUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutCategoryInput = {
@@ -561,10 +680,11 @@ export type DocumentScalarWhereInput = {
   OR?: Prisma.DocumentScalarWhereInput[]
   NOT?: Prisma.DocumentScalarWhereInput | Prisma.DocumentScalarWhereInput[]
   id?: Prisma.StringFilter<"Document"> | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFilter<"Document"> | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.EnumAircraftSeriesNullableFilter<"Document"> | $Enums.AircraftSeries | null
   categoryId?: Prisma.StringFilter<"Document"> | string
   slug?: Prisma.StringFilter<"Document"> | string
   title?: Prisma.StringFilter<"Document"> | string
+  referenceNumber?: Prisma.StringNullableFilter<"Document"> | string | null
   description?: Prisma.StringNullableFilter<"Document"> | string | null
   isRestricted?: Prisma.BoolFilter<"Document"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
@@ -573,28 +693,32 @@ export type DocumentScalarWhereInput = {
 
 export type DocumentCreateWithoutRevisionsInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.DocumentCategoryCreateNestedOneWithoutDocumentsInput
   grants?: Prisma.DocumentEntitlementCreateNestedManyWithoutDocumentInput
+  variants?: Prisma.DocumentAircraftVariantCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutRevisionsInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   categoryId: string
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   grants?: Prisma.DocumentEntitlementUncheckedCreateNestedManyWithoutDocumentInput
+  variants?: Prisma.DocumentAircraftVariantUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutRevisionsInput = {
@@ -615,54 +739,62 @@ export type DocumentUpdateToOneWithWhereWithoutRevisionsInput = {
 
 export type DocumentUpdateWithoutRevisionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.DocumentCategoryUpdateOneRequiredWithoutDocumentsNestedInput
   grants?: Prisma.DocumentEntitlementUpdateManyWithoutDocumentNestedInput
+  variants?: Prisma.DocumentAircraftVariantUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutRevisionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grants?: Prisma.DocumentEntitlementUncheckedUpdateManyWithoutDocumentNestedInput
+  variants?: Prisma.DocumentAircraftVariantUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateWithoutGrantsInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.DocumentCategoryCreateNestedOneWithoutDocumentsInput
   revisions?: Prisma.DocumentRevisionCreateNestedManyWithoutDocumentInput
+  variants?: Prisma.DocumentAircraftVariantCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutGrantsInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   categoryId: string
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   revisions?: Prisma.DocumentRevisionUncheckedCreateNestedManyWithoutDocumentInput
+  variants?: Prisma.DocumentAircraftVariantUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutGrantsInput = {
@@ -683,35 +815,40 @@ export type DocumentUpdateToOneWithWhereWithoutGrantsInput = {
 
 export type DocumentUpdateWithoutGrantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.DocumentCategoryUpdateOneRequiredWithoutDocumentsNestedInput
   revisions?: Prisma.DocumentRevisionUpdateManyWithoutDocumentNestedInput
+  variants?: Prisma.DocumentAircraftVariantUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutGrantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revisions?: Prisma.DocumentRevisionUncheckedUpdateManyWithoutDocumentNestedInput
+  variants?: Prisma.DocumentAircraftVariantUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyCategoryInput = {
   id?: string
-  aircraftSeries: $Enums.AircraftSeries
+  aircraftSeries?: $Enums.AircraftSeries | null
   slug: string
   title: string
+  referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
   createdAt?: Date | string
@@ -720,35 +857,40 @@ export type DocumentCreateManyCategoryInput = {
 
 export type DocumentUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revisions?: Prisma.DocumentRevisionUpdateManyWithoutDocumentNestedInput
   grants?: Prisma.DocumentEntitlementUpdateManyWithoutDocumentNestedInput
+  variants?: Prisma.DocumentAircraftVariantUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revisions?: Prisma.DocumentRevisionUncheckedUpdateManyWithoutDocumentNestedInput
   grants?: Prisma.DocumentEntitlementUncheckedUpdateManyWithoutDocumentNestedInput
+  variants?: Prisma.DocumentAircraftVariantUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  aircraftSeries?: Prisma.EnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries
+  aircraftSeries?: Prisma.NullableEnumAircraftSeriesFieldUpdateOperationsInput | $Enums.AircraftSeries | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -763,11 +905,13 @@ export type DocumentUncheckedUpdateManyWithoutCategoryInput = {
 export type DocumentCountOutputType = {
   revisions: number
   grants: number
+  variants: number
 }
 
 export type DocumentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   revisions?: boolean | DocumentCountOutputTypeCountRevisionsArgs
   grants?: boolean | DocumentCountOutputTypeCountGrantsArgs
+  variants?: boolean | DocumentCountOutputTypeCountVariantsArgs
 }
 
 /**
@@ -794,6 +938,13 @@ export type DocumentCountOutputTypeCountGrantsArgs<ExtArgs extends runtime.Types
   where?: Prisma.DocumentEntitlementWhereInput
 }
 
+/**
+ * DocumentCountOutputType without action
+ */
+export type DocumentCountOutputTypeCountVariantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentAircraftVariantWhereInput
+}
+
 
 export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -801,6 +952,7 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   categoryId?: boolean
   slug?: boolean
   title?: boolean
+  referenceNumber?: boolean
   description?: boolean
   isRestricted?: boolean
   createdAt?: boolean
@@ -808,6 +960,7 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   category?: boolean | Prisma.DocumentCategoryDefaultArgs<ExtArgs>
   revisions?: boolean | Prisma.Document$revisionsArgs<ExtArgs>
   grants?: boolean | Prisma.Document$grantsArgs<ExtArgs>
+  variants?: boolean | Prisma.Document$variantsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["document"]>
 
@@ -817,6 +970,7 @@ export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   categoryId?: boolean
   slug?: boolean
   title?: boolean
+  referenceNumber?: boolean
   description?: boolean
   isRestricted?: boolean
   createdAt?: boolean
@@ -830,6 +984,7 @@ export type DocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   categoryId?: boolean
   slug?: boolean
   title?: boolean
+  referenceNumber?: boolean
   description?: boolean
   isRestricted?: boolean
   createdAt?: boolean
@@ -843,17 +998,19 @@ export type DocumentSelectScalar = {
   categoryId?: boolean
   slug?: boolean
   title?: boolean
+  referenceNumber?: boolean
   description?: boolean
   isRestricted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "aircraftSeries" | "categoryId" | "slug" | "title" | "description" | "isRestricted" | "createdAt" | "updatedAt", ExtArgs["result"]["document"]>
+export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "aircraftSeries" | "categoryId" | "slug" | "title" | "referenceNumber" | "description" | "isRestricted" | "createdAt" | "updatedAt", ExtArgs["result"]["document"]>
 export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.DocumentCategoryDefaultArgs<ExtArgs>
   revisions?: boolean | Prisma.Document$revisionsArgs<ExtArgs>
   grants?: boolean | Prisma.Document$grantsArgs<ExtArgs>
+  variants?: boolean | Prisma.Document$variantsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DocumentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -869,13 +1026,15 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     category: Prisma.$DocumentCategoryPayload<ExtArgs>
     revisions: Prisma.$DocumentRevisionPayload<ExtArgs>[]
     grants: Prisma.$DocumentEntitlementPayload<ExtArgs>[]
+    variants: Prisma.$DocumentAircraftVariantPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    aircraftSeries: $Enums.AircraftSeries
+    aircraftSeries: $Enums.AircraftSeries | null
     categoryId: string
     slug: string
     title: string
+    referenceNumber: string | null
     description: string | null
     isRestricted: boolean
     createdAt: Date
@@ -1277,6 +1436,7 @@ export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends runtime
   category<T extends Prisma.DocumentCategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentCategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__DocumentCategoryClient<runtime.Types.Result.GetResult<Prisma.$DocumentCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   revisions<T extends Prisma.Document$revisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$revisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentRevisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   grants<T extends Prisma.Document$grantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$grantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentEntitlementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  variants<T extends Prisma.Document$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentAircraftVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1311,6 +1471,7 @@ export interface DocumentFieldRefs {
   readonly categoryId: Prisma.FieldRef<"Document", 'String'>
   readonly slug: Prisma.FieldRef<"Document", 'String'>
   readonly title: Prisma.FieldRef<"Document", 'String'>
+  readonly referenceNumber: Prisma.FieldRef<"Document", 'String'>
   readonly description: Prisma.FieldRef<"Document", 'String'>
   readonly isRestricted: Prisma.FieldRef<"Document", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Document", 'DateTime'>
@@ -1761,6 +1922,30 @@ export type Document$grantsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.DocumentEntitlementScalarFieldEnum | Prisma.DocumentEntitlementScalarFieldEnum[]
+}
+
+/**
+ * Document.variants
+ */
+export type Document$variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentAircraftVariant
+   */
+  select?: Prisma.DocumentAircraftVariantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentAircraftVariant
+   */
+  omit?: Prisma.DocumentAircraftVariantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentAircraftVariantInclude<ExtArgs> | null
+  where?: Prisma.DocumentAircraftVariantWhereInput
+  orderBy?: Prisma.DocumentAircraftVariantOrderByWithRelationInput | Prisma.DocumentAircraftVariantOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentAircraftVariantWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentAircraftVariantScalarFieldEnum | Prisma.DocumentAircraftVariantScalarFieldEnum[]
 }
 
 /**

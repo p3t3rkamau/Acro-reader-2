@@ -58,6 +58,11 @@ export const ModelName = {
   Organization: 'Organization',
   OrganizationMember: 'OrganizationMember',
   OrganizationEntitlement: 'OrganizationEntitlement',
+  AircraftManufacturer: 'AircraftManufacturer',
+  AircraftModel: 'AircraftModel',
+  AircraftVariant: 'AircraftVariant',
+  DocumentAircraftVariant: 'DocumentAircraftVariant',
+  OrganizationEntitlementVariant: 'OrganizationEntitlementVariant',
   DocumentCategory: 'DocumentCategory',
   Document: 'Document',
   DocumentRevision: 'DocumentRevision',
@@ -171,6 +176,69 @@ export const OrganizationEntitlementScalarFieldEnum = {
 export type OrganizationEntitlementScalarFieldEnum = (typeof OrganizationEntitlementScalarFieldEnum)[keyof typeof OrganizationEntitlementScalarFieldEnum]
 
 
+export const AircraftManufacturerScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AircraftManufacturerScalarFieldEnum = (typeof AircraftManufacturerScalarFieldEnum)[keyof typeof AircraftManufacturerScalarFieldEnum]
+
+
+export const AircraftModelScalarFieldEnum = {
+  id: 'id',
+  manufacturerId: 'manufacturerId',
+  slug: 'slug',
+  name: 'name',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AircraftModelScalarFieldEnum = (typeof AircraftModelScalarFieldEnum)[keyof typeof AircraftModelScalarFieldEnum]
+
+
+export const AircraftVariantScalarFieldEnum = {
+  id: 'id',
+  modelId: 'modelId',
+  slug: 'slug',
+  name: 'name',
+  legacySeriesCode: 'legacySeriesCode',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AircraftVariantScalarFieldEnum = (typeof AircraftVariantScalarFieldEnum)[keyof typeof AircraftVariantScalarFieldEnum]
+
+
+export const DocumentAircraftVariantScalarFieldEnum = {
+  documentId: 'documentId',
+  variantId: 'variantId',
+  createdAt: 'createdAt'
+} as const
+
+export type DocumentAircraftVariantScalarFieldEnum = (typeof DocumentAircraftVariantScalarFieldEnum)[keyof typeof DocumentAircraftVariantScalarFieldEnum]
+
+
+export const OrganizationEntitlementVariantScalarFieldEnum = {
+  entitlementId: 'entitlementId',
+  variantId: 'variantId',
+  createdAt: 'createdAt'
+} as const
+
+export type OrganizationEntitlementVariantScalarFieldEnum = (typeof OrganizationEntitlementVariantScalarFieldEnum)[keyof typeof OrganizationEntitlementVariantScalarFieldEnum]
+
+
 export const DocumentCategoryScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
@@ -178,6 +246,7 @@ export const DocumentCategoryScalarFieldEnum = {
   description: 'description',
   sortOrder: 'sortOrder',
   parentId: 'parentId',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -191,6 +260,7 @@ export const DocumentScalarFieldEnum = {
   categoryId: 'categoryId',
   slug: 'slug',
   title: 'title',
+  referenceNumber: 'referenceNumber',
   description: 'description',
   isRestricted: 'isRestricted',
   createdAt: 'createdAt',
@@ -209,6 +279,9 @@ export const DocumentRevisionScalarFieldEnum = {
   changeSummary: 'changeSummary',
   storagePath: 'storagePath',
   fileUrl: 'fileUrl',
+  storageVisibility: 'storageVisibility',
+  legacyPublicStoragePath: 'legacyPublicStoragePath',
+  legacyPublicUrl: 'legacyPublicUrl',
   originalFileName: 'originalFileName',
   mimeType: 'mimeType',
   sizeBytes: 'sizeBytes',

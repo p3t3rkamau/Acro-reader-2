@@ -1,3 +1,4 @@
+
 import 'server-only';
 
 import { head } from '@vercel/blob';
@@ -61,19 +62,25 @@ export async function registerPublicDocument(input: unknown) {
   }
 
   const data = parsed.data;
-  const effectiveDate = new Date(data.effectiveDate + 'T00:00:00.000Z');
 
-  if (
-    Number.isNaN(effectiveDate.getTime()) ||
-    effectiveDate.toISOString().slice(0, 10) !== data.effectiveDate
-  ) {
-    throw new Error('Enter a valid effective date.');
-  }
+  // Validate the effective date.
+ 
 
-  const blobToken = process.env.ACRO_PRIVATE_READ_WRITE_TOKEN;
+  // Validate the effective date.
+const effectiveDate = new Date(
+  data.effectiveDate + 'T00:00:00.000Z',
+);
+
+if (
+  Number.isNaN(effectiveDate.getTime()) ||
+  effectiveDate.toISOString().slice(0, 10) !== data.effectiveDate
+) {
+  throw new Error('Enter a valid effective date.');
+}
+  const blobToken = process.env.ACROR_PRIVATE_READ_WRITE_TOKEN;
 
   if (!blobToken) {
-    console.error('[AcroReader] ACRO_PRIVATE_READ_WRITE_TOKEN is not configured.');
+    console.error('[AcroReader] ACROR_PRIVATE_READ_WRITE_TOKEN is not configured.');
     throw new Error('Private Blob storage is not configured.');
   }
 
@@ -130,9 +137,12 @@ export async function registerPublicDocument(input: unknown) {
 
   const slug = createDocumentSlug(data.title);
 
+  // Register the verified PDF and its revision in Neon.
   return prisma.$transaction(async (tx) => {
     const existingRevision = await tx.documentRevision.findUnique({
-      where: { storagePath: data.pathname },
+      where: {
+        storagePath: data.pathname,
+      },
     });
 
     if (existingRevision) return existingRevision;
@@ -181,11 +191,18 @@ export async function registerPublicDocument(input: unknown) {
       skipDuplicates: true,
     });
 
+    // Mark the previously published revision as superseded.
     await tx.documentRevision.updateMany({
-      where: { documentId: document.id, status: 'PUBLISHED' },
-      data: { status: 'SUPERSEDED' },
+      where: {
+        documentId: document.id,
+        status: 'PUBLISHED',
+      },
+      data: {
+        status: 'SUPERSEDED',
+      },
     });
 
+    // Create the new published revision.
     return tx.documentRevision.create({
       data: {
         documentId: document.id,

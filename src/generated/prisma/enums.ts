@@ -55,6 +55,14 @@ export const RevisionStatus = {
 export type RevisionStatus = (typeof RevisionStatus)[keyof typeof RevisionStatus]
 
 
+export const StorageVisibility = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE'
+} as const
+
+export type StorageVisibility = (typeof StorageVisibility)[keyof typeof StorageVisibility]
+
+
 export const AircraftSeries = {
   DASH_100: 'DASH_100',
   DASH_200: 'DASH_200',

@@ -213,11 +213,11 @@ export type EnumMembershipStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumMembershipStatusFilter<$PrismaModel>
 }
 
-export type EnumAircraftSeriesFilter<$PrismaModel = never> = {
-  equals?: $Enums.AircraftSeries | Prisma.EnumAircraftSeriesFieldRefInput<$PrismaModel>
-  in?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel>
-  notIn?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumAircraftSeriesFilter<$PrismaModel> | $Enums.AircraftSeries
+export type EnumAircraftSeriesNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.AircraftSeries | Prisma.EnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  in?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAircraftSeriesNullableFilter<$PrismaModel> | $Enums.AircraftSeries | null
 }
 
 export type EnumEntitlementStatusFilter<$PrismaModel = never> = {
@@ -227,14 +227,14 @@ export type EnumEntitlementStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumEntitlementStatusFilter<$PrismaModel> | $Enums.EntitlementStatus
 }
 
-export type EnumAircraftSeriesWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.AircraftSeries | Prisma.EnumAircraftSeriesFieldRefInput<$PrismaModel>
-  in?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel>
-  notIn?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumAircraftSeriesWithAggregatesFilter<$PrismaModel> | $Enums.AircraftSeries
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumAircraftSeriesFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumAircraftSeriesFilter<$PrismaModel>
+export type EnumAircraftSeriesNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AircraftSeries | Prisma.EnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  in?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAircraftSeriesNullableWithAggregatesFilter<$PrismaModel> | $Enums.AircraftSeries | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAircraftSeriesNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAircraftSeriesNullableFilter<$PrismaModel>
 }
 
 export type EnumEntitlementStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -258,6 +258,11 @@ export type IntFilter<$PrismaModel = never> = {
   not?: Prisma.NestedIntFilter<$PrismaModel> | number
 }
 
+export type BoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
 export type IntWithAggregatesFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -274,11 +279,6 @@ export type IntWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntFilter<$PrismaModel>
 }
 
-export type BoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
 export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
   not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -292,6 +292,13 @@ export type EnumRevisionStatusFilter<$PrismaModel = never> = {
   in?: $Enums.RevisionStatus[] | Prisma.ListEnumRevisionStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.RevisionStatus[] | Prisma.ListEnumRevisionStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumRevisionStatusFilter<$PrismaModel> | $Enums.RevisionStatus
+}
+
+export type EnumStorageVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.StorageVisibility | Prisma.EnumStorageVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.StorageVisibility[] | Prisma.ListEnumStorageVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StorageVisibility[] | Prisma.ListEnumStorageVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStorageVisibilityFilter<$PrismaModel> | $Enums.StorageVisibility
 }
 
 export type BigIntNullableFilter<$PrismaModel = never> = {
@@ -313,6 +320,16 @@ export type EnumRevisionStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumRevisionStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumRevisionStatusFilter<$PrismaModel>
+}
+
+export type EnumStorageVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StorageVisibility | Prisma.EnumStorageVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.StorageVisibility[] | Prisma.ListEnumStorageVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StorageVisibility[] | Prisma.ListEnumStorageVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStorageVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.StorageVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStorageVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStorageVisibilityFilter<$PrismaModel>
 }
 
 export type BigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -543,11 +560,11 @@ export type NestedEnumMembershipStatusWithAggregatesFilter<$PrismaModel = never>
   _max?: Prisma.NestedEnumMembershipStatusFilter<$PrismaModel>
 }
 
-export type NestedEnumAircraftSeriesFilter<$PrismaModel = never> = {
-  equals?: $Enums.AircraftSeries | Prisma.EnumAircraftSeriesFieldRefInput<$PrismaModel>
-  in?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel>
-  notIn?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumAircraftSeriesFilter<$PrismaModel> | $Enums.AircraftSeries
+export type NestedEnumAircraftSeriesNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.AircraftSeries | Prisma.EnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  in?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAircraftSeriesNullableFilter<$PrismaModel> | $Enums.AircraftSeries | null
 }
 
 export type NestedEnumEntitlementStatusFilter<$PrismaModel = never> = {
@@ -557,14 +574,14 @@ export type NestedEnumEntitlementStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumEntitlementStatusFilter<$PrismaModel> | $Enums.EntitlementStatus
 }
 
-export type NestedEnumAircraftSeriesWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.AircraftSeries | Prisma.EnumAircraftSeriesFieldRefInput<$PrismaModel>
-  in?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel>
-  notIn?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumAircraftSeriesWithAggregatesFilter<$PrismaModel> | $Enums.AircraftSeries
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumAircraftSeriesFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumAircraftSeriesFilter<$PrismaModel>
+export type NestedEnumAircraftSeriesNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AircraftSeries | Prisma.EnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  in?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.AircraftSeries[] | Prisma.ListEnumAircraftSeriesFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAircraftSeriesNullableWithAggregatesFilter<$PrismaModel> | $Enums.AircraftSeries | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAircraftSeriesNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAircraftSeriesNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumEntitlementStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -575,6 +592,11 @@ export type NestedEnumEntitlementStatusWithAggregatesFilter<$PrismaModel = never
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumEntitlementStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumEntitlementStatusFilter<$PrismaModel>
+}
+
+export type NestedBoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
 }
 
 export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -604,11 +626,6 @@ export type NestedFloatFilter<$PrismaModel = never> = {
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
 }
 
-export type NestedBoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
 export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
   not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -622,6 +639,13 @@ export type NestedEnumRevisionStatusFilter<$PrismaModel = never> = {
   in?: $Enums.RevisionStatus[] | Prisma.ListEnumRevisionStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.RevisionStatus[] | Prisma.ListEnumRevisionStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumRevisionStatusFilter<$PrismaModel> | $Enums.RevisionStatus
+}
+
+export type NestedEnumStorageVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.StorageVisibility | Prisma.EnumStorageVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.StorageVisibility[] | Prisma.ListEnumStorageVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StorageVisibility[] | Prisma.ListEnumStorageVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStorageVisibilityFilter<$PrismaModel> | $Enums.StorageVisibility
 }
 
 export type NestedBigIntNullableFilter<$PrismaModel = never> = {
@@ -643,6 +667,16 @@ export type NestedEnumRevisionStatusWithAggregatesFilter<$PrismaModel = never> =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumRevisionStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumRevisionStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumStorageVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StorageVisibility | Prisma.EnumStorageVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.StorageVisibility[] | Prisma.ListEnumStorageVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StorageVisibility[] | Prisma.ListEnumStorageVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStorageVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.StorageVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStorageVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStorageVisibilityFilter<$PrismaModel>
 }
 
 export type NestedBigIntNullableWithAggregatesFilter<$PrismaModel = never> = {

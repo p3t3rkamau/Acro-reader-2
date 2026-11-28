@@ -41,6 +41,7 @@ export type DocumentCategoryMinAggregateOutputType = {
   description: string | null
   sortOrder: number | null
   parentId: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +53,7 @@ export type DocumentCategoryMaxAggregateOutputType = {
   description: string | null
   sortOrder: number | null
   parentId: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -63,6 +65,7 @@ export type DocumentCategoryCountAggregateOutputType = {
   description: number
   sortOrder: number
   parentId: number
+  isActive: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -84,6 +87,7 @@ export type DocumentCategoryMinAggregateInputType = {
   description?: true
   sortOrder?: true
   parentId?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -95,6 +99,7 @@ export type DocumentCategoryMaxAggregateInputType = {
   description?: true
   sortOrder?: true
   parentId?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +111,7 @@ export type DocumentCategoryCountAggregateInputType = {
   description?: true
   sortOrder?: true
   parentId?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -204,6 +210,7 @@ export type DocumentCategoryGroupByOutputType = {
   description: string | null
   sortOrder: number
   parentId: string | null
+  isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: DocumentCategoryCountAggregateOutputType | null
@@ -238,6 +245,7 @@ export type DocumentCategoryWhereInput = {
   description?: Prisma.StringNullableFilter<"DocumentCategory"> | string | null
   sortOrder?: Prisma.IntFilter<"DocumentCategory"> | number
   parentId?: Prisma.StringNullableFilter<"DocumentCategory"> | string | null
+  isActive?: Prisma.BoolFilter<"DocumentCategory"> | boolean
   createdAt?: Prisma.DateTimeFilter<"DocumentCategory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocumentCategory"> | Date | string
   parent?: Prisma.XOR<Prisma.DocumentCategoryNullableScalarRelationFilter, Prisma.DocumentCategoryWhereInput> | null
@@ -252,6 +260,7 @@ export type DocumentCategoryOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   parent?: Prisma.DocumentCategoryOrderByWithRelationInput
@@ -269,6 +278,7 @@ export type DocumentCategoryWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"DocumentCategory"> | string | null
   sortOrder?: Prisma.IntFilter<"DocumentCategory"> | number
   parentId?: Prisma.StringNullableFilter<"DocumentCategory"> | string | null
+  isActive?: Prisma.BoolFilter<"DocumentCategory"> | boolean
   createdAt?: Prisma.DateTimeFilter<"DocumentCategory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocumentCategory"> | Date | string
   parent?: Prisma.XOR<Prisma.DocumentCategoryNullableScalarRelationFilter, Prisma.DocumentCategoryWhereInput> | null
@@ -283,6 +293,7 @@ export type DocumentCategoryOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DocumentCategoryCountOrderByAggregateInput
@@ -302,6 +313,7 @@ export type DocumentCategoryScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"DocumentCategory"> | string | null
   sortOrder?: Prisma.IntWithAggregatesFilter<"DocumentCategory"> | number
   parentId?: Prisma.StringNullableWithAggregatesFilter<"DocumentCategory"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"DocumentCategory"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DocumentCategory"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DocumentCategory"> | Date | string
 }
@@ -312,6 +324,7 @@ export type DocumentCategoryCreateInput = {
   title: string
   description?: string | null
   sortOrder?: number
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   parent?: Prisma.DocumentCategoryCreateNestedOneWithoutChildrenInput
@@ -326,6 +339,7 @@ export type DocumentCategoryUncheckedCreateInput = {
   description?: string | null
   sortOrder?: number
   parentId?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   children?: Prisma.DocumentCategoryUncheckedCreateNestedManyWithoutParentInput
@@ -338,6 +352,7 @@ export type DocumentCategoryUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.DocumentCategoryUpdateOneWithoutChildrenNestedInput
@@ -352,6 +367,7 @@ export type DocumentCategoryUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.DocumentCategoryUncheckedUpdateManyWithoutParentNestedInput
@@ -365,6 +381,7 @@ export type DocumentCategoryCreateManyInput = {
   description?: string | null
   sortOrder?: number
   parentId?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -375,6 +392,7 @@ export type DocumentCategoryUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -386,6 +404,7 @@ export type DocumentCategoryUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -412,6 +431,7 @@ export type DocumentCategoryCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -427,6 +447,7 @@ export type DocumentCategoryMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -438,6 +459,7 @@ export type DocumentCategoryMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -469,14 +491,6 @@ export type DocumentCategoryUncheckedCreateNestedManyWithoutParentInput = {
   connectOrCreate?: Prisma.DocumentCategoryCreateOrConnectWithoutParentInput | Prisma.DocumentCategoryCreateOrConnectWithoutParentInput[]
   createMany?: Prisma.DocumentCategoryCreateManyParentInputEnvelope
   connect?: Prisma.DocumentCategoryWhereUniqueInput | Prisma.DocumentCategoryWhereUniqueInput[]
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type DocumentCategoryUpdateOneWithoutChildrenNestedInput = {
@@ -537,6 +551,7 @@ export type DocumentCategoryCreateWithoutChildrenInput = {
   title: string
   description?: string | null
   sortOrder?: number
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   parent?: Prisma.DocumentCategoryCreateNestedOneWithoutChildrenInput
@@ -550,6 +565,7 @@ export type DocumentCategoryUncheckedCreateWithoutChildrenInput = {
   description?: string | null
   sortOrder?: number
   parentId?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutCategoryInput
@@ -566,6 +582,7 @@ export type DocumentCategoryCreateWithoutParentInput = {
   title: string
   description?: string | null
   sortOrder?: number
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   children?: Prisma.DocumentCategoryCreateNestedManyWithoutParentInput
@@ -578,6 +595,7 @@ export type DocumentCategoryUncheckedCreateWithoutParentInput = {
   title: string
   description?: string | null
   sortOrder?: number
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   children?: Prisma.DocumentCategoryUncheckedCreateNestedManyWithoutParentInput
@@ -611,6 +629,7 @@ export type DocumentCategoryUpdateWithoutChildrenInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.DocumentCategoryUpdateOneWithoutChildrenNestedInput
@@ -624,6 +643,7 @@ export type DocumentCategoryUncheckedUpdateWithoutChildrenInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutCategoryNestedInput
@@ -655,6 +675,7 @@ export type DocumentCategoryScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"DocumentCategory"> | string | null
   sortOrder?: Prisma.IntFilter<"DocumentCategory"> | number
   parentId?: Prisma.StringNullableFilter<"DocumentCategory"> | string | null
+  isActive?: Prisma.BoolFilter<"DocumentCategory"> | boolean
   createdAt?: Prisma.DateTimeFilter<"DocumentCategory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocumentCategory"> | Date | string
 }
@@ -665,6 +686,7 @@ export type DocumentCategoryCreateWithoutDocumentsInput = {
   title: string
   description?: string | null
   sortOrder?: number
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   parent?: Prisma.DocumentCategoryCreateNestedOneWithoutChildrenInput
@@ -678,6 +700,7 @@ export type DocumentCategoryUncheckedCreateWithoutDocumentsInput = {
   description?: string | null
   sortOrder?: number
   parentId?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   children?: Prisma.DocumentCategoryUncheckedCreateNestedManyWithoutParentInput
@@ -705,6 +728,7 @@ export type DocumentCategoryUpdateWithoutDocumentsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.DocumentCategoryUpdateOneWithoutChildrenNestedInput
@@ -718,6 +742,7 @@ export type DocumentCategoryUncheckedUpdateWithoutDocumentsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.DocumentCategoryUncheckedUpdateManyWithoutParentNestedInput
@@ -729,6 +754,7 @@ export type DocumentCategoryCreateManyParentInput = {
   title: string
   description?: string | null
   sortOrder?: number
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -739,6 +765,7 @@ export type DocumentCategoryUpdateWithoutParentInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.DocumentCategoryUpdateManyWithoutParentNestedInput
@@ -751,6 +778,7 @@ export type DocumentCategoryUncheckedUpdateWithoutParentInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.DocumentCategoryUncheckedUpdateManyWithoutParentNestedInput
@@ -763,6 +791,7 @@ export type DocumentCategoryUncheckedUpdateManyWithoutParentInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -814,6 +843,7 @@ export type DocumentCategorySelect<ExtArgs extends runtime.Types.Extensions.Inte
   description?: boolean
   sortOrder?: boolean
   parentId?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   parent?: boolean | Prisma.DocumentCategory$parentArgs<ExtArgs>
@@ -829,6 +859,7 @@ export type DocumentCategorySelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   description?: boolean
   sortOrder?: boolean
   parentId?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   parent?: boolean | Prisma.DocumentCategory$parentArgs<ExtArgs>
@@ -841,6 +872,7 @@ export type DocumentCategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   description?: boolean
   sortOrder?: boolean
   parentId?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   parent?: boolean | Prisma.DocumentCategory$parentArgs<ExtArgs>
@@ -853,11 +885,12 @@ export type DocumentCategorySelectScalar = {
   description?: boolean
   sortOrder?: boolean
   parentId?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DocumentCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "sortOrder" | "parentId" | "createdAt" | "updatedAt", ExtArgs["result"]["documentCategory"]>
+export type DocumentCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "sortOrder" | "parentId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["documentCategory"]>
 export type DocumentCategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   parent?: boolean | Prisma.DocumentCategory$parentArgs<ExtArgs>
   children?: boolean | Prisma.DocumentCategory$childrenArgs<ExtArgs>
@@ -885,6 +918,7 @@ export type $DocumentCategoryPayload<ExtArgs extends runtime.Types.Extensions.In
     description: string | null
     sortOrder: number
     parentId: string | null
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["documentCategory"]>
@@ -1319,6 +1353,7 @@ export interface DocumentCategoryFieldRefs {
   readonly description: Prisma.FieldRef<"DocumentCategory", 'String'>
   readonly sortOrder: Prisma.FieldRef<"DocumentCategory", 'Int'>
   readonly parentId: Prisma.FieldRef<"DocumentCategory", 'String'>
+  readonly isActive: Prisma.FieldRef<"DocumentCategory", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"DocumentCategory", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"DocumentCategory", 'DateTime'>
 }

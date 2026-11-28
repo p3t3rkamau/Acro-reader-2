@@ -43,6 +43,9 @@ export type DocumentRevisionMinAggregateOutputType = {
   changeSummary: string | null
   storagePath: string | null
   fileUrl: string | null
+  storageVisibility: $Enums.StorageVisibility | null
+  legacyPublicStoragePath: string | null
+  legacyPublicUrl: string | null
   originalFileName: string | null
   mimeType: string | null
   sizeBytes: bigint | null
@@ -63,6 +66,9 @@ export type DocumentRevisionMaxAggregateOutputType = {
   changeSummary: string | null
   storagePath: string | null
   fileUrl: string | null
+  storageVisibility: $Enums.StorageVisibility | null
+  legacyPublicStoragePath: string | null
+  legacyPublicUrl: string | null
   originalFileName: string | null
   mimeType: string | null
   sizeBytes: bigint | null
@@ -83,6 +89,9 @@ export type DocumentRevisionCountAggregateOutputType = {
   changeSummary: number
   storagePath: number
   fileUrl: number
+  storageVisibility: number
+  legacyPublicStoragePath: number
+  legacyPublicUrl: number
   originalFileName: number
   mimeType: number
   sizeBytes: number
@@ -113,6 +122,9 @@ export type DocumentRevisionMinAggregateInputType = {
   changeSummary?: true
   storagePath?: true
   fileUrl?: true
+  storageVisibility?: true
+  legacyPublicStoragePath?: true
+  legacyPublicUrl?: true
   originalFileName?: true
   mimeType?: true
   sizeBytes?: true
@@ -133,6 +145,9 @@ export type DocumentRevisionMaxAggregateInputType = {
   changeSummary?: true
   storagePath?: true
   fileUrl?: true
+  storageVisibility?: true
+  legacyPublicStoragePath?: true
+  legacyPublicUrl?: true
   originalFileName?: true
   mimeType?: true
   sizeBytes?: true
@@ -153,6 +168,9 @@ export type DocumentRevisionCountAggregateInputType = {
   changeSummary?: true
   storagePath?: true
   fileUrl?: true
+  storageVisibility?: true
+  legacyPublicStoragePath?: true
+  legacyPublicUrl?: true
   originalFileName?: true
   mimeType?: true
   sizeBytes?: true
@@ -260,6 +278,9 @@ export type DocumentRevisionGroupByOutputType = {
   changeSummary: string | null
   storagePath: string | null
   fileUrl: string | null
+  storageVisibility: $Enums.StorageVisibility
+  legacyPublicStoragePath: string | null
+  legacyPublicUrl: string | null
   originalFileName: string | null
   mimeType: string
   sizeBytes: bigint | null
@@ -303,6 +324,9 @@ export type DocumentRevisionWhereInput = {
   changeSummary?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   storagePath?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   fileUrl?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFilter<"DocumentRevision"> | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
+  legacyPublicUrl?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   originalFileName?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   mimeType?: Prisma.StringFilter<"DocumentRevision"> | string
   sizeBytes?: Prisma.BigIntNullableFilter<"DocumentRevision"> | bigint | number | null
@@ -327,6 +351,9 @@ export type DocumentRevisionOrderByWithRelationInput = {
   changeSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   storagePath?: Prisma.SortOrderInput | Prisma.SortOrder
   fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  storageVisibility?: Prisma.SortOrder
+  legacyPublicStoragePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  legacyPublicUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   originalFileName?: Prisma.SortOrderInput | Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -356,6 +383,9 @@ export type DocumentRevisionWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumRevisionStatusFilter<"DocumentRevision"> | $Enums.RevisionStatus
   changeSummary?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   fileUrl?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFilter<"DocumentRevision"> | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
+  legacyPublicUrl?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   originalFileName?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   mimeType?: Prisma.StringFilter<"DocumentRevision"> | string
   sizeBytes?: Prisma.BigIntNullableFilter<"DocumentRevision"> | bigint | number | null
@@ -379,6 +409,9 @@ export type DocumentRevisionOrderByWithAggregationInput = {
   changeSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   storagePath?: Prisma.SortOrderInput | Prisma.SortOrder
   fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  storageVisibility?: Prisma.SortOrder
+  legacyPublicStoragePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  legacyPublicUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   originalFileName?: Prisma.SortOrderInput | Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -407,6 +440,9 @@ export type DocumentRevisionScalarWhereWithAggregatesInput = {
   changeSummary?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
   storagePath?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
   fileUrl?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityWithAggregatesFilter<"DocumentRevision"> | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
+  legacyPublicUrl?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
   originalFileName?: Prisma.StringNullableWithAggregatesFilter<"DocumentRevision"> | string | null
   mimeType?: Prisma.StringWithAggregatesFilter<"DocumentRevision"> | string
   sizeBytes?: Prisma.BigIntNullableWithAggregatesFilter<"DocumentRevision"> | bigint | number | null
@@ -426,6 +462,9 @@ export type DocumentRevisionCreateInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -448,6 +487,9 @@ export type DocumentRevisionUncheckedCreateInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -468,6 +510,9 @@ export type DocumentRevisionUpdateInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -490,6 +535,9 @@ export type DocumentRevisionUncheckedUpdateInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -511,6 +559,9 @@ export type DocumentRevisionCreateManyInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -530,6 +581,9 @@ export type DocumentRevisionUpdateManyMutationInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -548,6 +602,9 @@ export type DocumentRevisionUncheckedUpdateManyInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -588,6 +645,9 @@ export type DocumentRevisionCountOrderByAggregateInput = {
   changeSummary?: Prisma.SortOrder
   storagePath?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
+  storageVisibility?: Prisma.SortOrder
+  legacyPublicStoragePath?: Prisma.SortOrder
+  legacyPublicUrl?: Prisma.SortOrder
   originalFileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
@@ -612,6 +672,9 @@ export type DocumentRevisionMaxOrderByAggregateInput = {
   changeSummary?: Prisma.SortOrder
   storagePath?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
+  storageVisibility?: Prisma.SortOrder
+  legacyPublicStoragePath?: Prisma.SortOrder
+  legacyPublicUrl?: Prisma.SortOrder
   originalFileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
@@ -632,6 +695,9 @@ export type DocumentRevisionMinOrderByAggregateInput = {
   changeSummary?: Prisma.SortOrder
   storagePath?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
+  storageVisibility?: Prisma.SortOrder
+  legacyPublicStoragePath?: Prisma.SortOrder
+  legacyPublicUrl?: Prisma.SortOrder
   originalFileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
@@ -753,6 +819,10 @@ export type EnumRevisionStatusFieldUpdateOperationsInput = {
   set?: $Enums.RevisionStatus
 }
 
+export type EnumStorageVisibilityFieldUpdateOperationsInput = {
+  set?: $Enums.StorageVisibility
+}
+
 export type NullableBigIntFieldUpdateOperationsInput = {
   set?: bigint | number | null
   increment?: bigint | number
@@ -799,6 +869,9 @@ export type DocumentRevisionCreateWithoutUploadedByInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -820,6 +893,9 @@ export type DocumentRevisionUncheckedCreateWithoutUploadedByInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -869,6 +945,9 @@ export type DocumentRevisionScalarWhereInput = {
   changeSummary?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   storagePath?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   fileUrl?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFilter<"DocumentRevision"> | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
+  legacyPublicUrl?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   originalFileName?: Prisma.StringNullableFilter<"DocumentRevision"> | string | null
   mimeType?: Prisma.StringFilter<"DocumentRevision"> | string
   sizeBytes?: Prisma.BigIntNullableFilter<"DocumentRevision"> | bigint | number | null
@@ -888,6 +967,9 @@ export type DocumentRevisionCreateWithoutDocumentInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -908,6 +990,9 @@ export type DocumentRevisionUncheckedCreateWithoutDocumentInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -954,6 +1039,9 @@ export type DocumentRevisionCreateWithoutSupersededByInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -975,6 +1063,9 @@ export type DocumentRevisionUncheckedCreateWithoutSupersededByInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -999,6 +1090,9 @@ export type DocumentRevisionCreateWithoutSupersedesInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -1020,6 +1114,9 @@ export type DocumentRevisionUncheckedCreateWithoutSupersedesInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -1055,6 +1152,9 @@ export type DocumentRevisionUpdateWithoutSupersededByInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1076,6 +1176,9 @@ export type DocumentRevisionUncheckedUpdateWithoutSupersededByInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1106,6 +1209,9 @@ export type DocumentRevisionUpdateWithoutSupersedesInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1127,6 +1233,9 @@ export type DocumentRevisionUncheckedUpdateWithoutSupersedesInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1147,6 +1256,9 @@ export type DocumentRevisionCreateManyUploadedByInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -1165,6 +1277,9 @@ export type DocumentRevisionUpdateWithoutUploadedByInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1186,6 +1301,9 @@ export type DocumentRevisionUncheckedUpdateWithoutUploadedByInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1206,6 +1324,9 @@ export type DocumentRevisionUncheckedUpdateManyWithoutUploadedByInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1224,6 +1345,9 @@ export type DocumentRevisionCreateManyDocumentInput = {
   changeSummary?: string | null
   storagePath?: string | null
   fileUrl?: string | null
+  storageVisibility?: $Enums.StorageVisibility
+  legacyPublicStoragePath?: string | null
+  legacyPublicUrl?: string | null
   originalFileName?: string | null
   mimeType?: string
   sizeBytes?: bigint | number | null
@@ -1243,6 +1367,9 @@ export type DocumentRevisionUpdateWithoutDocumentInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1263,6 +1390,9 @@ export type DocumentRevisionUncheckedUpdateWithoutDocumentInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1283,6 +1413,9 @@ export type DocumentRevisionUncheckedUpdateManyWithoutDocumentInput = {
   changeSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageVisibility?: Prisma.EnumStorageVisibilityFieldUpdateOperationsInput | $Enums.StorageVisibility
+  legacyPublicStoragePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legacyPublicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1305,6 +1438,9 @@ export type DocumentRevisionSelect<ExtArgs extends runtime.Types.Extensions.Inte
   changeSummary?: boolean
   storagePath?: boolean
   fileUrl?: boolean
+  storageVisibility?: boolean
+  legacyPublicStoragePath?: boolean
+  legacyPublicUrl?: boolean
   originalFileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
@@ -1329,6 +1465,9 @@ export type DocumentRevisionSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   changeSummary?: boolean
   storagePath?: boolean
   fileUrl?: boolean
+  storageVisibility?: boolean
+  legacyPublicStoragePath?: boolean
+  legacyPublicUrl?: boolean
   originalFileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
@@ -1352,6 +1491,9 @@ export type DocumentRevisionSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   changeSummary?: boolean
   storagePath?: boolean
   fileUrl?: boolean
+  storageVisibility?: boolean
+  legacyPublicStoragePath?: boolean
+  legacyPublicUrl?: boolean
   originalFileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
@@ -1375,6 +1517,9 @@ export type DocumentRevisionSelectScalar = {
   changeSummary?: boolean
   storagePath?: boolean
   fileUrl?: boolean
+  storageVisibility?: boolean
+  legacyPublicStoragePath?: boolean
+  legacyPublicUrl?: boolean
   originalFileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
@@ -1386,7 +1531,7 @@ export type DocumentRevisionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type DocumentRevisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentId" | "revision" | "effectiveDate" | "status" | "changeSummary" | "storagePath" | "fileUrl" | "originalFileName" | "mimeType" | "sizeBytes" | "checksum" | "uploadedById" | "supersedesId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["documentRevision"]>
+export type DocumentRevisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentId" | "revision" | "effectiveDate" | "status" | "changeSummary" | "storagePath" | "fileUrl" | "storageVisibility" | "legacyPublicStoragePath" | "legacyPublicUrl" | "originalFileName" | "mimeType" | "sizeBytes" | "checksum" | "uploadedById" | "supersedesId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["documentRevision"]>
 export type DocumentRevisionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.DocumentRevision$uploadedByArgs<ExtArgs>
@@ -1421,6 +1566,9 @@ export type $DocumentRevisionPayload<ExtArgs extends runtime.Types.Extensions.In
     changeSummary: string | null
     storagePath: string | null
     fileUrl: string | null
+    storageVisibility: $Enums.StorageVisibility
+    legacyPublicStoragePath: string | null
+    legacyPublicUrl: string | null
     originalFileName: string | null
     mimeType: string
     sizeBytes: bigint | null
@@ -1865,6 +2013,9 @@ export interface DocumentRevisionFieldRefs {
   readonly changeSummary: Prisma.FieldRef<"DocumentRevision", 'String'>
   readonly storagePath: Prisma.FieldRef<"DocumentRevision", 'String'>
   readonly fileUrl: Prisma.FieldRef<"DocumentRevision", 'String'>
+  readonly storageVisibility: Prisma.FieldRef<"DocumentRevision", 'StorageVisibility'>
+  readonly legacyPublicStoragePath: Prisma.FieldRef<"DocumentRevision", 'String'>
+  readonly legacyPublicUrl: Prisma.FieldRef<"DocumentRevision", 'String'>
   readonly originalFileName: Prisma.FieldRef<"DocumentRevision", 'String'>
   readonly mimeType: Prisma.FieldRef<"DocumentRevision", 'String'>
   readonly sizeBytes: Prisma.FieldRef<"DocumentRevision", 'BigInt'>

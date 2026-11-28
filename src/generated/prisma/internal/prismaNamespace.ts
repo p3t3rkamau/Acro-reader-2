@@ -404,6 +404,11 @@ export const ModelName = {
   Organization: 'Organization',
   OrganizationMember: 'OrganizationMember',
   OrganizationEntitlement: 'OrganizationEntitlement',
+  AircraftManufacturer: 'AircraftManufacturer',
+  AircraftModel: 'AircraftModel',
+  AircraftVariant: 'AircraftVariant',
+  DocumentAircraftVariant: 'DocumentAircraftVariant',
+  OrganizationEntitlementVariant: 'OrganizationEntitlementVariant',
   DocumentCategory: 'DocumentCategory',
   Document: 'Document',
   DocumentRevision: 'DocumentRevision',
@@ -423,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "organizationEntitlement" | "documentCategory" | "document" | "documentRevision" | "documentEntitlement"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "organizationEntitlement" | "aircraftManufacturer" | "aircraftModel" | "aircraftVariant" | "documentAircraftVariant" | "organizationEntitlementVariant" | "documentCategory" | "document" | "documentRevision" | "documentEntitlement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -945,6 +950,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AircraftManufacturer: {
+      payload: Prisma.$AircraftManufacturerPayload<ExtArgs>
+      fields: Prisma.AircraftManufacturerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AircraftManufacturerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AircraftManufacturerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload>
+        }
+        findFirst: {
+          args: Prisma.AircraftManufacturerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AircraftManufacturerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload>
+        }
+        findMany: {
+          args: Prisma.AircraftManufacturerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload>[]
+        }
+        create: {
+          args: Prisma.AircraftManufacturerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload>
+        }
+        createMany: {
+          args: Prisma.AircraftManufacturerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AircraftManufacturerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload>[]
+        }
+        delete: {
+          args: Prisma.AircraftManufacturerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload>
+        }
+        update: {
+          args: Prisma.AircraftManufacturerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload>
+        }
+        deleteMany: {
+          args: Prisma.AircraftManufacturerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AircraftManufacturerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AircraftManufacturerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload>[]
+        }
+        upsert: {
+          args: Prisma.AircraftManufacturerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftManufacturerPayload>
+        }
+        aggregate: {
+          args: Prisma.AircraftManufacturerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAircraftManufacturer>
+        }
+        groupBy: {
+          args: Prisma.AircraftManufacturerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AircraftManufacturerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AircraftManufacturerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AircraftManufacturerCountAggregateOutputType> | number
+        }
+      }
+    }
+    AircraftModel: {
+      payload: Prisma.$AircraftModelPayload<ExtArgs>
+      fields: Prisma.AircraftModelFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AircraftModelFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AircraftModelFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload>
+        }
+        findFirst: {
+          args: Prisma.AircraftModelFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AircraftModelFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload>
+        }
+        findMany: {
+          args: Prisma.AircraftModelFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload>[]
+        }
+        create: {
+          args: Prisma.AircraftModelCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload>
+        }
+        createMany: {
+          args: Prisma.AircraftModelCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AircraftModelCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload>[]
+        }
+        delete: {
+          args: Prisma.AircraftModelDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload>
+        }
+        update: {
+          args: Prisma.AircraftModelUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload>
+        }
+        deleteMany: {
+          args: Prisma.AircraftModelDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AircraftModelUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AircraftModelUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload>[]
+        }
+        upsert: {
+          args: Prisma.AircraftModelUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftModelPayload>
+        }
+        aggregate: {
+          args: Prisma.AircraftModelAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAircraftModel>
+        }
+        groupBy: {
+          args: Prisma.AircraftModelGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AircraftModelGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AircraftModelCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AircraftModelCountAggregateOutputType> | number
+        }
+      }
+    }
+    AircraftVariant: {
+      payload: Prisma.$AircraftVariantPayload<ExtArgs>
+      fields: Prisma.AircraftVariantFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AircraftVariantFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AircraftVariantFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload>
+        }
+        findFirst: {
+          args: Prisma.AircraftVariantFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AircraftVariantFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload>
+        }
+        findMany: {
+          args: Prisma.AircraftVariantFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload>[]
+        }
+        create: {
+          args: Prisma.AircraftVariantCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload>
+        }
+        createMany: {
+          args: Prisma.AircraftVariantCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AircraftVariantCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload>[]
+        }
+        delete: {
+          args: Prisma.AircraftVariantDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload>
+        }
+        update: {
+          args: Prisma.AircraftVariantUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload>
+        }
+        deleteMany: {
+          args: Prisma.AircraftVariantDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AircraftVariantUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AircraftVariantUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload>[]
+        }
+        upsert: {
+          args: Prisma.AircraftVariantUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AircraftVariantPayload>
+        }
+        aggregate: {
+          args: Prisma.AircraftVariantAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAircraftVariant>
+        }
+        groupBy: {
+          args: Prisma.AircraftVariantGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AircraftVariantGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AircraftVariantCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AircraftVariantCountAggregateOutputType> | number
+        }
+      }
+    }
+    DocumentAircraftVariant: {
+      payload: Prisma.$DocumentAircraftVariantPayload<ExtArgs>
+      fields: Prisma.DocumentAircraftVariantFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DocumentAircraftVariantFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DocumentAircraftVariantFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload>
+        }
+        findFirst: {
+          args: Prisma.DocumentAircraftVariantFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DocumentAircraftVariantFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload>
+        }
+        findMany: {
+          args: Prisma.DocumentAircraftVariantFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload>[]
+        }
+        create: {
+          args: Prisma.DocumentAircraftVariantCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload>
+        }
+        createMany: {
+          args: Prisma.DocumentAircraftVariantCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DocumentAircraftVariantCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload>[]
+        }
+        delete: {
+          args: Prisma.DocumentAircraftVariantDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload>
+        }
+        update: {
+          args: Prisma.DocumentAircraftVariantUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload>
+        }
+        deleteMany: {
+          args: Prisma.DocumentAircraftVariantDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DocumentAircraftVariantUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DocumentAircraftVariantUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload>[]
+        }
+        upsert: {
+          args: Prisma.DocumentAircraftVariantUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentAircraftVariantPayload>
+        }
+        aggregate: {
+          args: Prisma.DocumentAircraftVariantAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDocumentAircraftVariant>
+        }
+        groupBy: {
+          args: Prisma.DocumentAircraftVariantGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentAircraftVariantGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DocumentAircraftVariantCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentAircraftVariantCountAggregateOutputType> | number
+        }
+      }
+    }
+    OrganizationEntitlementVariant: {
+      payload: Prisma.$OrganizationEntitlementVariantPayload<ExtArgs>
+      fields: Prisma.OrganizationEntitlementVariantFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OrganizationEntitlementVariantFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OrganizationEntitlementVariantFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload>
+        }
+        findFirst: {
+          args: Prisma.OrganizationEntitlementVariantFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OrganizationEntitlementVariantFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload>
+        }
+        findMany: {
+          args: Prisma.OrganizationEntitlementVariantFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload>[]
+        }
+        create: {
+          args: Prisma.OrganizationEntitlementVariantCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload>
+        }
+        createMany: {
+          args: Prisma.OrganizationEntitlementVariantCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OrganizationEntitlementVariantCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload>[]
+        }
+        delete: {
+          args: Prisma.OrganizationEntitlementVariantDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload>
+        }
+        update: {
+          args: Prisma.OrganizationEntitlementVariantUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload>
+        }
+        deleteMany: {
+          args: Prisma.OrganizationEntitlementVariantDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OrganizationEntitlementVariantUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OrganizationEntitlementVariantUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload>[]
+        }
+        upsert: {
+          args: Prisma.OrganizationEntitlementVariantUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationEntitlementVariantPayload>
+        }
+        aggregate: {
+          args: Prisma.OrganizationEntitlementVariantAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrganizationEntitlementVariant>
+        }
+        groupBy: {
+          args: Prisma.OrganizationEntitlementVariantGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrganizationEntitlementVariantGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OrganizationEntitlementVariantCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrganizationEntitlementVariantCountAggregateOutputType> | number
+        }
+      }
+    }
     DocumentCategory: {
       payload: Prisma.$DocumentCategoryPayload<ExtArgs>
       fields: Prisma.DocumentCategoryFieldRefs
@@ -1371,6 +1746,69 @@ export const OrganizationEntitlementScalarFieldEnum = {
 export type OrganizationEntitlementScalarFieldEnum = (typeof OrganizationEntitlementScalarFieldEnum)[keyof typeof OrganizationEntitlementScalarFieldEnum]
 
 
+export const AircraftManufacturerScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AircraftManufacturerScalarFieldEnum = (typeof AircraftManufacturerScalarFieldEnum)[keyof typeof AircraftManufacturerScalarFieldEnum]
+
+
+export const AircraftModelScalarFieldEnum = {
+  id: 'id',
+  manufacturerId: 'manufacturerId',
+  slug: 'slug',
+  name: 'name',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AircraftModelScalarFieldEnum = (typeof AircraftModelScalarFieldEnum)[keyof typeof AircraftModelScalarFieldEnum]
+
+
+export const AircraftVariantScalarFieldEnum = {
+  id: 'id',
+  modelId: 'modelId',
+  slug: 'slug',
+  name: 'name',
+  legacySeriesCode: 'legacySeriesCode',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AircraftVariantScalarFieldEnum = (typeof AircraftVariantScalarFieldEnum)[keyof typeof AircraftVariantScalarFieldEnum]
+
+
+export const DocumentAircraftVariantScalarFieldEnum = {
+  documentId: 'documentId',
+  variantId: 'variantId',
+  createdAt: 'createdAt'
+} as const
+
+export type DocumentAircraftVariantScalarFieldEnum = (typeof DocumentAircraftVariantScalarFieldEnum)[keyof typeof DocumentAircraftVariantScalarFieldEnum]
+
+
+export const OrganizationEntitlementVariantScalarFieldEnum = {
+  entitlementId: 'entitlementId',
+  variantId: 'variantId',
+  createdAt: 'createdAt'
+} as const
+
+export type OrganizationEntitlementVariantScalarFieldEnum = (typeof OrganizationEntitlementVariantScalarFieldEnum)[keyof typeof OrganizationEntitlementVariantScalarFieldEnum]
+
+
 export const DocumentCategoryScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
@@ -1378,6 +1816,7 @@ export const DocumentCategoryScalarFieldEnum = {
   description: 'description',
   sortOrder: 'sortOrder',
   parentId: 'parentId',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1391,6 +1830,7 @@ export const DocumentScalarFieldEnum = {
   categoryId: 'categoryId',
   slug: 'slug',
   title: 'title',
+  referenceNumber: 'referenceNumber',
   description: 'description',
   isRestricted: 'isRestricted',
   createdAt: 'createdAt',
@@ -1409,6 +1849,9 @@ export const DocumentRevisionScalarFieldEnum = {
   changeSummary: 'changeSummary',
   storagePath: 'storagePath',
   fileUrl: 'fileUrl',
+  storageVisibility: 'storageVisibility',
+  legacyPublicStoragePath: 'legacyPublicStoragePath',
+  legacyPublicUrl: 'legacyPublicUrl',
   originalFileName: 'originalFileName',
   mimeType: 'mimeType',
   sizeBytes: 'sizeBytes',
@@ -1597,6 +2040,20 @@ export type ListEnumRevisionStatusFieldRefInput<$PrismaModel> = FieldRefInputTyp
 
 
 /**
+ * Reference to a field of type 'StorageVisibility'
+ */
+export type EnumStorageVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StorageVisibility'>
+    
+
+
+/**
+ * Reference to a field of type 'StorageVisibility[]'
+ */
+export type ListEnumStorageVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StorageVisibility[]'>
+    
+
+
+/**
  * Reference to a field of type 'BigInt'
  */
 export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
@@ -1781,6 +2238,11 @@ export type GlobalOmitConfig = {
   organization?: Prisma.OrganizationOmit
   organizationMember?: Prisma.OrganizationMemberOmit
   organizationEntitlement?: Prisma.OrganizationEntitlementOmit
+  aircraftManufacturer?: Prisma.AircraftManufacturerOmit
+  aircraftModel?: Prisma.AircraftModelOmit
+  aircraftVariant?: Prisma.AircraftVariantOmit
+  documentAircraftVariant?: Prisma.DocumentAircraftVariantOmit
+  organizationEntitlementVariant?: Prisma.OrganizationEntitlementVariantOmit
   documentCategory?: Prisma.DocumentCategoryOmit
   document?: Prisma.DocumentOmit
   documentRevision?: Prisma.DocumentRevisionOmit
