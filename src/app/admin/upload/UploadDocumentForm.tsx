@@ -1,6 +1,5 @@
 'use client';
 
-import { upload } from '@vercel/blob/client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import styles from '../admin.module.scss';
@@ -14,6 +13,37 @@ type CatalogueOptions = {
   categories: CategoryOption[];
 };
 type FolderOption = { id: string; label: string };
+
+function uploadToPrivateBlob(
+  presignedUrl: string,
+  file: File,
+  onProgress: (percentage: number) => void,
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', presignedUrl);
+    xhr.setRequestHeader('Content-Type', 'application/pdf');
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable && event.total > 0) {
+        onProgress(Math.round((event.loaded / event.total) * 100));
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress(100);
+        resolve();
+      } else {
+        reject(new Error('Private Blob rejected the PDF upload. Check the store and upload URL configuration.'));
+      }
+    };
+
+    xhr.onerror = () => reject(new Error('The connection to private Blob storage failed.'));
+    xhr.onabort = () => reject(new Error('The PDF upload was cancelled.'));
+    xhr.send(file);
+  });
+}
 
 function getDescendantFolders(
   categories: CategoryOption[],
@@ -151,19 +181,22 @@ export default function UploadDocumentForm() {
 
     setBusy(true);
     try {
-      const blob = await upload('acroreader/' + file.name, file, {
-        access: 'private',
-        contentType: 'application/pdf',
-        handleUploadUrl: '/api/admin/blob-upload',
-        clientPayload: JSON.stringify(metadata),
-        multipart: file.size > 100 * 1024 * 1024,
-        onUploadProgress: ({ percentage }) => setProgress(Math.round(percentage)),
+      const uploadPlanResponse = await fetch('/api/admin/blob-upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ metadata, fileSize: file.size }),
       });
+      const uploadPlan = await uploadPlanResponse.json();
+      if (!uploadPlanResponse.ok) {
+        throw new Error(uploadPlan.error ?? 'Could not prepare the private PDF upload.');
+      }
+
+      await uploadToPrivateBlob(uploadPlan.presignedUrl, file, setProgress);
 
       const response = await fetch('/api/admin/documents/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...metadata, pathname: blob.pathname, url: blob.url }),
+        body: JSON.stringify({ ...metadata, pathname: uploadPlan.pathname }),
       });
       const result = await response.json();
       if (!response.ok) {
