@@ -303,6 +303,8 @@ model DocumentRevision {
   storagePath      String?        @unique
   fileUrl          String?        @db.Text
   storageVisibility StorageVisibility @default(PUBLIC)
+  legacyPublicStoragePath String?
+  legacyPublicUrl   String?        @db.Text
   originalFileName String?
   mimeType         String         @default("application/pdf")
   sizeBytes        BigInt?
