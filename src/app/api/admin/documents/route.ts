@@ -136,11 +136,11 @@ export async function PATCH(request: Request) {
 
       if (action === 'unpublish-document') {
         const result = await prisma.documentRevision.updateMany({
-          where: { documentId, status: 'PUBLISHED' },
+          where: { documentId, status: { in: ['PUBLISHED', 'SUPERSEDED'] } },
           data: { status: 'DRAFT' },
         });
         if (result.count === 0) {
-          return NextResponse.json({ error: 'This document has no published revision to move to draft.' }, { status: 409 });
+          return NextResponse.json({ error: 'This document has no published or historical revision to move to draft.' }, { status: 409 });
         }
         return NextResponse.json({ success: true, changed: result.count });
       }
