@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import styles from '../admin.module.scss';
 
 type Variant = { id: string; name: string; slug: string; sortOrder: number; isActive: boolean };
@@ -44,17 +44,21 @@ function EditorRow({
       </label>
       <div className={styles.fullWidth} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
         <button type="submit">Save changes</button>
-        <button type="button" onClick={() => onToggle(type, item.id, !item.isActive)}>
+        <button
+          type="button"
+          className={item.isActive ? 'dangerButton' : 'secondary'}
+          onClick={() => {
+            if (!item.isActive || window.confirm(`Deactivate this ${type}? It will be hidden from new selections, but existing documents and history will be preserved.`)) {
+              void onToggle(type, item.id, !item.isActive);
+            }
+          }}
+        >
           {item.isActive ? 'Deactivate' : 'Reactivate'}
         </button>
         <small>{item.isActive ? 'Active' : 'Inactive'}</small>
       </div>
     </form>
   );
-}
-
-function CreateCard({ title, children }: { title: string; children: ReactNode }) {
-  return <div className={styles.card}><h3>{title}</h3>{children}</div>;
 }
 
 export default function CatalogueManager() {
@@ -178,7 +182,7 @@ export default function CatalogueManager() {
       {message && <p className={styles.success} role="status">{message}</p>}
       {error && <p className={styles.error} role="alert">{error}</p>}
 
-      <h2>Aircraft hierarchy</h2>
+      <div><h2>Aircraft hierarchy</h2><p>Add each level in order: manufacturer → model → variant. Existing documents keep their links when an item is deactivated.</p></div>
       <div className={styles.card}>
         <h3>Add manufacturer</h3>
         <form className={styles.formGrid} onSubmit={(event) => create(event, 'manufacturer')}>
@@ -237,7 +241,7 @@ export default function CatalogueManager() {
         </div>
       ))}
 
-      <h2>Departments and nested folders</h2>
+      <div><h2>Departments and nested folders</h2><p>Create a top-level department first, then choose it as the parent when adding subfolders.</p></div>
       <div className={styles.card}>
         <h3>Add department or folder</h3>
         <form className={styles.formGrid} onSubmit={(event) => create(event, 'category')}>
