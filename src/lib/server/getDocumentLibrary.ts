@@ -1,77 +1,95 @@
 import 'server-only';
 
-import {
-  documentLibrary,
-  type LibraryDocument,
-  type LibraryFolder,
-} from '@/data/documentLibrary';
+import type { LibraryDocument, LibraryFolder } from '@/data/documentLibrary';
 import { prisma } from '@/lib/db/prisma';
 
-const aircraftSeriesMap = {
-  'dash-100': 'DASH_100',
-  'dash-200': 'DASH_200',
-  'dash-300': 'DASH_300',
-  'dash-400': 'DASH_400',
-} as const;
-
-const supportedAircraftSeries = [
-  'DASH_100',
-  'DASH_200',
-  'DASH_300',
-  'DASH_400',
-] as const;
-
-type AircraftSeriesValue = (typeof supportedAircraftSeries)[number];
-type AircraftFolderSlug = keyof typeof aircraftSeriesMap;
-type FolderNode = {
+type CategoryRecord = {
+  id: string;
   slug: string;
   title: string;
-  description?: string;
+  description: string | null;
+  parentId: string | null;
+  sortOrder: number;
 };
 
-const seriesSlugByValue: Record<AircraftSeriesValue, AircraftFolderSlug> = {
-  DASH_100: 'dash-100',
-  DASH_200: 'dash-200',
-  DASH_300: 'dash-300',
-  DASH_400: 'dash-400',
-};
-
-function cloneFolder(folder: LibraryFolder): LibraryFolder {
+function makeCategoryFolder(category: CategoryRecord): LibraryFolder {
   return {
-    ...folder,
-    folders: folder.folders?.map(cloneFolder),
+    slug: category.slug,
+    title: category.title,
+    description: category.description ?? undefined,
+    folders: [],
     documents: [],
   };
 }
 
-function findOrCreateFolder(
-  root: LibraryFolder,
-  aircraftSlug: string,
-  nodes: FolderNode[],
-): LibraryFolder | null {
-  let current = root.folders?.find((folder) => folder.slug === aircraftSlug);
+function createCategoryTree(categories: CategoryRecord[]): {
+  roots: LibraryFolder[];
+  folderById: Map<string, LibraryFolder>;
+} {
+  const folderById = new Map<string, LibraryFolder>();
+  const categoryById = new Map(categories.map((category) => [category.id, category]));
 
-  if (!current) return null;
+  for (const category of categories) {
+    folderById.set(category.id, makeCategoryFolder(category));
+  }
 
-  for (const node of nodes) {
-    const parent: LibraryFolder = current;
-    const children: LibraryFolder[] = parent.folders ?? [];
-    parent.folders = children;
+  const roots: LibraryFolder[] = [];
 
-    let next = children.find((folder) => folder.slug === node.slug);
+  for (const category of categories) {
+    const folder = folderById.get(category.id)!;
 
-    if (!next) {
-      next = {
-        slug: node.slug,
-        title: node.title || node.slug,
-        description: node.description,
-        folders: [],
-        documents: [],
-      };
-      children.push(next);
-      children.sort((a, b) => a.title.localeCompare(b.title));
+    if (category.parentId) {
+      const parent = folderById.get(category.parentId);
+      if (parent) {
+        parent.folders ??= [];
+        parent.folders.push(folder);
+      } else {
+        // An inactive or missing parent should not hide an otherwise active category.
+        roots.push(folder);
+      }
+    } else {
+      roots.push(folder);
     }
+  }
 
+  const sortFolders = (folders: LibraryFolder[]) => {
+    folders.sort((a, b) => {
+      const aOrder = categories.find((item) => item.slug === a.slug)?.sortOrder ?? 0;
+      const bOrder = categories.find((item) => item.slug === b.slug)?.sortOrder ?? 0;
+      return aOrder - bOrder || a.title.localeCompare(b.title);
+    });
+    for (const folder of folders) sortFolders(folder.folders ?? []);
+  };
+
+  sortFolders(roots);
+  return { roots, folderById };
+}
+
+function findCategoryPath(
+  categoryId: string,
+  categoriesById: Map<string, CategoryRecord>,
+): CategoryRecord[] {
+  const path: CategoryRecord[] = [];
+  const visited = new Set<string>();
+  let current = categoriesById.get(categoryId);
+
+  while (current && !visited.has(current.id)) {
+    visited.add(current.id);
+    path.unshift(current);
+    current = current.parentId
+      ? categoriesById.get(current.parentId)
+      : undefined;
+  }
+
+  return path;
+}
+
+function findFolderAtPath(root: LibraryFolder, path: string[]): LibraryFolder | null {
+  let current = root;
+
+  for (const slug of path) {
+    const next = current.folders?.find((folder) => folder.slug === slug);
+    if (!next) return null;
     current = next;
   }
 
@@ -79,99 +97,149 @@ function findOrCreateFolder(
 }
 
 export async function getDocumentLibrary(): Promise<LibraryFolder> {
-  const root = cloneFolder(documentLibrary);
+  const root: LibraryFolder = {
+    slug: 'library',
+    title: 'Aircraft Documentation',
+    description: 'Browse published aircraft manuals and operational documents.',
+    folders: [],
+    documents: [],
+  };
 
   try {
-    const [categories, documents] = await Promise.all([
+    const [manufacturers, categories, documents] = await Promise.all([
+      prisma.aircraftManufacturer.findMany({
+        where: { isActive: true },
+        orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+        select: {
+          id: true,
+          slug: true,
+          name: true,
+          description: true,
+          models: {
+            where: { isActive: true },
+            orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+            select: {
+              id: true,
+              slug: true,
+              name: true,
+              description: true,
+              variants: {
+                where: { isActive: true },
+                orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+                select: {
+                  id: true,
+                  slug: true,
+                  name: true,
+                  description: true,
+                },
+              },
+            },
+          },
+        },
+      }),
       prisma.documentCategory.findMany({
+        where: { isActive: true },
+        orderBy: [{ sortOrder: 'asc' }, { title: 'asc' }],
         select: {
           id: true,
           slug: true,
           title: true,
           description: true,
           parentId: true,
+          sortOrder: true,
         },
       }),
       prisma.document.findMany({
         where: {
-          aircraftSeries: { in: [...supportedAircraftSeries] },
-          revisions: {
+          variants: {
             some: {
-              status: { in: ['PUBLISHED', 'SUPERSEDED'] },
+              variant: {
+                isActive: true,
+                model: {
+                  isActive: true,
+                  manufacturer: { isActive: true },
+                },
+              },
             },
+          },
+          revisions: {
+            some: { status: { in: ['PUBLISHED', 'SUPERSEDED'] } },
           },
         },
         select: {
           id: true,
           title: true,
-          aircraftSeries: true,
           categoryId: true,
+          variants: { select: { variantId: true } },
           revisions: {
-            where: {
-              status: { in: ['PUBLISHED', 'SUPERSEDED'] },
-            },
+            where: { status: { in: ['PUBLISHED', 'SUPERSEDED'] } },
             select: {
               id: true,
               revision: true,
               effectiveDate: true,
               status: true,
-              fileUrl: true,
             },
-            orderBy: [
-              { effectiveDate: 'desc' },
-              { createdAt: 'desc' },
-            ],
+            orderBy: [{ effectiveDate: 'desc' }, { createdAt: 'desc' }],
           },
         },
       }),
     ]);
 
-    const categoriesById = new Map(
-      categories.map((category) => [category.id, category]),
-    );
+    const categoriesById = new Map(categories.map((category) => [category.id, category]));
+    const variantFolders = new Map<string, LibraryFolder>();
 
-    function getCategoryPath(categoryId: string): FolderNode[] {
-      const path: FolderNode[] = [];
-      const visited = new Set<string>();
-      let current = categoriesById.get(categoryId);
-
-      // The visited set protects the catalogue from malformed category cycles.
-      while (current && !visited.has(current.id)) {
-        visited.add(current.id);
-        path.unshift({
-          slug: current.slug,
-          title: current.title,
-          description: current.description ?? undefined,
-        });
-        current = current.parentId
-          ? categoriesById.get(current.parentId)
-          : undefined;
-      }
-
-      return path;
-    }
+    root.folders = manufacturers.map((manufacturer) => ({
+      slug: manufacturer.slug,
+      title: manufacturer.name,
+      description: manufacturer.description ?? undefined,
+      folders: manufacturer.models.map((model) => ({
+        slug: model.slug,
+        title: model.name,
+        description: model.description ?? undefined,
+        folders: model.variants.map((variant) => {
+          const categoryTree = createCategoryTree(categories);
+          const variantFolder: LibraryFolder = {
+            slug: variant.slug,
+            title: variant.name,
+            description: variant.description ?? undefined,
+            folders: categoryTree.roots,
+            documents: [],
+          };
+          variantFolders.set(variant.id, variantFolder);
+          return variantFolder;
+        }),
+        documents: [],
+      })),
+      documents: [],
+    }));
 
     for (const record of documents) {
-      const aircraftSlug = seriesSlugByValue[record.aircraftSeries];
-      const categoryPath = getCategoryPath(record.categoryId);
+      const categoryPath = findCategoryPath(record.categoryId, categoriesById)
+        .map((category) => category.slug);
 
-      if (!aircraftSlug || categoryPath.length === 0) continue;
+      if (categoryPath.length === 0) continue;
 
-      const target = findOrCreateFolder(root, aircraftSlug, categoryPath);
-      if (!target) continue;
+      for (const variantLink of record.variants) {
+        const variantFolder = variantFolders.get(variantLink.variantId);
+        if (!variantFolder) continue;
 
-      for (const revision of record.revisions) {
-        const libraryDocument: LibraryDocument = {
-          id: revision.id,
-          title: record.title,
-          revision: revision.revision,
-          effectiveDate: revision.effectiveDate.toISOString().slice(0, 10),
-          status: revision.status === 'PUBLISHED' ? 'current' : 'superseded',
-          fileUrl: revision.fileUrl ?? undefined,
-        };
+        const target = findFolderAtPath(variantFolder, categoryPath);
+        if (!target) continue;
 
-        target.documents ??= [];
-        target.documents.push(libraryDocument);
+        for (const revision of record.revisions) {
+          const libraryDocument: LibraryDocument = {
+            id: revision.id,
+            title: record.title,
+            revision: revision.revision,
+            effectiveDate: revision.effectiveDate.toISOString().slice(0, 10),
+            status: revision.status === 'PUBLISHED' ? 'current' : 'superseded',
+            // The browser receives only our same-origin route, never a Blob URL.
+            fileUrl: `/api/documents/${record.id}/file?revision=${encodeURIComponent(revision.id)}`,
+          };
+
+          target.documents ??= [];
+          target.documents.push(libraryDocument);
+        }
       }
     }
 
