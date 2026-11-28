@@ -38,6 +38,8 @@ enum RevisionStatus {
   WITHDRAWN
 }
 
+// Kept temporarily for a safe, two-phase migration of existing Dash 8 records.
+// New documents use DocumentAircraftVariant instead.
 enum AircraftSeries {
   DASH_100
   DASH_200
@@ -46,19 +48,19 @@ enum AircraftSeries {
 }
 
 model User {
-  id            String     @id @default(cuid())
-  name          String?
-  email         String     @unique
-  emailVerified DateTime?
-  image         String?
-  passwordHash  String?
-  status        UserStatus @default(ACTIVE)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  id                String     @id @default(cuid())
+  name              String?
+  email             String     @unique
+  emailVerified     DateTime?
+  image             String?
+  passwordHash      String?
+  status            UserStatus @default(ACTIVE)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 
-  memberships OrganizationMember[]
-  accounts    Account[]
-  sessions    Session[]
+  memberships       OrganizationMember[]
+  accounts          Account[]
+  sessions          Session[]
   uploadedRevisions DocumentRevision[] @relation("RevisionUploader")
 
   @@map("users")
@@ -107,14 +109,14 @@ model VerificationToken {
 }
 
 model Organization {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String?  @db.Text
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  name         String
+  slug         String   @unique
+  description  String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  memberships OrganizationMember[]
+  memberships  OrganizationMember[]
   entitlements OrganizationEntitlement[]
 
   @@map("organizations")
@@ -141,7 +143,8 @@ model OrganizationMember {
 model OrganizationEntitlement {
   id             String            @id @default(cuid())
   organizationId String
-  aircraftSeries AircraftSeries
+  // Legacy field retained until the variant entitlement migration is fully verified.
+  aircraftSeries AircraftSeries?
   status         EntitlementStatus @default(ACTIVE)
   startsAt       DateTime?
   endsAt         DateTime?
@@ -150,10 +153,94 @@ model OrganizationEntitlement {
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   documentGrants DocumentEntitlement[]
+  variants      OrganizationEntitlementVariant[]
 
   @@index([organizationId, aircraftSeries, status])
   @@index([endsAt])
   @@map("organization_entitlements")
+}
+
+model AircraftManufacturer {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?  @db.Text
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  models AircraftModel[]
+
+  @@index([isActive, sortOrder])
+  @@map("aircraft_manufacturers")
+}
+
+model AircraftModel {
+  id             String   @id @default(cuid())
+  manufacturerId String
+  slug           String
+  name           String
+  description    String?  @db.Text
+  sortOrder      Int      @default(0)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  manufacturer AircraftManufacturer @relation(fields: [manufacturerId], references: [id], onDelete: Restrict)
+  variants     AircraftVariant[]
+
+  @@unique([manufacturerId, slug])
+  @@index([manufacturerId, isActive, sortOrder])
+  @@map("aircraft_models")
+}
+
+model AircraftVariant {
+  id              String   @id @default(cuid())
+  modelId         String
+  slug            String
+  name            String
+  // Temporary bridge used to migrate DASH_100 through DASH_400 safely.
+  legacySeriesCode String? @unique
+  description     String?  @db.Text
+  sortOrder       Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  model        AircraftModel @relation(fields: [modelId], references: [id], onDelete: Restrict)
+  documents    DocumentAircraftVariant[]
+  entitlements OrganizationEntitlementVariant[]
+
+  @@unique([modelId, slug])
+  @@index([modelId, isActive, sortOrder])
+  @@map("aircraft_variants")
+}
+
+model DocumentAircraftVariant {
+  documentId String
+  variantId  String
+  createdAt  DateTime @default(now())
+
+  document Document       @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  variant  AircraftVariant @relation(fields: [variantId], references: [id], onDelete: Restrict)
+
+  @@id([documentId, variantId])
+  @@index([variantId])
+  @@map("document_aircraft_variants")
+}
+
+model OrganizationEntitlementVariant {
+  entitlementId String
+  variantId     String
+  createdAt     DateTime @default(now())
+
+  entitlement OrganizationEntitlement @relation(fields: [entitlementId], references: [id], onDelete: Cascade)
+  variant      AircraftVariant         @relation(fields: [variantId], references: [id], onDelete: Restrict)
+
+  @@id([entitlementId, variantId])
+  @@index([variantId])
+  @@map("organization_entitlement_variants")
 }
 
 model DocumentCategory {
@@ -163,6 +250,7 @@ model DocumentCategory {
   description String?  @db.Text
   sortOrder   Int      @default(0)
   parentId    String?
+  isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -171,12 +259,14 @@ model DocumentCategory {
   documents Document[]
 
   @@index([parentId, sortOrder])
+  @@index([isActive, sortOrder])
   @@map("document_categories")
 }
 
 model Document {
   id            String         @id @default(cuid())
-  aircraftSeries AircraftSeries
+  // Legacy field retained temporarily; new catalogue relationships use variants.
+  aircraftSeries AircraftSeries?
   categoryId    String
   slug          String
   title         String
@@ -188,34 +278,36 @@ model Document {
   category  DocumentCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   revisions DocumentRevision[]
   grants    DocumentEntitlement[]
+  variants  DocumentAircraftVariant[]
 
   @@unique([aircraftSeries, slug])
   @@index([aircraftSeries, categoryId])
+  @@index([categoryId, slug])
   @@map("documents")
 }
 
 model DocumentRevision {
-  id             String         @id @default(cuid())
-  documentId     String
-  revision       String
-  effectiveDate  DateTime
-  status         RevisionStatus @default(DRAFT)
-  changeSummary  String?        @db.Text
-  storagePath    String?        @unique
-  fileUrl        String?        @db.Text
+  id               String         @id @default(cuid())
+  documentId       String
+  revision         String
+  effectiveDate    DateTime
+  status           RevisionStatus @default(DRAFT)
+  changeSummary    String?        @db.Text
+  storagePath      String?        @unique
+  fileUrl          String?        @db.Text
   originalFileName String?
-  mimeType       String         @default("application/pdf")
-  sizeBytes      BigInt?
-  checksum       String?
-  uploadedById   String?
-  supersedesId   String?        @unique
-  publishedAt    DateTime?
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  mimeType         String         @default("application/pdf")
+  sizeBytes        BigInt?
+  checksum         String?
+  uploadedById     String?
+  supersedesId     String?        @unique
+  publishedAt      DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
-  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
-  uploadedBy User?    @relation("RevisionUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
-  supersedes DocumentRevision? @relation("RevisionSupersession", fields: [supersedesId], references: [id], onDelete: SetNull)
+  document     Document         @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  uploadedBy   User?            @relation("RevisionUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+  supersedes   DocumentRevision? @relation("RevisionSupersession", fields: [supersedesId], references: [id], onDelete: SetNull)
   supersededBy DocumentRevision? @relation("RevisionSupersession")
 
   @@unique([documentId, revision])
