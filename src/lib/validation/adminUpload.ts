@@ -7,6 +7,7 @@ export const adminUploadMetadataSchema = z.object({
   referenceNumber: z.string().trim().max(120).optional().transform((value) => value || undefined),
   revision: z.string().trim().min(1).max(40),
   effectiveDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  publicationStatus: z.enum(['DRAFT', 'PUBLISHED']).default('PUBLISHED'),
   originalFileName: z.string().trim().min(1).max(255),
 });
 
