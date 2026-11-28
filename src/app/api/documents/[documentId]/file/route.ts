@@ -24,7 +24,12 @@ async function deliverFile(request: Request, context: RouteContext, method: 'GET
       id: true,
       revisions: {
         where: revisionId
-          ? { id: revisionId, status: { in: ['PUBLISHED', 'SUPERSEDED'] } }
+          ? {
+              id: revisionId,
+              status: session.user.role === 'ADMIN'
+                ? { in: ['DRAFT', 'PUBLISHED', 'SUPERSEDED'] }
+                : { in: ['PUBLISHED', 'SUPERSEDED'] },
+            }
           : { status: 'PUBLISHED' },
         orderBy: [{ effectiveDate: 'desc' }, { createdAt: 'desc' }],
         take: 1,
