@@ -8,14 +8,14 @@ The public catalogue remains accessible without signing in. Opening a PDF requir
 2. Open **Storage** and create a new **Blob** store.
 3. Set the store access to **Private**. Do not reuse the existing public store.
 4. Connect the private store to the AcroReader Vercel project.
-5. Copy the private store's read-write token into the server environment variable `ACRO_PRIVATE_READ_WRITE_TOKEN`.
+5. Copy the private store's read-write token into the server environment variable `ACROR_PRIVATE_READ_WRITE_TOKEN`.
 6. Add the same variable to your local `.env` file.
 7. Keep the existing `ACRO_READ_WRITE_TOKEN` configured. It is needed temporarily to read and, after private copies are verified, delete old public objects.
 
 Example variable names (never commit token values):
 
 ```env
-ACROR_READ_WRITE_TOKEN=your_existing_public_store_token
+ACRO_READ_WRITE_TOKEN=your_existing_public_store_token
 ACROR_PRIVATE_READ_WRITE_TOKEN=your_new_private_store_token
 ```
 
