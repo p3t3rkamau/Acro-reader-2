@@ -27,7 +27,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         const parsed = credentialsSchema.safeParse(credentials);
         const configuredEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-        const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+        const passwordHash = process.env.ADMIN_PASSWORD_HASH_B64
+          ? Buffer.from(process.env.ADMIN_PASSWORD_HASH_B64, 'base64').toString('utf8')
+          : undefined;
 
         if (!parsed.success || !configuredEmail || !passwordHash) return null;
         if (!passwordHash.startsWith('$argon2id$')) return null;
