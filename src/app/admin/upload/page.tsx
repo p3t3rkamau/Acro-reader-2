@@ -15,9 +15,9 @@ export default async function AdminUploadPage() {
       <section className={styles.dashboardMain}>
         <p className={styles.eyebrow}>DOCUMENT MANAGEMENT</p>
         <h1>Upload aviation document</h1>
-        <p>Add a PDF to an aircraft family and publish its revision to the public catalogue.</p>
+        <p>Add a PDF to one or more aircraft variants and publish its revision to the public catalogue.</p>
         <div className={styles.card}><UploadDocumentForm /></div>
-        <p className={styles.warning}>Only upload documents approved for public access. Published PDF links can be opened by anyone who has the link.</p>
+        <p className={styles.warning}>The catalogue is public, but PDF files are stored privately and require an authorised viewer account.</p>
       </section>
     </main>
   );
