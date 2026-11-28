@@ -25,20 +25,23 @@ function findOrCreateFolder(
   nodes: PayloadFolderNode[],
 ): LibraryFolder | null {
   let current: LibraryFolder | undefined = root.folders?.find(
-    (folder) => folder.slug === aircraftSeries,
+    (folder: LibraryFolder) => folder.slug === aircraftSeries,
   );
 
   if (!current) return null;
 
   for (const node of nodes) {
-    // Re-check after each traversal step so TypeScript can guarantee that
-    // the parent folder exists before accessing or mutating its children.
     if (!current) return null;
 
-    current.folders ??= [];
-    const children = current.folders;
+    // Keep the recursive folder array explicitly typed. Separating the
+    // parent reference from the traversal variable avoids TypeScript's
+    // circular inference around current.folders and current reassignment.
+    const parent: LibraryFolder = current;
+    const children: LibraryFolder[] = parent.folders ?? [];
+    parent.folders = children;
+
     let next: LibraryFolder | undefined = children.find(
-      (folder) => folder.slug === node.slug,
+      (folder: LibraryFolder) => folder.slug === node.slug,
     );
 
     if (!next) {
@@ -50,7 +53,10 @@ function findOrCreateFolder(
         documents: [],
       };
       children.push(next);
-      children.sort((a, b) => a.title.localeCompare(b.title));
+      children.sort(
+        (a: LibraryFolder, b: LibraryFolder) =>
+          a.title.localeCompare(b.title),
+      );
     }
 
     current = next;
