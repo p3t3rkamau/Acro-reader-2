@@ -21,22 +21,48 @@ function createDocumentSlug(title: string): string {
     .replace(/^-|-$/g, '')
     .slice(0, 100);
 
-  if (!slug) throw new Error('The document title cannot be converted into a valid slug.');
+  if (!slug) {
+    throw new Error('The document title cannot be converted into a valid slug.');
+  }
+
   return slug;
 }
 
 export async function registerPublicDocument(input: unknown) {
   const parsed = uploadSchema.safeParse(input);
-  if (!parsed.success) throw new Error('The document details are invalid.');
+
+  if (!parsed.success) {
+    console.error('[AcroReader] Invalid document metadata:', parsed.error.flatten());
+    throw new Error('The document details are invalid.');
+  }
 
   const data = parsed.data;
   const effectiveDate = new Date(data.effectiveDate + 'T00:00:00.000Z');
 
-  if (Number.isNaN(effectiveDate.getTime()) || effectiveDate.toISOString().slice(0, 10) !== data.effectiveDate) {
+  if (
+    Number.isNaN(effectiveDate.getTime()) ||
+    effectiveDate.toISOString().slice(0, 10) !== data.effectiveDate
+  ) {
     throw new Error('Enter a valid effective date.');
   }
 
-  const blob = await head(data.pathname);
+  const blobToken = process.env.ACRO_READ_WRITE_TOKEN;
+
+  if (!blobToken) {
+    console.error('[AcroReader] ACRO_READ_WRITE_TOKEN is not configured.');
+    throw new Error('Blob storage is not configured.');
+  }
+
+  let blob;
+
+  try {
+    blob = await head(data.pathname, { token: blobToken });
+  } catch (error) {
+    console.error('[AcroReader] Blob verification failed:', error);
+    throw new Error(
+      'The PDF was uploaded, but Blob verification failed. Check the Blob token and storage configuration.',
+    );
+  }
 
   if (
     blob.pathname !== data.pathname ||
@@ -52,7 +78,9 @@ export async function registerPublicDocument(input: unknown) {
   });
 
   if (!category) {
-    throw new Error('The selected document category is not available. Run the category seed first.');
+    throw new Error(
+      'The selected document category is not available. Run the category seed first.',
+    );
   }
 
   const slug = createDocumentSlug(data.title);
@@ -61,6 +89,7 @@ export async function registerPublicDocument(input: unknown) {
     const existingRevision = await tx.documentRevision.findUnique({
       where: { storagePath: data.pathname },
     });
+
     if (existingRevision) return existingRevision;
 
     const document = await tx.document.upsert({
