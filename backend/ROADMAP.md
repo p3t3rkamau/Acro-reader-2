@@ -38,10 +38,10 @@ The immediate delivery target is a working, presentable MVP before expanding the
 - The public-document decision means published PDF URLs are publicly readable. Do not upload confidential or restricted manuals to this MVP store. Private delivery and per-organisation access remain in M5/M3.
 
 ### MVP delivery sequence
-1. [ ] Admin-only login using Auth.js Credentials and a server-side configured admin account; no public registration.
-2. [ ] Admin dashboard and PDF upload workflow.
-3. [ ] Persist document metadata and Blob file references in Neon.
-4. [ ] Display uploaded documents in the existing DASH 100/200/300/400 catalogue.
+1. [x] Implement admin-only Auth.js Credentials login using a server-configured administrator account; local build verification pending.
+2. [x] Add protected admin dashboard and PDF upload form; local build and upload verification pending.
+3. [x] Add additive fileUrl schema migration and verified Blob-to-Neon registration service; migration not yet applied.
+4. [x] Extend catalogue data contract with file URL and add links to the existing reader; end-to-end verification pending.
 5. [ ] Open a selected published PDF through the existing PDF.js reader without changing protected reader files.
 6. [ ] Test large-file upload, PDF byte-range loading, desktop/mobile layout and deployment.
 
