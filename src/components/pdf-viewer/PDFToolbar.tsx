@@ -1,6 +1,6 @@
 'use client';
 import type { LayoutMode, ViewerState } from '@/types/pdf';
-import { IconBack, IconClose, IconDownload, IconInfo, IconOutline } from '../ui/Icons';
+import { IconBack, IconClose, IconInfo, IconOutline } from '../ui/Icons';
 import { PDFPageNavigation } from './PDFPageNavigation';
 import { PDFZoomControls } from './PDFZoomControls';
 import styles from './PDFToolbar.module.scss';
@@ -13,7 +13,6 @@ interface Props {
   visible: boolean;
   onToggleOutline: () => void;
   onClose: () => void;
-  onDownload: () => void;
   onReport: () => void;
   onGoToPage: (n: number) => void;
   onPrev: () => void;
@@ -66,7 +65,6 @@ export function PDFToolbar(p: Props) {
               onStep={p.onZoomStep} onSet={p.onZoomSet} />
           </>
         )}
-        <button className={styles.btn} onClick={p.onDownload} disabled={!ready} aria-label="Download original PDF" title="Download original PDF"><IconDownload /></button>
         <button className={styles.btn} onClick={p.onReport} disabled={!ready} aria-label="Document details and compatibility" title="Document details and compatibility"><IconInfo /></button>
         {phone && (
           <button className={`${styles.btn} ${p.outlineOpen ? styles.on : ''}`} onClick={p.onToggleOutline} aria-pressed={p.outlineOpen}
