@@ -68,6 +68,8 @@
 .uploadForm button:disabled,.formGrid button:disabled,.card button:disabled { opacity:.55; cursor:not-allowed; }
 .formGrid button[type="button"],.card button.secondary { border-color:#d9e2e9; background:#f7f9fb; color:#4f6578; }
 .formGrid button[type="button"]:hover,.card button.secondary:hover { background:#edf2f6; }
+.secondaryButton { border-color:#d9e2e9!important; background:#f7f9fb!important; color:#4f6578!important; }
+.secondaryButton:hover { background:#edf2f6!important; }
 .dangerButton,.card button.dangerButton,.formGrid button.dangerButton { border-color:#c83232; background:#c83232; color:#fff; }
 .dangerButton:hover,.card button.dangerButton:hover,.formGrid button.dangerButton:hover { border-color:#a91f1f; background:#a91f1f; }
 .progress { height:8px; overflow:hidden; border-radius:10px; background:#e8eef2; }
