@@ -25,11 +25,11 @@ export async function POST(request: Request) {
     }
   }
 
-  const blobToken = process.env.ACRO_READ_WRITE_TOKEN;
+  const blobToken = process.env.ACRO_PRIVATE_READ_WRITE_TOKEN;
 
   if (!blobToken) {
-    console.error('[AcroReader] ACRO_READ_WRITE_TOKEN is not configured.');
-    return NextResponse.json({ error: 'Blob storage is not configured.' }, { status: 500 });
+    console.error('[AcroReader] ACRO_PRIVATE_READ_WRITE_TOKEN is not configured.');
+    return NextResponse.json({ error: 'Private Blob storage is not configured.' }, { status: 500 });
   }
 
   try {
