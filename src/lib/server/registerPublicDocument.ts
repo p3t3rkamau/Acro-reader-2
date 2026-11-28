@@ -158,12 +158,13 @@ export async function registerPublicDocument(input: unknown) {
       skipDuplicates: true,
     });
 
-    // Draft uploads never alter the live publication. Publishing supersedes only the
-    // previous live revision, preserving it as historical content.
+    // A document has one current published revision. Publishing a replacement
+    // automatically moves the former live revision back to DRAFT; its PDF and
+    // publication timestamp remain available for review or republishing.
     if (data.publicationStatus === 'PUBLISHED') {
       await tx.documentRevision.updateMany({
         where: { documentId: document.id, status: 'PUBLISHED' },
-        data: { status: 'SUPERSEDED' },
+        data: { status: 'DRAFT' },
       });
     }
 
