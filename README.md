@@ -43,16 +43,11 @@ See `TESTING.md` for exactly what was tested and what was not.
 
 ## Backend rebuild
 
-The Payload catalogue integration is being replaced with an in-repository Prisma + Neon backend. Follow [`backend/ROADMAP.md`](backend/ROADMAP.md) for the staged plan and protected PDF-reader boundaries.
+The original Payload catalogue integration has been retired. The app now uses an in-repository Prisma + Neon backend for catalogue data. Follow [`backend/ROADMAP.md`](backend/ROADMAP.md) for the staged plan and protected PDF-reader boundaries.
 
-## Previous Payload CMS catalogue connection
+## Backend catalogue
 
-Set `PAYLOAD_API_URL` in the frontend deployment environment to the base URL of the Payload backend, for example:
+The server-rendered aircraft catalogue reads document metadata from the dedicated Neon PostgreSQL database through Prisma. The service maps aircraft series, category hierarchy and published/superseded revisions into the stable `LibraryFolder` UI contract.
 
-```env
-PAYLOAD_API_URL=https://your-payload-backend.example.com
-```
+The initial Prisma schema and migration are in place. The catalogue service does not expose storage paths or PDF URLs. Connecting catalogue documents to the PDF reader requires the separate authenticated, entitlement-aware, HTTP range-capable file-delivery endpoint described in `backend/ARCHITECTURE.md`.
 
-The server-rendered catalogue requests `/api/acro-documents` from Payload and maps the returned aircraft series, category hierarchy, revision number, effective date and publication status into the library. The request is cached for 60 seconds. Do not prefix this variable with `NEXT_PUBLIC_`; it is only needed on the server.
-
-**PDF opening is intentionally not wired to the media URL yet.** The current Payload endpoint includes a media URL and the current backend media access marks published files public. That is not an entitlement-protected document delivery flow. Do not expose those URLs in the browser or treat hiding them in the UI as access control. Before enabling catalogue-to-reader opening for paid documents, implement and test an authenticated backend document endpoint that checks the user's organisation membership, aircraft-series entitlement, document/revision publication status, and streams/range-serves the PDF without revealing a reusable public Blob URL.
