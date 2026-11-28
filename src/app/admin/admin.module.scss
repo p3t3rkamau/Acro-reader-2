@@ -59,8 +59,8 @@
 .uploadForm { display:grid; gap:20px; }
 .formGrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; align-items:end; }
 .formGrid label { display:grid; gap:8px; color:#344b5f; font-size:12px; font-weight:750; }
-.formGrid input,.formGrid select { width:100%; min-height:43px; box-sizing:border-box; padding:10px 12px; border:1px solid #d7e0e7; border-radius:8px; background:#fff; color:#20384d; font:inherit; font-size:13px; }
-.formGrid input:focus,.formGrid select:focus { outline:3px solid #397d9d20; border-color:#397d9d; }
+.formGrid input,.formGrid select,.formGrid textarea { width:100%; min-height:43px; box-sizing:border-box; padding:10px 12px; border:1px solid #d7e0e7; border-radius:8px; background:#fff; color:#20384d; font:inherit; font-size:13px; }
+.formGrid input:focus,.formGrid select:focus,.formGrid textarea:focus { outline:3px solid #397d9d20; border-color:#397d9d; }
 .formGrid small { color:#7a8997; font-size:11px; font-weight:400; line-height:1.5; }
 .fullWidth { grid-column:1/-1; }
 .uploadForm>button,.formGrid button,.card button { width:max-content; min-height:40px; padding:10px 15px; border:1px solid #173e5b; border-radius:8px; background:#173e5b; color:#fff; font:inherit; font-size:12px; font-weight:750; cursor:pointer; transition:background .15s,border-color .15s; }
