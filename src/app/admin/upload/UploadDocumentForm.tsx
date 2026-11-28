@@ -152,7 +152,7 @@ export default function UploadDocumentForm() {
     setBusy(true);
     try {
       const blob = await upload('acroreader/' + file.name, file, {
-        access: 'public',
+        access: 'private',
         contentType: 'application/pdf',
         handleUploadUrl: '/api/admin/blob-upload',
         clientPayload: JSON.stringify(metadata),
@@ -175,7 +175,7 @@ export default function UploadDocumentForm() {
       setVariantIds([]);
       setFolderId('');
       setProgress(100);
-      setMessage('PDF uploaded and added to the public catalogue.');
+      setMessage('PDF uploaded to protected storage and added to the public catalogue.');
       router.refresh();
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'The PDF upload failed.');
