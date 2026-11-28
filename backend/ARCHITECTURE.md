@@ -64,3 +64,59 @@ Use a dedicated AcroReader Neon database or an explicitly isolated schema. Never
 ## Payload retirement
 
 The only confirmed live Payload integration in the current inventory is the HTTP fetch in `src/lib/server/getDocumentLibrary.ts` using `PAYLOAD_API_URL` and `/api/acro-documents`. The app package currently has no Payload SDK dependency. Replace this data source before removing its references. Existing catalogue components and the reader should not need Payload-specific knowledge.
+
+
+## M2 authentication architecture
+
+### Confirmed product decisions
+
+- Registration is hybrid: public self-registration is available, and organisation administrators can invite users.
+- Email verification is mandatory before a user can sign in.
+- A newly registered account has `UserStatus.ACTIVE` immediately. Email verification is a separate gate: an active account with `emailVerified = null` cannot authenticate.
+- Public registration does not create an organisation membership or grant access to manuals.
+- An invitation grants only the organisation membership and role encoded in that invitation. Aircraft/document access remains governed by the entitlement checks described above.
+
+### Authentication method
+
+Use Auth.js with its Credentials provider and JWT sessions for the initial email/password implementation. Credentials authentication requires application-owned user/password persistence and JWT sessions; Auth.js does not automatically store credentials users. The application will create users through its own Prisma service, hash passwords with Argon2id, and validate credentials server-side with Zod.
+
+Do not add a Prisma adapter solely for Credentials authentication. Keep the existing Auth.js-compatible `Account`, `Session` and `VerificationToken` models available for a future provider/session strategy, but do not imply that Credentials sign-ins create database `Session` rows.
+
+### Verification and invitation records
+
+Add purpose-specific Prisma records in an additive migration:
+
+- `EmailVerificationToken`: user ID, unique SHA-256 token digest, expiry and consumed timestamp. Generate high-entropy random tokens; send the raw token only in the verification URL; persist only its digest. Verification must be single-use and expiry-checked.
+- `OrganizationInvitation`: organisation ID, normalized invited email, invited role, unique token digest, inviter user ID, expiry, accepted and revoked timestamps. Invitation acceptance must require a verified account whose normalized email matches the invitation. It must be single-use and must not create duplicate memberships.
+
+Use a transaction when consuming a token and changing `emailVerified` or creating a membership, so a partially completed acceptance cannot leave inconsistent state. Never trust an organisation ID, role, user ID or entitlement supplied by the browser when accepting an invitation.
+
+### Sign-in and authorization rules
+
+- Reject sign-in when the account is suspended, email is unverified, the password is invalid, or the user does not exist. Return generic credential errors to avoid account enumeration.
+- On every protected server operation, re-read the user status from Neon rather than trusting a potentially stale JWT. Membership and entitlement checks remain separate server-side authorization steps.
+- Use short-lived JWT sessions (initial target: 12 hours), secure HttpOnly cookies in production, and explicit logout. A status suspension must block protected requests even if the browser still holds a valid JWT.
+- Do not use middleware as the only security boundary. Protect Route Handlers, Server Actions and server-rendered protected pages at the data/service boundary.
+- Registration and invitation endpoints need input validation, abuse controls and durable rate limiting before public production launch. Do not rely on in-memory rate limits in serverless deployments.
+
+### Email delivery and configuration
+
+Keep email delivery behind a server-only `sendEmail` service so the provider can be changed without changing registration or token logic. Required messages: verify email, resend verification, organisation invitation, and later password reset. Do not log raw verification/invitation tokens or expose them in API responses.
+
+Before production, configure a transactional email provider and a durable rate limiter. Provider credentials and `AUTH_SECRET` remain server-only environment variables. The sender domain must be verified and links must use the canonical application URL, never localhost in production.
+
+### Suggested code layout
+
+- `src/auth.ts` — Auth.js configuration and Credentials provider.
+- `src/app/api/auth/[...nextauth]/route.ts` — Auth.js handlers.
+- `src/lib/auth/password.ts` — Argon2id hash and verify helpers.
+- `src/lib/auth/session.ts` — current-user and active-account helpers.
+- `src/lib/auth/tokens.ts` — secure token generation/digest/consumption.
+- `src/lib/services/registration.ts` — registration and verification workflows.
+- `src/lib/services/invitations.ts` — invite creation, validation and acceptance.
+- `src/lib/email/send-email.ts` — provider-neutral email service.
+- `src/lib/validation/auth.ts` — Zod request schemas.
+- `src/app/(auth)/register/page.tsx`, `login/page.tsx` and verification result pages — auth UI.
+- `src/app/api/auth/register/route.ts`, `verify/route.ts`, `resend-verification/route.ts` and invitation routes — application workflows.
+
+Do not modify the protected PDF reader files for M2.
