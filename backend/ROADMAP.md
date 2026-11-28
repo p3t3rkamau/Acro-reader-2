@@ -52,13 +52,25 @@ Acceptance: inventory is documented; the reader files to protect are identified.
 
 Acceptance: no live Payload imports/dependencies/configuration remain; app builds; Prisma connects to the intended Neon database; catalogue uses the new data layer and renders its seeded category structure.
 
-### M2 — Authentication and users
-- Auth.js login/session integration.
-- User model, password hashing if credentials are used, roles and active/suspended status.
-- Protect server routes and admin pages.
-- Session expiry and logout.
+### M2 — Authentication and users (architecture agreed; implementation next)
+- [ ] Add Auth.js Credentials integration using JWT sessions; keep credentials user persistence in the Prisma service.
+- [ ] Add Argon2id password hashing and Zod validation.
+- [ ] Implement hybrid registration: public signup plus organisation invitations.
+- [ ] Create new accounts with `UserStatus.ACTIVE`; require verified email before sign-in.
+- [ ] Add single-use, expiring email-verification tokens; store token digests only.
+- [ ] Add single-use, expiring organisation invitations with email matching and safe membership creation.
+- [ ] Add login, registration, verify-email, resend-verification, logout and invitation-acceptance flows.
+- [ ] Add server-side active-user/session helpers and protect server operations; do not rely on middleware alone.
+- [ ] Add durable rate limiting and transactional email delivery before public production launch.
+- [ ] Add tests for registration, verification, invitations, login, suspended accounts, session expiry and authorization.
+- [ ] Preserve the PDF reader and its loading contract.
 
-Acceptance: registration/login/admin authorization tests pass.
+Confirmed decisions:
+- Registration: hybrid (public registration + organisation invitations).
+- Email verification: required before sign-in.
+- New account status: ACTIVE; verification is a separate gate and does not change the account status.
+
+Acceptance: a user can register, verify and sign in; an invited user can accept an invitation only with the matching verified email; suspended/unverified users are denied; no account receives manual access without membership and entitlement checks.
 
 ### M3 — Organisations and licensing
 - Organisation and membership models.
