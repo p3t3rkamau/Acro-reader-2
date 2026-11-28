@@ -6,6 +6,7 @@ import styles from '../../app/admin/admin.module.scss';
 const navigation = [
   { href: '/admin', label: 'Overview', key: 'overview', icon: '⌂' },
   { href: '/admin/upload', label: 'Upload documents', key: 'upload', icon: '＋' },
+  { href: '/admin/documents', label: 'Document library', key: 'documents', icon: '▣' },
   { href: '/admin/catalogue', label: 'Aircraft & folders', key: 'catalogue', icon: '▤' },
   { href: '/admin/viewers', label: 'Viewer access', key: 'viewers', icon: '♙' },
   { href: '/admin/storage', label: 'Private storage', key: 'storage', icon: '▣' },
