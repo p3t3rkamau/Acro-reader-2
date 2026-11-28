@@ -1,9 +1,10 @@
 import { z } from 'zod';
 
 export const adminUploadMetadataSchema = z.object({
-  aircraftSeries: z.enum(['DASH_100', 'DASH_200', 'DASH_300', 'DASH_400']),
-  categorySlug: z.enum(['afm', 'qrh', 'aom', 'checklists', 'maintenance']),
+  variantIds: z.array(z.string().trim().min(1)).min(1).max(100),
+  categoryId: z.string().trim().min(1),
   title: z.string().trim().min(2).max(180),
+  referenceNumber: z.string().trim().max(120).optional().transform((value) => value || undefined),
   revision: z.string().trim().min(1).max(40),
   effectiveDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   originalFileName: z.string().trim().min(1).max(255),
