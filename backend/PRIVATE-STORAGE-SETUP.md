@@ -23,7 +23,8 @@ Configure both variables for the required Vercel environments (Development, Prev
 
 ## How the application uses the stores
 
-- New uploads use the private store and are marked `PRIVATE` in Neon.
+- New uploads use a 15-minute signed PUT URL scoped to one pathname, the PDF content type and a 5 GB maximum. The browser sends the file directly to the private store; the Vercel Function does not receive the PDF body.
+- The upload registration service independently checks the private Blob metadata and PDF header before saving the revision. New revisions are marked `PRIVATE` in Neon.
 - The public catalogue contains only same-origin reader URLs, never direct Blob URLs.
 - The PDF endpoint requires an authorised viewer session and forwards HTTP Range requests to Blob.
 - Existing public revisions are listed on **Admin → Private PDF storage**.
