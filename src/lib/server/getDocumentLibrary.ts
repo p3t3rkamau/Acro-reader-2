@@ -115,6 +115,7 @@ export async function getDocumentLibrary(): Promise<LibraryFolder> {
               revision: true,
               effectiveDate: true,
               status: true,
+              fileUrl: true,
             },
             orderBy: [
               { effectiveDate: 'desc' },
@@ -166,6 +167,7 @@ export async function getDocumentLibrary(): Promise<LibraryFolder> {
           revision: revision.revision,
           effectiveDate: revision.effectiveDate.toISOString().slice(0, 10),
           status: revision.status === 'PUBLISHED' ? 'current' : 'superseded',
+          fileUrl: revision.fileUrl ?? undefined,
         };
 
         target.documents ??= [];
