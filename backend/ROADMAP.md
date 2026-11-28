@@ -62,6 +62,7 @@ Acceptance: no live Payload imports/dependencies/configuration remain; app build
 - [ ] Add login, registration, verify-email, resend-verification, logout and invitation-acceptance flows.
 - [ ] Add server-side active-user/session helpers and protect server operations; do not rely on middleware alone.
 - [ ] Add durable rate limiting and transactional email delivery before public production launch.
+- [ ] Integrate Resend behind a provider-neutral server-only email service; configure sender identity and canonical APP_URL.
 - [ ] Add tests for registration, verification, invitations, login, suspended accounts, session expiry and authorization.
 - [ ] Preserve the PDF reader and its loading contract.
 
@@ -145,3 +146,12 @@ Initial inventory recorded at M0 (historical snapshot; items below describe the 
 - Existing frontend uses Next.js 15, React 19, TypeScript and Sass.
 
 See `backend/ARCHITECTURE.md` for the traced reader loading flow, exact URL/range contract, catalogue data contract, and protected file list.
+
+
+#### Resend email setup checklist
+- [ ] Create a Resend account and a restricted sending API key.
+- [ ] Add `RESEND_API_KEY` and `RESEND_FROM_EMAIL` to local environment variables and Vercel (server-side only).
+- [ ] Choose the AcroReader canonical production URL and set `APP_URL` in each environment.
+- [ ] Verify the production sending domain and configure the DNS records supplied by Resend.
+- [ ] Implement the server-only provider-neutral email service and templates.
+- [ ] Test verification, resend and invitation emails in development before production use.
