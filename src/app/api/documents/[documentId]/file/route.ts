@@ -66,9 +66,9 @@ async function deliverFile(request: Request, context: RouteContext, method: 'GET
   if (ifRange) headers.set('If-Range', ifRange);
 
   if (revision.storageVisibility === 'PRIVATE') {
-    const token = process.env.ACROR_PRIVATE_READ_WRITE_TOKEN;
+    const token = process.env.ACROR_READ_WRITE_TOKEN;
     if (!token) {
-      console.error('[AcroReader] ACROR_PRIVATE_READ_WRITE_TOKEN is not configured.');
+      console.error('[AcroReader] ACROR_READ_WRITE_TOKEN is not configured.');
       return NextResponse.json({ error: 'Private document storage is not configured.' }, { status: 503 });
     }
     headers.set('Authorization', `Bearer ${token}`);
