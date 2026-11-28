@@ -22,6 +22,7 @@ async function deliverFile(request: Request, context: RouteContext, method: 'GET
     where: { id: documentId },
     select: {
       id: true,
+      archivedAt: true,
       revisions: {
         where: revisionId
           ? {
@@ -44,6 +45,10 @@ async function deliverFile(request: Request, context: RouteContext, method: 'GET
       },
     },
   });
+
+  if (document?.archivedAt && session.user.role !== 'ADMIN') {
+    return NextResponse.json({ error: 'This document is archived.' }, { status: 404 });
+  }
 
   const revision = document?.revisions[0];
   if (!document || !revision || !revision.storagePath || !revision.fileUrl) {
