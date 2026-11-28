@@ -46,11 +46,11 @@ export async function registerPublicDocument(input: unknown) {
     throw new Error('Enter a valid effective date.');
   }
 
-  const blobToken = process.env.ACRO_READ_WRITE_TOKEN;
+  const blobToken = process.env.ACRO_PRIVATE_READ_WRITE_TOKEN;
 
   if (!blobToken) {
-    console.error('[AcroReader] ACRO_READ_WRITE_TOKEN is not configured.');
-    throw new Error('Blob storage is not configured.');
+    console.error('[AcroReader] ACRO_PRIVATE_READ_WRITE_TOKEN is not configured.');
+    throw new Error('Private Blob storage is not configured.');
   }
 
   let blob;
@@ -64,9 +64,12 @@ export async function registerPublicDocument(input: unknown) {
     );
   }
 
+  const blobHost = new URL(blob.url).hostname;
+
   if (
     blob.pathname !== data.pathname ||
     blob.url !== data.url ||
+    !blobHost.endsWith('.private.blob.vercel-storage.com') ||
     blob.contentType !== 'application/pdf'
   ) {
     throw new Error('The uploaded file could not be verified as a PDF.');
@@ -166,6 +169,7 @@ export async function registerPublicDocument(input: unknown) {
         status: 'PUBLISHED',
         storagePath: data.pathname,
         fileUrl: data.url,
+        storageVisibility: 'PRIVATE',
         originalFileName: data.originalFileName,
         mimeType: 'application/pdf',
         publishedAt: new Date(),
