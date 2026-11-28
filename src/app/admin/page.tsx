@@ -17,6 +17,11 @@ export default async function AdminDashboardPage() {
         <h1>Document management</h1>
         <p>Signed in as {session.user.email}. Manage the aviation library from here.</p>
         <div className={styles.card}>
+          <h2>Aircraft and folders</h2>
+          <p>Manage manufacturers, aircraft models, variants, departments and nested folders.</p>
+          <p><Link href="/admin/catalogue">Manage library structure</Link></p>
+        </div>
+        <div className={styles.card}>
           <h2>Document uploads</h2>
           <p>Upload a PDF, assign its aircraft family and category, and publish its revision.</p>
           <p><Link href="/admin/upload">Open document uploader</Link></p>
