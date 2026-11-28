@@ -81,7 +81,7 @@ export async function POST(request: Request) {
   }
 
   const publicToken = process.env.ACRO_READ_WRITE_TOKEN;
-  const privateToken = process.env.ACRO_PRIVATE_READ_WRITE_TOKEN;
+  const privateToken = process.env.ACROR_PRIVATE_READ_WRITE_TOKEN;
 
   if (!publicToken || !privateToken) {
     return NextResponse.json(
@@ -200,7 +200,7 @@ export async function DELETE(request: Request) {
   }
 
   const publicToken = process.env.ACRO_READ_WRITE_TOKEN;
-  const privateToken = process.env.ACRO_PRIVATE_READ_WRITE_TOKEN;
+  const privateToken = process.env.ACROR_PRIVATE_READ_WRITE_TOKEN;
   if (!publicToken || !privateToken) {
     return NextResponse.json({ error: 'Both public and private Blob tokens must be configured.' }, { status: 503 });
   }
