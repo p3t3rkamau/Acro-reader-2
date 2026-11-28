@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import styles from '../admin.module.scss';
 
 type Revision = {
@@ -101,7 +101,7 @@ export default function DocumentManager() {
     }
   }
 
-  async function save(event: React.FormEvent<HTMLFormElement>, document: DocumentRecord) {
+  async function save(event: FormEvent<HTMLFormElement>, document: DocumentRecord) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const variantIds = form.getAll('variantIds').map(String);
@@ -177,9 +177,8 @@ export default function DocumentManager() {
                 <label>Reference number<input name="referenceNumber" defaultValue={document.referenceNumber ?? ''} maxLength={120} /></label>
                 <label className={styles.fullWidth}>Description<textarea name="description" defaultValue={document.description ?? ''} rows={3} /></label>
                 <label>Folder / department
-                  <select name="categoryId" defaultValue={document.categoryId} required>
-                    <option value={document.categoryId}>{document.category.title}</option>
-                  </select>
+                  <input value={document.category.title} readOnly />
+                  <input type="hidden" name="categoryId" value={document.categoryId} />
                 </label>
                 <div className={styles.fullWidth}>
                   <strong>Aircraft applicability</strong>
