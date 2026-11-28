@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { auth } from '../../../auth';
+import AdminLogoutButton from '@/components/admin/AdminLogoutButton';
 import { documentLibrary, findLibraryFolder, getLibraryBreadcrumbs, type LibraryFolder } from '@/data/documentLibrary';
 import styles from './DocumentLibrary.module.scss';
 
@@ -33,7 +35,8 @@ function FolderCard({ folder, href, index }: { folder: LibraryFolder; href: stri
   );
 }
 
-export default function DocumentLibrary({ path = [], library = documentLibrary }: Props & { library?: LibraryFolder }) {
+export default async function DocumentLibrary({ path = [], library = documentLibrary }: Props & { library?: LibraryFolder }) {
+  const session = await auth();
   const folder = findLibraryFolder(path, library);
   if (!folder) return <main className={styles.page}><div className={styles.empty}><h1>Folder not found</h1><Link href="/">Return to library</Link></div></main>;
   const breadcrumbs = getLibraryBreadcrumbs(path, library);
@@ -41,7 +44,14 @@ export default function DocumentLibrary({ path = [], library = documentLibrary }
   const documents = folder.documents ?? [];
   return (
     <main className={styles.page}>
-      <header className={styles.header}><Link href="/" className={styles.brand}>ACRO<span>READER</span></Link><Link className={styles.openButton} href="/reader">Open PDF from device <Glyph name="arrow" size={17} /></Link></header>
+      <header className={styles.header}>
+        <Link href="/" className={styles.brand}>ACRO<span>READER</span></Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          {session?.user?.role === 'ADMIN' ? <Link href="/admin" className={styles.openButton}>Administration</Link> : null}
+          {session?.user?.role === 'VIEWER' ? <AdminLogoutButton /> : <Link href="/login" className={styles.openButton}>Sign in to read</Link>}
+          <Link className={styles.openButton} href="/reader">Open PDF from device <Glyph name="arrow" size={17} /></Link>
+        </div>
+      </header>
       <div className={styles.content}>
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">{breadcrumbs.map((crumb, i) => <span key={crumb.href}>{i > 0 && <Glyph name="chevron" size={14} />}{i === breadcrumbs.length - 1 ? <strong>{crumb.title}</strong> : <Link href={crumb.href}>{crumb.title}</Link>}</span>)}</nav>
         <section className={styles.hero}>
