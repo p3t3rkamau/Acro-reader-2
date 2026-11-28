@@ -43,11 +43,11 @@ Acceptance: inventory is documented; the reader files to protect are identified.
 - [x] Define the initial AcroReader schema and review its baseline migration.
 - [x] Add the Prisma singleton and database health endpoint.
 - [x] Apply the initial migration to the dedicated, empty `Designer Hub` Neon database.
-- [ ] Commit `prisma/migrations/20261128000000_initial_acroreader/migration.sql` to this feature branch (the database is migrated, but the current GitHub branch does not yet contain the migration directory).
+- [x] Commit `prisma/migrations/20261128000000_initial_acroreader/migration.sql` and `migration_lock.toml` to this feature branch; the baseline migration is now version-controlled.
 - [x] Replace the live Payload HTTP catalogue fetch with a Prisma-backed service while preserving the `LibraryFolder` contract.
 - [x] Remove Payload-specific catalogue messaging and the obsolete Payload setup section from the README.
 - [x] Add an idempotent starter-category SQL seed.
-- [ ] Run the category seed and verify the catalogue still renders correctly.
+- [x] Run the category seed and verify the catalogue still renders correctly (user confirmed the catalogue files are accessible in the frontend).
 - [ ] Complete a repository-wide check for remaining live Payload configuration or runtime references.
 
 Acceptance: no live Payload imports/dependencies/configuration remain; app builds; Prisma connects to the intended Neon database; catalogue uses the new data layer and renders its seeded category structure.
