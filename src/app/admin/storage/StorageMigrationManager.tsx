@@ -126,7 +126,7 @@ export default function StorageMigrationManager() {
               <p style={{ margin: '4px 0', fontSize: 13 }}>Revision {revision.revision}</p>
               <small>{revision.legacyPublicStoragePath}</small>
             </div>
-            <button type="button" className="dangerButton" disabled={busy} onClick={() => deleteLegacyCopy(revision)}>
+            <button type="button" className={styles.dangerButton} disabled={busy} onClick={() => deleteLegacyCopy(revision)}>
               Delete public copy
             </button>
           </div>
