@@ -230,7 +230,7 @@ export async function DELETE(request: Request) {
       select: {
         id: true,
         title: true,
-        revisions: { select: { id: true, storagePath: true, storageVisibility: true } },
+        revisions: { select: { id: true, storagePath: true, storageVisibility: true, legacyPublicStoragePath: true } },
       },
     });
 
@@ -245,6 +245,11 @@ export async function DELETE(request: Request) {
     if (nonPrivate.length) {
       return NextResponse.json({
         error: 'This document still has revision(s) marked as public storage. Migrate and verify them before permanent deletion.',
+      }, { status: 409 });
+    }
+    if (document.revisions.some((revision) => revision.legacyPublicStoragePath)) {
+      return NextResponse.json({
+        error: 'This document still has an old public Blob copy awaiting removal. Remove that legacy copy before permanently deleting the document.',
       }, { status: 409 });
     }
 
