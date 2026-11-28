@@ -22,6 +22,11 @@ export default async function AdminDashboardPage() {
           <p><Link href="/admin/catalogue">Manage library structure</Link></p>
         </div>
         <div className={styles.card}>
+          <h2>Authorised viewers</h2>
+          <p>Create or suspend accounts that can open protected manuals.</p>
+          <p><Link href="/admin/viewers">Manage viewer access</Link></p>
+        </div>
+        <div className={styles.card}>
           <h2>Document uploads</h2>
           <p>Upload a PDF, assign its aircraft family and category, and publish its revision.</p>
           <p><Link href="/admin/upload">Open document uploader</Link></p>
