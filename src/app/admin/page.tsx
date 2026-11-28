@@ -27,6 +27,11 @@ export default async function AdminDashboardPage() {
           <p><Link href="/admin/viewers">Manage viewer access</Link></p>
         </div>
         <div className={styles.card}>
+          <h2>Private PDF storage</h2>
+          <p>Migrate old public PDFs into private storage and review legacy public copies.</p>
+          <p><Link href="/admin/storage">Manage PDF storage</Link></p>
+        </div>
+        <div className={styles.card}>
           <h2>Document uploads</h2>
           <p>Upload a PDF, assign its aircraft family and category, and publish its revision.</p>
           <p><Link href="/admin/upload">Open document uploader</Link></p>
