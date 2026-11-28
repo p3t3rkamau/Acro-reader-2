@@ -109,7 +109,8 @@ export async function getDocumentLibrary(): Promise<LibraryFolder> {
   try {
     const requestHeaders = await headers();
     const host = requestHeaders.get('x-forwarded-host') ?? requestHeaders.get('host');
-    const protocol = requestHeaders.get('x-forwarded-proto') ?? 'https';
+    const protocol = requestHeaders.get('x-forwarded-proto')
+      ?? (host?.startsWith('localhost') ? 'http' : 'https');
     const appOrigin = process.env.APP_URL ?? (host ? `${protocol}://${host}` : 'http://localhost:3000');
 
     const [manufacturers, categories, documents] = await Promise.all([
