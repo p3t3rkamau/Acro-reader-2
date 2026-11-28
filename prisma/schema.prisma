@@ -202,6 +202,7 @@ model DocumentRevision {
   status         RevisionStatus @default(DRAFT)
   changeSummary  String?        @db.Text
   storagePath    String?        @unique
+  fileUrl        String?        @db.Text
   originalFileName String?
   mimeType       String         @default("application/pdf")
   sizeBytes      BigInt?
