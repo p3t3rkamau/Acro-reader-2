@@ -16,6 +16,7 @@ The application uses Prisma 7 with `@prisma/adapter-neon`.
 - The runtime Prisma singleton uses `DATABASE_URL`.
 - The database health endpoint is available at `/api/health/db`.
 - The initial migration `20261128000000_initial_acroreader` has been applied successfully to the dedicated `Designer Hub` Neon database.
+- **Repository follow-up:** the current GitHub feature branch does not yet contain `prisma/migrations/20261128000000_initial_acroreader/migration.sql`. The local migration file must be committed and pushed before another developer or deployment can reproduce the database setup.
 - `npx prisma migrate status` reports that the database schema is up to date.
 - The server-rendered catalogue now reads documents, categories and published/superseded revisions through Prisma while preserving the existing `LibraryFolder` contract.
 - Payload is no longer used as a live catalogue data source. The app package does not include a Payload SDK.
