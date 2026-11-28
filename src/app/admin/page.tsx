@@ -5,9 +5,10 @@ import styles from './admin.module.scss';
 
 const sections = [
   { href: '/admin/upload', number: '01', title: 'Upload documents', description: 'Add a new manual, select aircraft applicability and publish a revision.', action: 'Start an upload', icon: '↥' },
-  { href: '/admin/catalogue', number: '02', title: 'Aircraft & folders', description: 'Organise manufacturers, aircraft models, variants and document folders.', action: 'Manage structure', icon: '▤' },
-  { href: '/admin/viewers', number: '03', title: 'Viewer access', description: 'Create authorised accounts and manage who can open protected PDFs.', action: 'Manage viewers', icon: '♙' },
-  { href: '/admin/storage', number: '04', title: 'Private storage', description: 'Review legacy files and migrate public PDFs into protected storage.', action: 'Review storage', icon: '▣' },
+  { href: '/admin/documents', number: '02', title: 'Document library', description: 'View uploaded PDFs, edit document details, review revisions and publish drafts.', action: 'Manage documents', icon: '▣' },
+  { href: '/admin/catalogue', number: '03', title: 'Aircraft & folders', description: 'Organise manufacturers, aircraft models, variants and document folders.', action: 'Manage structure', icon: '▤' },
+  { href: '/admin/viewers', number: '04', title: 'Viewer access', description: 'Create authorised accounts and manage who can open protected PDFs.', action: 'Manage viewers', icon: '♙' },
+  { href: '/admin/storage', number: '05', title: 'Private storage', description: 'Review legacy files and migrate public PDFs into protected storage.', action: 'Review storage', icon: '▣' },
 ];
 
 export default async function AdminDashboardPage() {
@@ -19,7 +20,7 @@ export default async function AdminDashboardPage() {
         <div><span className={styles.welcomeEyebrow}>ACROREADER WORKSPACE</span><h2>Everything in its place.</h2><p>Manage your aircraft library, documents and authorised readers from one workspace.</p></div>
         <div className={styles.welcomeSymbol}>A<span>R</span></div>
       </div>
-      <div className={styles.sectionIntro}><div><h2>Management tools</h2><p>Choose an area to manage. Changes are saved to your AcroReader database.</p></div><span>4 WORKSPACES</span></div>
+      <div className={styles.sectionIntro}><div><h2>Management tools</h2><p>Choose an area to manage. Changes are saved to your AcroReader database.</p></div><span>5 WORKSPACES</span></div>
       <div className={styles.workspaceGrid}>
         {sections.map((section) => (
           <Link href={section.href} key={section.href} className={styles.workspaceCard}>
