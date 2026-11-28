@@ -43,7 +43,7 @@ See `TESTING.md` for exactly what was tested and what was not.
 
 ## Backend rebuild
 
-The Payload catalogue integration is being replaced with an in-repository Prisma + Neon backend. Follow [`backend/ROADMAP.md`](backend/ROADMAP.md) for the staged plan and protected PDF-reader boundaries.
+The original Payload catalogue integration has been retired. The app now uses an in-repository Prisma + Neon backend for catalogue data. Follow [`backend/ROADMAP.md`](backend/ROADMAP.md) for the staged plan and protected PDF-reader boundaries.
 
 ## Backend catalogue
 
