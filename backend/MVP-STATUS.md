@@ -67,7 +67,7 @@ This document supersedes the earlier MVP access assumptions in `ROADMAP.md` wher
 - [x] Make new uploads target a private Blob store.
 - [x] Add an admin migration flow that streams existing public PDFs to private storage and verifies size, content type and private URL before changing Neon.
 - [x] Preserve the old public pathname/URL until the private copy has been verified.
-- [ ] Confirm the separate private Vercel Blob store is configured locally and in Vercel using `ACROR_PRIVATE_READ_WRITE_TOKEN`.
+- [ ] Confirm the separate private Vercel Blob store is configured locally and in Vercel using `ACROR_READ_WRITE_TOKEN`.
 - [ ] Verify new uploads are private and direct unauthenticated Blob reads fail.
 - [ ] Migrate all existing public revisions.
 - [ ] Review each verified private copy, then explicitly delete its legacy public object.
@@ -100,7 +100,7 @@ All migrations are designed to preserve existing records. Do not run `migrate re
 ACRO_READ_WRITE_TOKEN=...
 
 # New private store: upload, verify and stream protected PDFs.
-ACROR_PRIVATE_READ_WRITE_TOKEN=...
+ACROR_READ_WRITE_TOKEN=...
 ```
 
 Never commit either value or expose either one through a `NEXT_PUBLIC_*` variable.
