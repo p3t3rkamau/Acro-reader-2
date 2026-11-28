@@ -39,15 +39,17 @@ Suggested locations:
 Acceptance: inventory is documented; the reader files to protect are identified.
 
 ### M1 — Remove Payload and establish Prisma + Neon (in progress)
-- Add Prisma using the same Neon adapter approach as the vCard project, after checking its current package versions and schema conventions.
-- Define an initial AcroReader schema.
-- Add a health/database connectivity check that does not expose secrets.
-- Replace Payload catalogue reads with a local service/API adapter returning the current `LibraryFolder` shape.
-- Remove Payload-only dependencies, environment variables and code only after all references are replaced.
-- Do not reset or overwrite the existing Neon database. Use a dedicated AcroReader database/schema or a reviewed baseline migration. Back up first.
-- Generate and inspect migration SQL before applying it.
+- [x] Add pinned Prisma 7 packages and the Neon adapter.
+- [x] Define the initial AcroReader schema and review its baseline migration.
+- [x] Add the Prisma singleton and database health endpoint.
+- [x] Apply the initial migration to the dedicated, empty `Designer Hub` Neon database.
+- [x] Replace the live Payload HTTP catalogue fetch with a Prisma-backed service while preserving the `LibraryFolder` contract.
+- [x] Remove Payload-specific catalogue messaging and the obsolete Payload setup section from the README.
+- [x] Add an idempotent starter-category SQL seed.
+- [ ] Run the category seed and verify the catalogue still renders correctly.
+- [ ] Complete a repository-wide check for remaining live Payload configuration or runtime references.
 
-Acceptance: no Payload imports/dependencies/configuration remain; app builds; Prisma connects to the intended Neon database; catalogue uses the new data layer.
+Acceptance: no live Payload imports/dependencies/configuration remain; app builds; Prisma connects to the intended Neon database; catalogue uses the new data layer and renders its seeded category structure.
 
 ### M2 — Authentication and users
 - Auth.js login/session integration.
@@ -84,7 +86,6 @@ Acceptance: admin can create a document and publish a revision without editing d
 Acceptance: authorised PDF.js requests load incrementally; unauthorised and copied requests fail; large-file and multi-range tests pass.
 
 ### M6 — Frontend integration (adapter-first)
-- Replace Payload data fetching with the new API/service.
 - Preserve the existing catalogue component contract.
 - Connect document selection to the protected file endpoint.
 - Keep the existing reader component and PDF.js API unchanged wherever possible.
