@@ -48,7 +48,7 @@ export default async function DocumentLibrary({ path = [], library = documentLib
         <Link href="/" className={styles.brand}>ACRO<span>READER</span></Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           {session?.user?.role === 'ADMIN' ? <Link href="/admin" className={styles.openButton}>Administration</Link> : null}
-          {session?.user?.role === 'VIEWER' ? <AdminLogoutButton /> : <Link href="/login" className={styles.openButton}>Sign in to read</Link>}
+          {session?.user?.role === 'VIEWER' || session?.user?.role === 'ADMIN' ? <AdminLogoutButton /> : <Link href="/login" className={styles.openButton}>Sign in to read</Link>}
           <Link className={styles.openButton} href="/reader">Open PDF from device <Glyph name="arrow" size={17} /></Link>
         </div>
       </header>
