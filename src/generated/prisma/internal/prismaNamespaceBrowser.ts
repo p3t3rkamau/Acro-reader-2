@@ -263,6 +263,7 @@ export const DocumentScalarFieldEnum = {
   referenceNumber: 'referenceNumber',
   description: 'description',
   isRestricted: 'isRestricted',
+  archivedAt: 'archivedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

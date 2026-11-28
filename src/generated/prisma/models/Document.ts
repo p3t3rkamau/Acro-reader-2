@@ -33,6 +33,7 @@ export type DocumentMinAggregateOutputType = {
   referenceNumber: string | null
   description: string | null
   isRestricted: boolean | null
+  archivedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -46,6 +47,7 @@ export type DocumentMaxAggregateOutputType = {
   referenceNumber: string | null
   description: string | null
   isRestricted: boolean | null
+  archivedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -59,6 +61,7 @@ export type DocumentCountAggregateOutputType = {
   referenceNumber: number
   description: number
   isRestricted: number
+  archivedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -74,6 +77,7 @@ export type DocumentMinAggregateInputType = {
   referenceNumber?: true
   description?: true
   isRestricted?: true
+  archivedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -87,6 +91,7 @@ export type DocumentMaxAggregateInputType = {
   referenceNumber?: true
   description?: true
   isRestricted?: true
+  archivedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -100,6 +105,7 @@ export type DocumentCountAggregateInputType = {
   referenceNumber?: true
   description?: true
   isRestricted?: true
+  archivedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -186,6 +192,7 @@ export type DocumentGroupByOutputType = {
   referenceNumber: string | null
   description: string | null
   isRestricted: boolean
+  archivedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: DocumentCountAggregateOutputType | null
@@ -220,6 +227,7 @@ export type DocumentWhereInput = {
   referenceNumber?: Prisma.StringNullableFilter<"Document"> | string | null
   description?: Prisma.StringNullableFilter<"Document"> | string | null
   isRestricted?: Prisma.BoolFilter<"Document"> | boolean
+  archivedAt?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   category?: Prisma.XOR<Prisma.DocumentCategoryScalarRelationFilter, Prisma.DocumentCategoryWhereInput>
@@ -237,6 +245,7 @@ export type DocumentOrderByWithRelationInput = {
   referenceNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
+  archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   category?: Prisma.DocumentCategoryOrderByWithRelationInput
@@ -258,6 +267,7 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   referenceNumber?: Prisma.StringNullableFilter<"Document"> | string | null
   description?: Prisma.StringNullableFilter<"Document"> | string | null
   isRestricted?: Prisma.BoolFilter<"Document"> | boolean
+  archivedAt?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   category?: Prisma.XOR<Prisma.DocumentCategoryScalarRelationFilter, Prisma.DocumentCategoryWhereInput>
@@ -275,6 +285,7 @@ export type DocumentOrderByWithAggregationInput = {
   referenceNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
+  archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DocumentCountOrderByAggregateInput
@@ -294,6 +305,7 @@ export type DocumentScalarWhereWithAggregatesInput = {
   referenceNumber?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   isRestricted?: Prisma.BoolWithAggregatesFilter<"Document"> | boolean
+  archivedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Document"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
 }
@@ -306,6 +318,7 @@ export type DocumentCreateInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.DocumentCategoryCreateNestedOneWithoutDocumentsInput
@@ -323,6 +336,7 @@ export type DocumentUncheckedCreateInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   revisions?: Prisma.DocumentRevisionUncheckedCreateNestedManyWithoutDocumentInput
@@ -338,6 +352,7 @@ export type DocumentUpdateInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.DocumentCategoryUpdateOneRequiredWithoutDocumentsNestedInput
@@ -355,6 +370,7 @@ export type DocumentUncheckedUpdateInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revisions?: Prisma.DocumentRevisionUncheckedUpdateManyWithoutDocumentNestedInput
@@ -371,6 +387,7 @@ export type DocumentCreateManyInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -383,6 +400,7 @@ export type DocumentUpdateManyMutationInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -396,6 +414,7 @@ export type DocumentUncheckedUpdateManyInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -429,6 +448,7 @@ export type DocumentCountOrderByAggregateInput = {
   referenceNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
+  archivedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -442,6 +462,7 @@ export type DocumentMaxOrderByAggregateInput = {
   referenceNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
+  archivedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -455,6 +476,7 @@ export type DocumentMinOrderByAggregateInput = {
   referenceNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isRestricted?: Prisma.SortOrder
+  archivedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -551,6 +573,7 @@ export type DocumentCreateWithoutVariantsInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.DocumentCategoryCreateNestedOneWithoutDocumentsInput
@@ -567,6 +590,7 @@ export type DocumentUncheckedCreateWithoutVariantsInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   revisions?: Prisma.DocumentRevisionUncheckedCreateNestedManyWithoutDocumentInput
@@ -597,6 +621,7 @@ export type DocumentUpdateWithoutVariantsInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.DocumentCategoryUpdateOneRequiredWithoutDocumentsNestedInput
@@ -613,6 +638,7 @@ export type DocumentUncheckedUpdateWithoutVariantsInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revisions?: Prisma.DocumentRevisionUncheckedUpdateManyWithoutDocumentNestedInput
@@ -627,6 +653,7 @@ export type DocumentCreateWithoutCategoryInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   revisions?: Prisma.DocumentRevisionCreateNestedManyWithoutDocumentInput
@@ -642,6 +669,7 @@ export type DocumentUncheckedCreateWithoutCategoryInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   revisions?: Prisma.DocumentRevisionUncheckedCreateNestedManyWithoutDocumentInput
@@ -687,6 +715,7 @@ export type DocumentScalarWhereInput = {
   referenceNumber?: Prisma.StringNullableFilter<"Document"> | string | null
   description?: Prisma.StringNullableFilter<"Document"> | string | null
   isRestricted?: Prisma.BoolFilter<"Document"> | boolean
+  archivedAt?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
 }
@@ -699,6 +728,7 @@ export type DocumentCreateWithoutRevisionsInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.DocumentCategoryCreateNestedOneWithoutDocumentsInput
@@ -715,6 +745,7 @@ export type DocumentUncheckedCreateWithoutRevisionsInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   grants?: Prisma.DocumentEntitlementUncheckedCreateNestedManyWithoutDocumentInput
@@ -745,6 +776,7 @@ export type DocumentUpdateWithoutRevisionsInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.DocumentCategoryUpdateOneRequiredWithoutDocumentsNestedInput
@@ -761,6 +793,7 @@ export type DocumentUncheckedUpdateWithoutRevisionsInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grants?: Prisma.DocumentEntitlementUncheckedUpdateManyWithoutDocumentNestedInput
@@ -775,6 +808,7 @@ export type DocumentCreateWithoutGrantsInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.DocumentCategoryCreateNestedOneWithoutDocumentsInput
@@ -791,6 +825,7 @@ export type DocumentUncheckedCreateWithoutGrantsInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   revisions?: Prisma.DocumentRevisionUncheckedCreateNestedManyWithoutDocumentInput
@@ -821,6 +856,7 @@ export type DocumentUpdateWithoutGrantsInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.DocumentCategoryUpdateOneRequiredWithoutDocumentsNestedInput
@@ -837,6 +873,7 @@ export type DocumentUncheckedUpdateWithoutGrantsInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revisions?: Prisma.DocumentRevisionUncheckedUpdateManyWithoutDocumentNestedInput
@@ -851,6 +888,7 @@ export type DocumentCreateManyCategoryInput = {
   referenceNumber?: string | null
   description?: string | null
   isRestricted?: boolean
+  archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -863,6 +901,7 @@ export type DocumentUpdateWithoutCategoryInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revisions?: Prisma.DocumentRevisionUpdateManyWithoutDocumentNestedInput
@@ -878,6 +917,7 @@ export type DocumentUncheckedUpdateWithoutCategoryInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revisions?: Prisma.DocumentRevisionUncheckedUpdateManyWithoutDocumentNestedInput
@@ -893,6 +933,7 @@ export type DocumentUncheckedUpdateManyWithoutCategoryInput = {
   referenceNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isRestricted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -955,6 +996,7 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   referenceNumber?: boolean
   description?: boolean
   isRestricted?: boolean
+  archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   category?: boolean | Prisma.DocumentCategoryDefaultArgs<ExtArgs>
@@ -973,6 +1015,7 @@ export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   referenceNumber?: boolean
   description?: boolean
   isRestricted?: boolean
+  archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   category?: boolean | Prisma.DocumentCategoryDefaultArgs<ExtArgs>
@@ -987,6 +1030,7 @@ export type DocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   referenceNumber?: boolean
   description?: boolean
   isRestricted?: boolean
+  archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   category?: boolean | Prisma.DocumentCategoryDefaultArgs<ExtArgs>
@@ -1001,11 +1045,12 @@ export type DocumentSelectScalar = {
   referenceNumber?: boolean
   description?: boolean
   isRestricted?: boolean
+  archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "aircraftSeries" | "categoryId" | "slug" | "title" | "referenceNumber" | "description" | "isRestricted" | "createdAt" | "updatedAt", ExtArgs["result"]["document"]>
+export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "aircraftSeries" | "categoryId" | "slug" | "title" | "referenceNumber" | "description" | "isRestricted" | "archivedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["document"]>
 export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.DocumentCategoryDefaultArgs<ExtArgs>
   revisions?: boolean | Prisma.Document$revisionsArgs<ExtArgs>
@@ -1037,6 +1082,7 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     referenceNumber: string | null
     description: string | null
     isRestricted: boolean
+    archivedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["document"]>
@@ -1474,6 +1520,7 @@ export interface DocumentFieldRefs {
   readonly referenceNumber: Prisma.FieldRef<"Document", 'String'>
   readonly description: Prisma.FieldRef<"Document", 'String'>
   readonly isRestricted: Prisma.FieldRef<"Document", 'Boolean'>
+  readonly archivedAt: Prisma.FieldRef<"Document", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Document", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Document", 'DateTime'>
 }
