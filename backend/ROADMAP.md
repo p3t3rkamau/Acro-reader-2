@@ -43,6 +43,7 @@ Acceptance: inventory is documented; the reader files to protect are identified.
 - [x] Define the initial AcroReader schema and review its baseline migration.
 - [x] Add the Prisma singleton and database health endpoint.
 - [x] Apply the initial migration to the dedicated, empty `Designer Hub` Neon database.
+- [ ] Commit `prisma/migrations/20261128000000_initial_acroreader/migration.sql` to this feature branch (the database is migrated, but the current GitHub branch does not yet contain the migration directory).
 - [x] Replace the live Payload HTTP catalogue fetch with a Prisma-backed service while preserving the `LibraryFolder` contract.
 - [x] Remove Payload-specific catalogue messaging and the obsolete Payload setup section from the README.
 - [x] Add an idempotent starter-category SQL seed.
@@ -121,7 +122,7 @@ Acceptance: release checklist passed and production rollout approved.
 
 ## Initial inventory (M0)
 
-Known from the current feature branch:
+Initial inventory recorded at M0 (historical snapshot; items below describe the pre-Prisma state):
 - Payload catalogue fetch: `src/lib/server/getDocumentLibrary.ts`.
 - Catalogue entry points: `src/app/page.tsx` and `src/app/library/[...segments]/page.tsx`.
 - Catalogue presentation/data contract: `src/components/library/DocumentLibrary.tsx` and `src/data/documentLibrary.ts`.
