@@ -270,6 +270,7 @@ model Document {
   categoryId    String
   slug          String
   title         String
+  referenceNumber String?
   description   String?        @db.Text
   isRestricted  Boolean        @default(false)
   createdAt     DateTime       @default(now())
@@ -283,6 +284,7 @@ model Document {
   @@unique([aircraftSeries, slug])
   @@index([aircraftSeries, categoryId])
   @@index([categoryId, slug])
+  @@index([referenceNumber])
   @@map("documents")
 }
 
