@@ -18,6 +18,7 @@ export default function AdminLoginForm() {
       const result = await signIn('credentials', {
         email: String(formData.get('email') ?? ''),
         password: String(formData.get('password') ?? ''),
+        intent: 'admin',
         redirect: false,
       });
 
