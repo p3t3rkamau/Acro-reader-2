@@ -77,10 +77,10 @@ if (
 ) {
   throw new Error('Enter a valid effective date.');
 }
-  const blobToken = process.env.ACROR_PRIVATE_READ_WRITE_TOKEN;
+  const blobToken = process.env.ACROR_READ_WRITE_TOKEN;
 
   if (!blobToken) {
-    console.error('[AcroReader] ACROR_PRIVATE_READ_WRITE_TOKEN is not configured.');
+    console.error('[AcroReader] ACROR_READ_WRITE_TOKEN is not configured.');
     throw new Error('Private Blob storage is not configured.');
   }
 
