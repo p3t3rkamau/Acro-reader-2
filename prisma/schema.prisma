@@ -38,6 +38,11 @@ enum RevisionStatus {
   WITHDRAWN
 }
 
+enum StorageVisibility {
+  PUBLIC
+  PRIVATE
+}
+
 // Kept temporarily for a safe, two-phase migration of existing Dash 8 records.
 // New documents use DocumentAircraftVariant instead.
 enum AircraftSeries {
@@ -297,6 +302,7 @@ model DocumentRevision {
   changeSummary    String?        @db.Text
   storagePath      String?        @unique
   fileUrl          String?        @db.Text
+  storageVisibility StorageVisibility @default(PUBLIC)
   originalFileName String?
   mimeType         String         @default("application/pdf")
   sizeBytes        BigInt?
