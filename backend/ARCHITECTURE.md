@@ -66,6 +66,24 @@ Use a dedicated AcroReader Neon database or an explicitly isolated schema. Never
 The only confirmed live Payload integration in the current inventory is the HTTP fetch in `src/lib/server/getDocumentLibrary.ts` using `PAYLOAD_API_URL` and `/api/acro-documents`. The app package currently has no Payload SDK dependency. Replace this data source before removing its references. Existing catalogue components and the reader should not need Payload-specific knowledge.
 
 
+## Deadline MVP architecture
+
+### Access boundary
+The MVP has one environment-configured administrator account. Auth.js Credentials + JWT sessions protect admin pages and upload-token generation. Public visitors may browse published catalogue entries and open their PDFs without signing in. There is no public registration or organisation-level authorization in this phase.
+
+### Public PDF consequence
+The MVP public catalogue requires publicly readable PDF delivery. Use a **public** Vercel Blob store for only the documents the user has approved for public reading. Anyone who obtains a public Blob URL can read that file. Never place confidential, licensed-only or otherwise restricted aviation manuals in this store. The later M3/M5 work must migrate protected content to a private Blob store and an authenticated, range-capable delivery route.
+
+### Upload transport
+Aviation manuals may exceed Vercel Functions' 4.5 MB request-body limit. Use Vercel Blob client uploads with a server-side token-generation route that requires an active administrator session. Use multipart uploads for very large PDFs. Validate file type and metadata on the server; treat browser-supplied metadata as untrusted. The Blob completion callback should persist the Blob pathname/URL and document revision metadata idempotently.
+
+### Reader integration
+Keep the existing PDFSource contract and PDF.js implementation unchanged. Add the uploaded document URL to the server-side catalogue data contract and link the selected document to /reader?url=<encoded-public-blob-url>. Vercel Blob supports HTTP range requests, which is required by the current PDF.js URL loading path.
+
+### MVP authentication
+Use Auth.js Credentials with JWT sessions and a single admin account configured by server-only environment variables. Store a password hash (not plaintext) in the environment. No user registration, Resend, email verification, invitations, or organisation models are needed to demonstrate the MVP. These remain part of M2/M3 after the deadline.
+
+
 ## M2 authentication architecture
 
 ### Confirmed product decisions
