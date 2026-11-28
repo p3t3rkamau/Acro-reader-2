@@ -109,7 +109,7 @@ export default function CatalogueManager() {
     };
   }, [data]);
 
-  async function request(url: string, method: 'POST' | 'PATCH' | 'DELETE', body: unknown) {
+  async function request(url: string, method: 'POST' | 'PATCH' | 'DELETE', body: unknown): Promise<boolean> {
     setBusy(true);
     setMessage('');
     setError('');
@@ -123,8 +123,10 @@ export default function CatalogueManager() {
       if (!response.ok) throw new Error(result.error ?? 'The catalogue update failed.');
       await load();
       setMessage('Catalogue updated successfully.');
+      return true;
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'The catalogue update failed.');
+      return false;
     } finally {
       setBusy(false);
     }
@@ -132,7 +134,8 @@ export default function CatalogueManager() {
 
   async function create(event: FormEvent<HTMLFormElement>, type: EntityType) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     let body: Record<string, unknown>;
 
     if (type === 'manufacturer') {
@@ -151,8 +154,8 @@ export default function CatalogueManager() {
       };
     }
 
-    await request('/api/admin/catalogue', 'POST', body);
-    if (!error) event.currentTarget.reset();
+    const saved = await request('/api/admin/catalogue', 'POST', body);
+    if (saved) formElement.reset();
   }
 
   async function save(type: EntityType, id: string, values: { name?: string; title?: string; sortOrder?: number }) {
