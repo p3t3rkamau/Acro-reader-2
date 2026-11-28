@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { headers } from 'next/headers';
 import type { LibraryDocument, LibraryFolder } from '@/data/documentLibrary';
 import { prisma } from '@/lib/db/prisma';
 
@@ -106,6 +107,11 @@ export async function getDocumentLibrary(): Promise<LibraryFolder> {
   };
 
   try {
+    const requestHeaders = await headers();
+    const host = requestHeaders.get('x-forwarded-host') ?? requestHeaders.get('host');
+    const protocol = requestHeaders.get('x-forwarded-proto') ?? 'https';
+    const appOrigin = process.env.APP_URL ?? (host ? `${protocol}://${host}` : 'http://localhost:3000');
+
     const [manufacturers, categories, documents] = await Promise.all([
       prisma.aircraftManufacturer.findMany({
         where: { isActive: true },
@@ -236,7 +242,7 @@ export async function getDocumentLibrary(): Promise<LibraryFolder> {
             effectiveDate: revision.effectiveDate.toISOString().slice(0, 10),
             status: revision.status === 'PUBLISHED' ? 'current' : 'superseded',
             // The browser receives only our same-origin route, never a Blob URL.
-            fileUrl: `/api/documents/${record.id}/file?revision=${encodeURIComponent(revision.id)}`,
+            fileUrl: new URL(`/api/documents/${record.id}/file?revision=${encodeURIComponent(revision.id)}`, appOrigin).toString(),
           };
 
           target.documents ??= [];
